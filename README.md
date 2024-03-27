@@ -1,6 +1,6 @@
-# onlineClassroomSystem 🌟
+# Classroom Allocation Management System 🌟
 
-The Online Classroom Allocation System represents an advanced initiative intended to optimize and modernize the procedural aspects associated with classroom allocation in
+This Classroom Allocation System represents an advanced initiative intended to optimize and modernize the procedural aspects associated with classroom allocation in
 educational institutions. This sophisticated system is designed to deliver an effective and user-friendly web-based application, streamlining the process of verifying
 classroom availability and status. The principal objective of this project is to elevate the user experience for class representatives, lecturers, and other authorized
 individuals engaged in classroom allocation tasks. Each classroom will be designated a distinctive digital tag, facilitating straightforward identification. Users
