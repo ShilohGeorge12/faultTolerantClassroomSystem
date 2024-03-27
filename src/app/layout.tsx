@@ -3,18 +3,20 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { env } from '@/env';
 import { Toaster } from 'sonner';
+// import { Footer } from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const title = 'classroom allocation system';
-const description = '' + title; //add description
+const title_longName = 'classroom allocation management system';
+const title = `CAS - ${title_longName}`;
+const description = '' + title_longName; //add description
 const url = env.BASE_URL;
 
 export const metadata: Metadata = {
 	metadataBase: new URL(url),
 	title: {
 		default: title,
-		template: `%s | ${title}`,
+		template: `%s | ${title_longName}`,
 	},
 	description,
 	keywords: 'classroom allocation system, classroom management system, classroom allocation app',
@@ -37,7 +39,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang='en'>
-			<body className={`${inter.className} w-screen h-screen overflow-hidden `}>
+			<body className={`${inter.className} text-black text-sm font-normal font-sans`}>
 				{children}
 				<Toaster
 					richColors
@@ -50,3 +52,5 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 		</html>
 	);
 }
+
+// home, login, signup

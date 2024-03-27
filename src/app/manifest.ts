@@ -3,11 +3,11 @@ import { env } from '@/env';
 
 export default function manifest(): MetadataRoute.Manifest {
 	return {
-		scope: '/',
+		// scope: '/',
 		lang: 'en',
 		name: 'classroom allocation system',
 		description: 'classroom allocation system description',
-		short_name: 'classroom allocation system',
+		short_name: 'CAS',
 		start_url: '/',
 		display: 'standalone',
 		theme_color: 'rgb(203 213 225)',
@@ -21,8 +21,8 @@ export default function manifest(): MetadataRoute.Manifest {
 		],
 		protocol_handlers: [
 			{
-				protocol: 'web+classroom-allocation',
-				url: env.BASE_URL !== 'null' ? 'https://classroom-allocation.vercel.app/%s' : `http://localhost:${process.env.PORT ?? 5053}/%s`,
+				protocol: 'web+cas',
+				url: env.BASE_URL ? `${env.BASE_URL}/%s` : `http://localhost:${process.env.PORT ?? 2024}/%s`,
 			},
 		],
 	};
