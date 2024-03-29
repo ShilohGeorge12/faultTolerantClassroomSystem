@@ -12,18 +12,18 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
 	border-radius: 5px;
-	background: rgb(6, 59, 233);
+	background: rgb(171, 172, 175);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: rgb(6, 59, 233);
+	background: rgb(200, 201, 204);
 }
 
 ::selection {
-	@apply text-white bg-blue-600 rounded-xl;
+	@apply text-white bg-gray-500 rounded-xl;
 }
 
 ::-moz-selection {
-	@apply text-white bg-blue-600 rounded-xl;
+	@apply text-white bg-gray-500 rounded-xl;
 }

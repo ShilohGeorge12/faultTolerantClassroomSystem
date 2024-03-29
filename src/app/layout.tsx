@@ -46,7 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					position='bottom-left'
 					duration={4000}
 					closeButton
-					theme={'dark'}
+					theme={'light'}
 				/>
 			</body>
 		</html>

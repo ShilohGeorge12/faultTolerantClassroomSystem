@@ -24,3 +24,5 @@ export type BOOKING_DB = {
 	endTime: Date;
 	status: 'IN USE' | 'FREE';
 };
+
+export type UrlPath = '/' | '/find-classroom' | '/aboutus';
