@@ -6,7 +6,7 @@ export function SideBar() {
 		<aside className='w-2/12 h-full bg-gray-200'>
 			<section
 				id='top'
-				className='md:h-1/6'></section>
+				className='md:h-1/6 h-[13%]'></section>
 			<ClientSideBar />
 		</aside>
 	);
