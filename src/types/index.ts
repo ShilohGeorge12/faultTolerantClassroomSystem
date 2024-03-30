@@ -25,4 +25,24 @@ export type BOOKING_DB = {
 	status: 'IN USE' | 'FREE';
 };
 
-export type UrlPath = '/' | '/find-classroom' | '/aboutus';
+// Context Types
+export type stateAction =
+	| { type: 'user'; payload: { user: USER } }
+	| { type: 'logIn'; payload: { isloggedIn: true; user: USER } }
+	| { type: 'logOut'; payload: { isloggedIn: false } }
+	| { type: 'menu_open' }
+	| { type: 'menu_close' };
+
+export interface State {
+	loggedIn: boolean;
+	user: USER;
+	menu: 'open' | 'close';
+}
+
+export interface Icontext {
+	state: State;
+}
+
+export type ReducerType = (state: State, action: stateAction) => State;
+
+export type UrlPath = '/' | '/find-classroom' | '/aboutus' | '/settings' | '/login';

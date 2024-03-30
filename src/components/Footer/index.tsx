@@ -6,7 +6,7 @@ export function Footer() {
 	const h3Classess = 'font-bold text-md text-gray-600';
 	const socialLInksAnimations = 'hover:scale-110 transition duration-500 ease-in-out';
 	return (
-		<footer className={`w-full min-h-40 bg-gray-200 grid grid-cols-3 p-12 text-xs`}>
+		<footer className={`w-full min-h-40 bg-gray-200 grid grid-cols-2 md:grid-cols-3 md:p-12 px-4 py-12 text-xs`}>
 			<div className='flex flex-col gap-1'>
 				<h3 className={h3Classess}>About </h3>
 				<nav className='space-y-2'>

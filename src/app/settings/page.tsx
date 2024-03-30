@@ -1,12 +1,12 @@
 import { AppLayout } from '@/components/appLayout';
 import { MenuClient } from '@/components/menuClient';
 
-export default function Home() {
+export default function Settings() {
 	return (
 		<AppLayout>
 			<section className='w-full min-h-screen flex flex-col'>
 				<MenuClient />
-				<p className='flex w-full h-full text-center'>Home Page</p>
+				<p className='flex w-full h-full text-center'>Settings Page</p>
 			</section>
 		</AppLayout>
 	);
