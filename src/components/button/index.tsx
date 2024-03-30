@@ -13,11 +13,34 @@ export function NavButton({ value, name, more, onClick }: Omit<buttonProps, 'siz
 		<button
 			type='button'
 			name={name}
-			className={`flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-xl gap-x-2 justify-center items-center text-sm ${more}`}
+			className={`flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm ${more}`}
 			onClick={onClick}>
 			{value}
-			{/* <FaLaptop className='text-lg' />
-      <span className='text-sm'>Classrooms</span> */}
+		</button>
+	);
+}
+
+export function AuthButton({ value, name, onClick }: Omit<buttonProps, 'size' | 'more'>) {
+	return (
+		<button
+			type='button'
+			name={name}
+			className={`flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm bg-black hover:bg-red-500 text-white`}
+			onClick={onClick}>
+			{value}
+		</button>
+	);
+}
+
+export function MenuButton({}) {
+	return (
+		<button
+			type='button'
+			name={``}
+			className={``}
+			// onClick={() => null}
+		>
+			menu
 		</button>
 	);
 }

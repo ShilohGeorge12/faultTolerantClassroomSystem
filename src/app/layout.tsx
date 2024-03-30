@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { env } from '@/env';
 import { Toaster } from 'sonner';
-// import { Footer } from '@/components/Footer';
+import { ContextProvider } from '@/context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 	return (
 		<html lang='en'>
 			<body className={`${inter.className} text-gray-500 text-sm font-normal font-sans`}>
-				{children}
+				<ContextProvider>{children}</ContextProvider>
 				<Toaster
 					richColors
 					position='bottom-left'
