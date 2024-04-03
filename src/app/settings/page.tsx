@@ -1,5 +1,5 @@
-import { AppLayout } from '@/components/appLayout';
-import { MenuClient } from '@/components/menuClient';
+import { AppLayout } from '@/components/UIComponents/appLayout';
+import { MenuClient } from '@/components/UIComponents/menuClient';
 
 export default function Settings() {
 	return (

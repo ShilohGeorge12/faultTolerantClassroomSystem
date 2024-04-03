@@ -5,7 +5,7 @@ import { FaSearch } from 'react-icons/fa';
 import { CiSettings } from 'react-icons/ci';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { AiOutlineLogin } from 'react-icons/ai';
-import { AuthButton, NavButton } from '@/components/button';
+import { AuthButton, NavButton } from '@/components/UIComponents/button';
 // import { toast } from 'sonner';
 import { usePathname, useRouter } from 'next/navigation';
 import { UrlPath } from '@/types';

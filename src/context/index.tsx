@@ -7,8 +7,49 @@ const initState: State = {
 	loggedIn: false,
 	menu: 'close',
 	user: {
-		_id: '',
+		_id: '11',
+		username: 'Guest User',
+		password: '',
+		role: 'guest',
+		createdAt: new Date(),
 	},
+	classrooms: [
+		{
+			_id: '100',
+			name: 'Mass Com 1st floor Right Classroom',
+			tag: 'MS-1F-RC',
+			location: 'Mass Com',
+			status: 'FREE',
+		},
+		{
+			_id: '110',
+			name: 'Mass Com 2nd floor Left Classroom',
+			tag: 'MS-2F-LC',
+			location: 'Mass Com',
+			status: 'FREE',
+		},
+		{
+			_id: '112',
+			name: 'Mass Com 2nd floor Right Classroom',
+			tag: 'MS-2F-RC',
+			location: 'Mass Com',
+			status: 'IN USE',
+		},
+		{
+			_id: '122',
+			name: 'Mass Com 1nd floor Left Classroom',
+			tag: 'MS-1F-LC',
+			location: 'Mass Com',
+			status: 'IN USE',
+		},
+		{
+			_id: '132',
+			name: 'Mass Com 3nd floor Right Classroom',
+			tag: 'MS-3F-RC',
+			location: 'Mass Com',
+			status: 'IN USE',
+		},
+	],
 };
 
 const MyContext = createContext({

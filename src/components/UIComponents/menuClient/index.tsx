@@ -1,5 +1,6 @@
 'use client';
 import { useGlobals } from '@/context';
+import { FaX } from 'react-icons/fa6';
 import { FiMenu } from 'react-icons/fi';
 
 export function MenuClient() {
@@ -19,7 +20,7 @@ export function MenuClient() {
 				name={`Toggle Menu Button`}
 				className={``}
 				onClick={onMenu}>
-				<FiMenu className='text-xl' />
+				{menu === 'close' ? <FiMenu className='text-xl' /> : <FaX />}
 			</button>
 		</section>
 	);

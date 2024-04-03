@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 interface buttonProps {
 	onClick?: () => void; //e: MouseEvent<HTMLButtonElement>) => void;
 	name: string;
@@ -42,5 +44,16 @@ export function MenuButton({}) {
 		>
 			menu
 		</button>
+	);
+}
+
+export function FilterButton({ value, more }: { value: string } & Omit<buttonProps, 'value' | 'size' | 'onClick' | 'name'>) {
+	return (
+		<Link
+			title={`filter classrooms button by ${value}`}
+			href={`/?q=${value}`}
+			className={`transition duration-500 ease-in-out hover:scale-105 p-1 rounded-lg text-xs ${more} text-white`}>
+			{value}
+		</Link>
 	);
 }

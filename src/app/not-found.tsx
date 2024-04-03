@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { NotFoundClient } from '@/components/notFoundClient';
-import { AppLayout } from '@/components/appLayout';
+import { NotFoundClient } from '@/components/UIComponents/notFoundClient';
+import { AppLayout } from '@/components/UIComponents/appLayout';
 
 export const metadata: Metadata = {
 	title: `404 | Not Found`,

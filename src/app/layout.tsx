@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang='en'>
-			<body className={`${inter.className} text-gray-500 text-sm font-normal font-sans`}>
+			<body className={`${inter.className}text-gray-500 text-sm font-normal font-sans`}>
 				<ContextProvider>{children}</ContextProvider>
 				<Toaster
 					richColors

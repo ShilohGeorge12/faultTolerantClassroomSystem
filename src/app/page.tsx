@@ -1,12 +1,16 @@
-import { AppLayout } from '@/components/appLayout';
-import { MenuClient } from '@/components/menuClient';
+import { AppLayout } from '@/components/UIComponents/appLayout';
+import { HomePageClient } from '@/components/UIComponents/homeClient';
+import { HomeClientHeader } from '@/components/UIComponents/homeClient/clientheader';
+import { MenuClient } from '@/components/UIComponents/menuClient';
 
 export default function Home() {
 	return (
 		<AppLayout>
-			<section className='w-full min-h-screen flex flex-col'>
+			<section className='w-full h-full flex flex-col'>
 				<MenuClient />
-				<p className='flex w-full h-full text-center'>Home Page</p>
+				<HomeClientHeader />
+				<hr className='w-[95%] border-[1.5px] mt-1 rounded mx-auto' />
+				<HomePageClient />
 			</section>
 		</AppLayout>
 	);
