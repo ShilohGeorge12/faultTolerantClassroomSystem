@@ -19,7 +19,7 @@ export function HomePageClient() {
 	const { username } = user;
 
 	return (
-		<section className='w-full h-full px-4 py-2'>
+		<section className='w-full h-full px-4 pt-2'>
 			{meridiem.includes('AM') && <h3 className={H3Classes}>Good Morning, {username}</h3>}
 			{meridiem.includes('PM') && <h3 className={H3Classes}>Good Day, {username}</h3>}
 			<div className='flex gap-2 items-center'>

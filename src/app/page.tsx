@@ -11,6 +11,7 @@ export default function Home() {
 				<HomeClientHeader />
 				<hr className='w-[95%] border-[1.5px] mt-1 rounded mx-auto' />
 				<HomePageClient />
+				{/* implement pagination */}
 			</section>
 		</AppLayout>
 	);
