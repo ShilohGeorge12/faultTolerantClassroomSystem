@@ -28,7 +28,7 @@ class Database {
 		});
 
 		this.connection.on('error', (error) => {
-			console.error('MongoDB connection error:', error);
+			if (error instanceof Error) console.error('MongoDB connection error:', error.message);
 		});
 
 		this.connection.once('open', () => {
@@ -43,12 +43,12 @@ class Database {
 
 	private createBookingModel(): Model<BOOKING_DB> {
 		const BookingSchema = BOOKING_DB_SCHEMA();
-		return this.connection.model<BOOKING_DB>('users', BookingSchema);
+		return this.connection.model<BOOKING_DB>('bookings', BookingSchema);
 	}
 
 	private createClassroomModel(): Model<CLASSROOM_DB> {
 		const ClassroomSchema = CLASSROOM_DB_SCHEMA();
-		return this.connection.model<CLASSROOM_DB>('users', ClassroomSchema);
+		return this.connection.model<CLASSROOM_DB>('classrooms', ClassroomSchema);
 	}
 
 	public static getInstance() {

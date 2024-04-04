@@ -14,42 +14,78 @@ const initState: State = {
 		createdAt: new Date(),
 	},
 	classrooms: [
-		{
-			_id: '100',
-			name: 'Mass Com 1st floor Right Classroom',
-			tag: 'MS-1F-RC',
-			location: 'Mass Com',
-			status: 'FREE',
-		},
-		{
-			_id: '110',
-			name: 'Mass Com 2nd floor Left Classroom',
-			tag: 'MS-2F-LC',
-			location: 'Mass Com',
-			status: 'FREE',
-		},
-		{
-			_id: '112',
-			name: 'Mass Com 2nd floor Right Classroom',
-			tag: 'MS-2F-RC',
-			location: 'Mass Com',
-			status: 'IN USE',
-		},
-		{
-			_id: '122',
-			name: 'Mass Com 1nd floor Left Classroom',
-			tag: 'MS-1F-LC',
-			location: 'Mass Com',
-			status: 'IN USE',
-		},
-		{
-			_id: '132',
-			name: 'Mass Com 3nd floor Right Classroom',
-			tag: 'MS-3F-RC',
-			location: 'Mass Com',
-			status: 'IN USE',
-		},
+		// {
+		// 	_id: '100',
+		// 	name: 'Mass Com 1st floor Right Classroom',
+		// 	tag: 'MS-1F-RC',
+		// 	location: 'Mass Com',
+		// 	status: 'FREE',
+		// },
+		// {
+		// 	_id: '110',
+		// 	name: 'Mass Com 2nd floor Left Classroom',
+		// 	tag: 'MS-2F-LC',
+		// 	location: 'Mass Com',
+		// 	status: 'FREE',
+		// },
+		// {
+		// 	_id: '112',
+		// 	name: 'Mass Com 2nd floor Right Classroom',
+		// 	tag: 'MS-2F-RC',
+		// 	location: 'Mass Com',
+		// 	status: 'IN USE',
+		// },
+		// {
+		// 	_id: '122',
+		// 	name: 'Mass Com 1nd floor Left Classroom',
+		// 	tag: 'MS-1F-LC',
+		// 	location: 'Mass Com',
+		// 	status: 'IN USE',
+		// },
+		// {
+		// 	_id: '132',
+		// 	name: 'Mass Com 3nd floor Right Classroom',
+		// 	tag: 'MS-3F-RC',
+		// 	location: 'Mass Com',
+		// 	status: 'IN USE',
+		// },
+		// {
+		// 	_id: '32',
+		// 	name: 'Mass Com 3nd floor Left Classroom',
+		// 	tag: 'MS-3F-LC',
+		// 	location: 'Mass Com',
+		// 	status: 'FREE',
+		// },
+		// {
+		// 	_id: '35',
+		// 	name: 'Mass Com 4nd Left Right Classroom',
+		// 	tag: 'MS-4F-RC',
+		// 	location: 'Mass Com',
+		// 	status: 'FREE',
+		// },
+		// {
+		// 	_id: '36',
+		// 	name: 'Mass Com 4nd floor Left Classroom',
+		// 	tag: 'MS-4F-LC',
+		// 	location: 'Mass Com',
+		// 	status: 'IN USE',
+		// },
+		// {
+		// 	_id: '37',
+		// 	name: 'Mass Com 4nd floor Middle Classroom',
+		// 	tag: 'MS-4F-MC',
+		// 	location: 'Mass Com',
+		// 	status: 'IN USE',
+		// },
+		// {
+		// 	_id: '40',
+		// 	name: 'Mass Com 5nd floor Middle Classroom',
+		// 	tag: 'MS-5F-MC',
+		// 	location: 'Mass Com',
+		// 	status: 'FREE',
+		// }
 	],
+	totalClassrooms: 10,
 };
 
 const MyContext = createContext({
@@ -69,6 +105,8 @@ const reducer: ReducerType = (state, action) => {
 			return { ...state, menu: 'open' };
 		case 'menu_close':
 			return { ...state, menu: 'close' };
+		case 'classrooms':
+			return { ...state, classrooms: action.payload.classrooms, totalClassrooms: action.payload.totalClassrooms };
 		default:
 			return state;
 	}
