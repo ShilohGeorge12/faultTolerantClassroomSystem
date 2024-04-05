@@ -1,5 +1,4 @@
 'use client';
-
 import { CLASSROOM } from '@/types';
 
 interface classroomProps {
@@ -15,7 +14,6 @@ export function Classrooms({ classrooms }: classroomProps) {
 			formData.append(key, val);
 		});
 
-		console.log(formData.has('status'));
 		const req = fetch('http://localhost:2024/api/classrooms', {
 			method: 'POST',
 			body: formData,
