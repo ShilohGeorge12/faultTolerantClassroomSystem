@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 
 export function HomePageClient() {
 	const {
-		state: { user, classrooms, totalClassrooms },
+		state: { user, classrooms, totalClassrooms, filteredClassrooms },
 		dispatch,
 	} = useGlobals();
 	const time = formatCurrentTime();
@@ -24,7 +24,7 @@ export function HomePageClient() {
 	const limitPerPage = 8;
 	const { username } = user;
 	const [Nav, data] = usePagination({
-		classrooms,
+		classrooms: !params || params === 'all' ? classrooms : filteredClassrooms,
 		limitPerPage,
 		totalClassrooms,
 	});
@@ -56,6 +56,37 @@ export function HomePageClient() {
 			})
 			.catch((err: Error) => toast.error(err.message));
 	}, []);
+
+	useEffect(() => {
+		let query: string = '';
+		if (params === 'available') query = 'FREE';
+		if (params === 'occupied') query = 'IN USE';
+		fetch(`/api/classrooms?${params && params !== 'all' && 'f=' + query}`)
+			.then((req) => req.json())
+			.then((res: responseTypes) => {
+				if (isError(res)) {
+					const error = typeof res.error === 'string' ? res.error : res.error[0];
+					toast.error(error);
+					// dispatch({ type: 'logOut', payload: { isloggedIn: false } });
+					// push('/login');
+					return;
+				}
+
+				// if (isAuthStatus(res) && res.authStatus === 'invalid token') {
+				// 	dispatch({ type: 'logOut', payload: { isloggedIn: false } });
+				// 	push('/login');
+				// 	return;
+				// }
+
+				if (isPagClassrooms(res)) {
+					dispatch({
+						type: 'filteredClassrooms',
+						payload: { filteredClassrooms: res.classrooms, totalClassrooms: res.totalClassrooms },
+					});
+				}
+			})
+			.catch((err: Error) => toast.error(err.message));
+	}, [params]);
 
 	return (
 		<section className='w-full h-full px-4 pt-2'>

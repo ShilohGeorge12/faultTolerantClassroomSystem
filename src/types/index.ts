@@ -39,12 +39,14 @@ export type stateAction =
 	| { type: 'logOut'; payload: { isloggedIn: false } }
 	| { type: 'menu_open' }
 	| { type: 'menu_close' }
-	| { type: 'classrooms'; payload: { classrooms: CLASSROOM[]; totalClassrooms: number } };
+	| { type: 'classrooms'; payload: { classrooms: CLASSROOM[]; totalClassrooms: number } }
+	| { type: 'filteredClassrooms'; payload: { filteredClassrooms: CLASSROOM[]; totalClassrooms: number } };
 
 export interface State {
 	loggedIn: boolean;
 	user: USER;
 	classrooms: CLASSROOM[];
+	filteredClassrooms: CLASSROOM[];
 	totalClassrooms: number;
 	menu: 'open' | 'close';
 }

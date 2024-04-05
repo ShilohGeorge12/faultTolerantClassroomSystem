@@ -10,11 +10,12 @@ export function Classrooms({ classrooms }: classroomProps) {
 	const onCreateClassroom = async (classroom: CLASSROOM) => {
 		const formData = new FormData();
 		Object.entries(classroom).forEach(([key, val]) => {
+			console.log(key);
 			if (key === '_id') return;
 			formData.append(key, val);
 		});
 
-		console.log(formData.has('_id'));
+		console.log(formData.has('status'));
 		const req = fetch('http://localhost:2024/api/classrooms', {
 			method: 'POST',
 			body: formData,

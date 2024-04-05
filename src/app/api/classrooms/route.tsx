@@ -11,7 +11,18 @@ export const GET = async (req: NextRequest) => {
 		const page = pageParams ? parseInt(pageParams) : 0;
 		const perPage = perPageParams ? parseInt(perPageParams) : 8;
 		const totalClassrooms = (await MongoDB.getClassroom().find()).length;
+		const query = req.nextUrl.searchParams.get('f');
 
+		if (query) {
+			const classrooms = await MongoDB.getClassroom()
+				.find({ status: query })
+				.sort('name -__v')
+				.skip(page * perPage)
+				.limit(perPage)
+				.select('-__v');
+			console.log('classroom(GET) ', page, query);
+			return NextResponse.json({ classrooms, totalClassrooms: classrooms.length, perPage, page });
+		}
 		const classrooms = await MongoDB.getClassroom()
 			.find()
 			.sort('name -__v')
@@ -43,6 +54,8 @@ export const POST = async (req: NextRequest) => {
 
 		const search = await MongoDB.getClassroom().findOne({ name: value.name });
 		if (search) {
+			search.status = value.status;
+			search.save();
 			return NextResponse.json({ message: `classroom ${value.name} already exist in our records.` }, { status: 201 });
 		}
 
