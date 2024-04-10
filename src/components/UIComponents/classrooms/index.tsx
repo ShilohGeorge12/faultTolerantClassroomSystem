@@ -28,7 +28,7 @@ export function Classrooms({ classrooms }: classroomProps) {
 				<div
 					key={classroom._id}
 					// onClick={() => onCreateClassroom(classroom)}
-					className='bg-gray-200 flex rounded-2xl p-2 size-40 md:h-52 md:w-64 transition duration-500 ease-in-out hover:scale-105 hover:ring-1 hover:ring-gray-300'>
+					className='bg-gray-200 flex flex-col rounded-3xl p-3 transition duration-500 ease-linear hover:scale-105 h-40 w-44 md:h-52 md:w-64'>
 					{classroom.tag}
 				</div>
 			))}
