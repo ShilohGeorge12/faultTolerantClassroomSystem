@@ -91,11 +91,11 @@ export function HomePageClient() {
 	}, [params]);
 
 	return (
-		<section className='w-full h-full px-4 pt-2'>
+		<section className='w-full h-full px-2 md:px-4 pt-2 flex flex-col gap-y-3 overflow-hidden'>
 			{meridiem.includes('AM') && <h3 className={H3Classes}>Good Morning, {username}</h3>}
 			{meridiem.includes('PM') && <h3 className={H3Classes}>Good Day, {username}</h3>}
-			<div className='flex gap-2 items-center mb-2'>
-				<p className='font-medium text-base'>Filter classrooms By</p>
+			<div className='flex gap-2 md:gap-3 items-center mb-2'>
+				<p className='font-medium md:text-base text-sm'>Filter Classrooms By</p>
 				{filters.map((filter) => (
 					<Fragment key={filter}>
 						{filter === 'all' && (

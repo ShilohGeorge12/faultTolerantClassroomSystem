@@ -34,15 +34,13 @@ export function AuthButton({ value, name, onClick }: Omit<buttonProps, 'size' | 
 	);
 }
 
-export function MenuButton({}) {
+export function MenuButton({ name }: { name: string }) {
 	return (
 		<button
 			type='button'
-			name={``}
-			className={``}
-			// onClick={() => null}
-		>
-			menu
+			name={name}
+			className={`rounded-xl p-2 bg-blue-400 text-white`}>
+			{name}
 		</button>
 	);
 }
@@ -52,7 +50,7 @@ export function FilterButton({ value, more }: { value: string } & Omit<buttonPro
 		<Link
 			title={`filter classrooms button by ${value}`}
 			href={`/?q=${value}`}
-			className={`transition duration-500 ease-in-out hover:scale-105 p-1 rounded-lg text-xs ${more} text-white`}>
+			className={`transition duration-500 ease-in-out hover:scale-105 py-1 px-3 rounded-2xl text-xs ${more} text-white`}>
 			{value}
 		</Link>
 	);

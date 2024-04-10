@@ -23,12 +23,12 @@ export function Classrooms({ classrooms }: classroomProps) {
 	};
 
 	return (
-		<div className='grid grid-cols-2 gap-2 md:grid-cols-4 h-fit place-items-center md:place-items-start'>
+		<div className='grid grid-cols-2 gap-y-6 gap-x-5 md:grid-cols-4 h-fit place-items-center'>
 			{classrooms.map((classroom) => (
 				<div
 					key={classroom._id}
-					onClick={() => onCreateClassroom(classroom)}
-					className='bg-gray-300 flex rounded-xl p-2 size-40 md:size-52 transition duration-500 ease-in-out hover:scale-105 hover:ring-1 hover:ring-gray-300'>
+					// onClick={() => onCreateClassroom(classroom)}
+					className='bg-gray-200 flex rounded-2xl p-2 size-40 md:h-52 md:w-64 transition duration-500 ease-in-out hover:scale-105 hover:ring-1 hover:ring-gray-300'>
 					{classroom.tag}
 				</div>
 			))}

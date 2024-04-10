@@ -11,10 +11,9 @@ export default function Home() {
 				<MenuClient />
 				<Suspense fallback={<>Loading....</>}>
 					<HomeClientHeader />
-					<hr className='w-[95%] border-[1.5px] mt-1 rounded mx-auto' />
+					{/* <hr className='w-[95%] border-[1.5px] mt-1 rounded mx-auto' /> */}
 					<HomePageClient />
 				</Suspense>
-				{/* implement pagination */}
 			</section>
 		</AppLayout>
 	);

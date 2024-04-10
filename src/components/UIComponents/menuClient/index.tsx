@@ -14,7 +14,7 @@ export function MenuClient() {
 	};
 
 	return (
-		<section className='w-full h-10 md:hidden flex items-center justify-end pr-4'>
+		<section className='w-full h-10 md:hidden flex items-center justify-end pr-4 pt-2'>
 			<button
 				type='button'
 				name={`Toggle Menu Button`}

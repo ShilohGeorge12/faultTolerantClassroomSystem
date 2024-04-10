@@ -86,7 +86,7 @@ export default function ClientSideBar() {
 				onClick={onSettings}
 			/>
 
-			<section className='w-[80%] h-[67%] flex items-end justify-start'>
+			<section className='w-[80%] h-[63%] flex items-end justify-start'>
 				{loggedIn && (
 					<AuthButton
 						name={`Log Out Button`}
