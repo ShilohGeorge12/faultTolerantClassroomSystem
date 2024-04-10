@@ -8,14 +8,12 @@ import { Fragment, useEffect } from 'react';
 import { usePagination } from '@/hooks/usePagination';
 import { isError, isPagClassrooms, responseTypes } from '@/types';
 import { toast } from 'sonner';
-import useSWR from 'swr';
 
 export function HomePageClient() {
 	const {
 		state: { user, classrooms, totalClassrooms, filteredClassrooms },
 		dispatch,
 	} = useGlobals();
-	const {} = useSWR('', () => {});
 	const time = formatCurrentTime();
 	const meridiem = time.split(' ');
 	const searchParams = useSearchParams();
