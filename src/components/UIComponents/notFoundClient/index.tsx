@@ -26,7 +26,7 @@ export function NotFoundClient() {
 			</section>
 			<Link
 				href={'/'}
-				className={`p-2 bg-blue-500 text-white rounded-lg transition duration-500 hover:shadow-md hover:scale-110`}>
+				className={`p-2 bg-blue-500 text-white rounded-2xl transition duration-500 hover:shadow-md hover:scale-105`}>
 				Back To Home Page
 			</Link>
 		</motion.section>
