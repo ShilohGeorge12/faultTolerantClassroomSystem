@@ -5,6 +5,10 @@ export async function middleware(req: NextRequest) {
 	let response = NextResponse.next();
 	// const cookie = req.cookies.get('key');
 	try {
+		if (req.nextUrl.pathname.endsWith('/')) {
+			// console.log(req.nextUrl.href, 'ended with /');
+			return NextResponse.redirect(new URL('/classrooms/1', req.url));
+		}
 		return response;
 	} catch (error) {
 		if (error instanceof Error && error.name === 'TokenExpiredError') {

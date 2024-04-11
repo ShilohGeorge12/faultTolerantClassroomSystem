@@ -1,7 +1,7 @@
 'use client';
-import { CLASSROOM } from '@/types';
+import type { CLASSROOM } from '@/types';
 
-interface classroomProps {
+interface classroomProps<> {
 	classrooms: CLASSROOM[];
 }
 

@@ -45,11 +45,11 @@ export function MenuButton({ name }: { name: string }) {
 	);
 }
 
-export function FilterButton({ value, more }: { value: string } & Omit<buttonProps, 'value' | 'size' | 'onClick' | 'name'>) {
+export function FilterButton({ value, more, page }: { value: string; page: number } & Omit<buttonProps, 'value' | 'size' | 'onClick' | 'name'>) {
 	return (
 		<Link
 			title={`filter classrooms button by ${value}`}
-			href={`/?q=${value}`}
+			href={`/classrooms/${page}?q=${value}`}
 			className={`transition duration-500 ease-in-out hover:scale-105 py-1 px-3 rounded-2xl text-xs ${more} text-white`}>
 			{value}
 		</Link>

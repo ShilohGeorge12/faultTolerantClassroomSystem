@@ -21,7 +21,7 @@ export default function ClientSideBar() {
 	} = useGlobals();
 
 	const isPath = (path: UrlPath, subPaths?: string) => {
-		if (pathname === path) {
+		if (pathname === path || pathname.includes(path)) {
 			//|| pathname.includes(subPaths)) {
 			return 'bg-blue-400 text-white';
 		}
@@ -54,7 +54,7 @@ export default function ClientSideBar() {
 			className='w-full pl-3 md:pl-6 pt-2 h-5/6 flex items-start flex-col gap-4 font-bold'>
 			<NavButton
 				name={`Classrooms`}
-				more={`${isPath('/')}`}
+				more={`${isPath('/classrooms')}`}
 				value={
 					<>
 						<FaLaptop className='text-lg' />

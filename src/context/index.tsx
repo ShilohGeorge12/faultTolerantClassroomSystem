@@ -15,7 +15,7 @@ const initState: State = {
 	},
 	classrooms: [],
 	filteredClassrooms: [],
-	totalClassrooms: 10,
+	totalfilteredClassrooms: 10,
 };
 
 const MyContext = createContext({
@@ -36,9 +36,9 @@ const reducer: ReducerType = (state, action) => {
 		case 'menu_close':
 			return { ...state, menu: 'close' };
 		case 'classrooms':
-			return { ...state, classrooms: action.payload.classrooms, totalClassrooms: action.payload.totalClassrooms };
+			return { ...state, classrooms: action.payload.classrooms };
 		case 'filteredClassrooms':
-			return { ...state, filteredClassrooms: action.payload.filteredClassrooms, totalClassrooms: action.payload.totalClassrooms };
+			return { ...state, filteredClassrooms: action.payload.filteredClassrooms, totalfilteredClassrooms: action.payload.totalfilteredClassrooms };
 		default:
 			return state;
 	}

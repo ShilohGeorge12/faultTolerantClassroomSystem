@@ -39,15 +39,15 @@ export type stateAction =
 	| { type: 'logOut'; payload: { isloggedIn: false } }
 	| { type: 'menu_open' }
 	| { type: 'menu_close' }
-	| { type: 'classrooms'; payload: { classrooms: CLASSROOM[]; totalClassrooms: number } }
-	| { type: 'filteredClassrooms'; payload: { filteredClassrooms: CLASSROOM[]; totalClassrooms: number } };
+	| { type: 'classrooms'; payload: { classrooms: CLASSROOM[] } }
+	| { type: 'filteredClassrooms'; payload: { filteredClassrooms: CLASSROOM[]; totalfilteredClassrooms: number } };
 
 export interface State {
 	loggedIn: boolean;
 	user: USER;
 	classrooms: CLASSROOM[];
 	filteredClassrooms: CLASSROOM[];
-	totalClassrooms: number;
+	totalfilteredClassrooms: number;
 	menu: 'open' | 'close';
 }
 
@@ -57,7 +57,7 @@ export interface Icontext {
 
 export type ReducerType = (state: State, action: stateAction) => State;
 
-export type UrlPath = '/' | '/find-classroom' | '/aboutus' | '/settings' | '/login';
+export type UrlPath = '/classrooms' | '/find-classroom' | '/aboutus' | '/settings' | '/login';
 
 interface PaginationOptions {
 	classrooms: CLASSROOM[];
