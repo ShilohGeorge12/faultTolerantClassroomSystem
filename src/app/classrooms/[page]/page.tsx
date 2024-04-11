@@ -8,6 +8,10 @@ import { MongoDB } from '@/db';
 import { CLASSROOM } from '@/types';
 import { Suspense } from 'react';
 
+export const generateStaticParams = async () => {
+	return [{ page: '1' }, { page: '2' }];
+};
+
 export default async function Home({ params: { page } }: { params: { page: string } }) {
 	const perPage = 8;
 	const Page = parseInt(page) - 1;

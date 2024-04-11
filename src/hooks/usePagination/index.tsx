@@ -40,7 +40,7 @@ export const usePagination: PaginationType = (options) => {
 				if (isPagClassrooms(res)) {
 					dispatch({
 						type: 'classrooms',
-						payload: { classrooms: res.classrooms, totalClassrooms: res.totalClassrooms },
+						payload: { classrooms: res.classrooms },
 					});
 				}
 			})
