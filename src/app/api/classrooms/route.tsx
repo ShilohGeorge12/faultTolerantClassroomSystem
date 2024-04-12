@@ -3,8 +3,6 @@ import { validateClassroom } from '@/db/validators';
 import { NextResponse, NextRequest } from 'next/server';
 
 export const GET = async (req: NextRequest) => {
-	// const classrooms = await MongoDB.getClassroom().find()//.sort('username').select('-__v -password').populate('animes', '-__v -password');
-
 	try {
 		const pageParams = req.nextUrl.searchParams.get('page');
 		const perPageParams = req.nextUrl.searchParams.get('perpage');

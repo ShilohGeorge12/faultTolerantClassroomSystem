@@ -1,18 +1,21 @@
-// import { MongoDB } from '@/db';
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	// const animes = await MongoDB.getAnimeModel().find().select('-__v');
-	// if (!animes) return [];
-
-	// const animeEntries: MetadataRoute.Sitemap = animes.map((anime) => ({ url: `${process.env.PUBLIC_BASE_URL}/anime/${anime._id.toString()}` }));
-
 	return [
 		{
-			url: `${process.env.PUBLIC_BASE_URL}`,
+			url: `${process.env.PUBLIC_BASE_URL}/classrooms`,
 		},
 		{
-			url: `${process.env.PUBLIC_BASE_URL}/profile`,
+			url: `${process.env.PUBLIC_BASE_URL}/classrooms/1`,
+		},
+		{
+			url: `${process.env.PUBLIC_BASE_URL}/classrooms/2`,
+		},
+		{
+			url: `${process.env.PUBLIC_BASE_URL}/find-classrooms`,
+		},
+		{
+			url: `${process.env.PUBLIC_BASE_URL}/settings`,
 		},
 		{
 			url: `${process.env.PUBLIC_BASE_URL}/login`,

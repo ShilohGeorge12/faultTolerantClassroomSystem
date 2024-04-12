@@ -1,9 +1,7 @@
 import { AppLayout } from '@/components/UIComponents/appLayout';
-// import { Classrooms } from '@/components/UIComponents/classrooms';
 import { HomePageClient } from '@/components/UIComponents/homeClient';
 import { HomeClientHeader } from '@/components/UIComponents/homeClient/clientheader';
 import { MenuClient } from '@/components/UIComponents/menuClient';
-// import { PaginationControls } from '@/components/functionalComponents/paginationControls';
 import { MongoDB } from '@/db';
 import { CLASSROOM } from '@/types';
 import { Suspense } from 'react';
@@ -15,7 +13,7 @@ export const generateStaticParams = async () => {
 export default async function Home({ params: { page } }: { params: { page: string } }) {
 	const perPage = 8;
 	const Page = parseInt(page) - 1;
-	console.log('page= ', Page);
+	console.log('page=', Page);
 	const classrooms = await MongoDB.getClassroom()
 		.find()
 		.sort('name -__v')

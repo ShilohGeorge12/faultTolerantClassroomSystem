@@ -1,11 +1,9 @@
 'use client';
 import { formatCurrentTime } from '@/components/functionalComponents/formatCurrentTime';
-// import { Classrooms } from '../classrooms';
 import { useSearchParams } from 'next/navigation';
 import { FilterButton } from '../button';
 import { useGlobals } from '@/context';
 import { Fragment, useEffect } from 'react';
-// import { usePagination } from '@/hooks/usePagination';
 import { CLASSROOM, isError, isPagClassrooms, responseTypes } from '@/types';
 import { toast } from 'sonner';
 import { Classrooms } from '../classrooms';
@@ -68,6 +66,7 @@ export function HomePageClient({ totalClassrooms, classrooms, page }: HomePageCl
 				}
 			})
 			.catch((err: Error) => toast.error(err.message));
+		console.log('use effect');
 	}, [params]);
 
 	return (

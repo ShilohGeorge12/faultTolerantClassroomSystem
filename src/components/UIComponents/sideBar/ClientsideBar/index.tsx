@@ -6,7 +6,6 @@ import { CiSettings } from 'react-icons/ci';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { AuthButton, NavButton } from '@/components/UIComponents/button';
-// import { toast } from 'sonner';
 import { usePathname, useRouter } from 'next/navigation';
 import { UrlPath } from '@/types';
 import { useGlobals } from '@/context';
@@ -51,7 +50,7 @@ export default function ClientSideBar() {
 	return (
 		<nav
 			id='navbuttons'
-			className='w-full pl-3 md:pl-6 pt-2 h-5/6 flex items-start flex-col gap-4 font-bold'>
+			className='w-full pl-3 md:pl-6 pt-2 h-5/6 flex items-start flex-col gap-2 font-bold'>
 			<NavButton
 				name={`Classrooms`}
 				more={`${isPath('/classrooms')}`}
