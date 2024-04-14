@@ -21,7 +21,7 @@ export function NotFoundClient() {
 					width={1000}
 					height={1000}
 				/>
-				<div className='w-1 md:h-36 h-20 rounded-xl bg-gray-400' />
+				<div className='w-1 md:h-36 h-20 rounded-xl bg-gray-300' />
 				<p className='text-justify'>The Page you are looking for was Not Found</p>
 			</section>
 			<Link

@@ -4,7 +4,6 @@ import { HomeClientHeader } from '@/components/UIComponents/homeClient/clienthea
 import { MenuClient } from '@/components/UIComponents/menuClient';
 import { MongoDB } from '@/db';
 import { CLASSROOM } from '@/types';
-import { Suspense } from 'react';
 
 export const generateStaticParams = async () => {
 	return [{ page: '1' }, { page: '2' }];
@@ -27,16 +26,14 @@ export default async function Home({ params: { page } }: { params: { page: strin
 		<AppLayout>
 			<section className='w-full h-full flex flex-col'>
 				<MenuClient />
-				<Suspense fallback={<>Loading....</>}>
-					<HomeClientHeader />
-					<section className='w-full h-full px-2 md:px-4 pt-2 flex flex-col gap-y-3 overflow-hidden'>
-						<HomePageClient
-							page={Number(page)}
-							classrooms={data}
-							totalClassrooms={totalClassrooms}
-						/>
-					</section>
-				</Suspense>
+				<HomeClientHeader />
+				<section className='w-full h-full px-2 md:px-4 pt-2 flex flex-col gap-y-3 overflow-hidden'>
+					<HomePageClient
+						page={Number(page)}
+						classrooms={data}
+						totalClassrooms={totalClassrooms}
+					/>
+				</section>
 			</section>
 		</AppLayout>
 	);

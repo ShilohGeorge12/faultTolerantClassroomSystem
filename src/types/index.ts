@@ -10,6 +10,8 @@ export type CLASSROOM = {
 	_id: string;
 } & CLASSROOM_DB;
 
+export type classroomStatusType = 'IN USE' | 'FREE';
+
 export type USER_DB = {
 	username: string;
 	password: string;
@@ -21,7 +23,7 @@ export type CLASSROOM_DB = {
 	name: string;
 	tag: string;
 	location: string;
-	status: 'IN USE' | 'FREE';
+	status: classroomStatusType;
 };
 
 export type BOOKING_DB = {
@@ -29,7 +31,7 @@ export type BOOKING_DB = {
 	classroomId: Schema.Types.ObjectId;
 	startTime: Date;
 	endTime: Date;
-	status: 'IN USE' | 'FREE';
+	status: classroomStatusType;
 };
 
 // Context Types

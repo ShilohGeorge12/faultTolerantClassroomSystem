@@ -2,6 +2,7 @@ import { AppLayout } from '@/components/UIComponents/appLayout';
 import { MongoDB } from '@/db';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import { BookingClient } from './bookingclient';
 
 export default async function Home({ params: { _id } }: { params: { _id: string } }) {
 	const classroom = await MongoDB.getClassroom().findOne({ _id });
@@ -28,13 +29,31 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 							<li className='font-medium'>Classroom Location</li>
 							<li className='font-light tracking-wide'>{classroom.name}</li>
 							<li className='font-medium'>Classroom Status</li>
-							<li className='font-light tracking-wide'>{classroom.status}</li>
+							<li className='font-light tracking-wide'>{classroom.status === 'FREE' ? 'Available' : 'Occupied'}</li>
 							<li className='font-medium'>Digital Tag</li>
 							<li className='font-light tracking-wide'>{classroom.tag}</li>
 						</ul>
+						{/* {classroom.status === 'FREE' && (
+							<div className='flex items-center'>
+								<button
+									type='button'
+									name={`Book This Classroom`}
+									className={`w-40 h-9 rounded-xl hover:bg-gray-400 hover:text-white transition ease-linear duration-500 border-gray-400 text-gray-600 bg-gray-300`}
+									// onClick={() => null}
+								>
+									Book This Classroom
+								</button>
+							</div>
+						)} */}
+						<BookingClient
+							status={classroom.status}
+							name={classroom.name}
+						/>
 					</div>
 				</section>
 				<section className='text-center text-xl font-medium tracking-wide'>Classroom Usage</section>
+
+				{/* Modal */}
 			</section>
 		</AppLayout>
 	);
