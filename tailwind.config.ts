@@ -34,7 +34,7 @@ const config: Config = {
 				},
 			},
 			fontFamily: {
-				poppins: ['Poppins', 'sans-serif'],
+				'source-sans': ['source-sans-pro', 'source-sans-pro'],
 			},
 		},
 		screens: {
