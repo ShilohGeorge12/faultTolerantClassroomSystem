@@ -12,6 +12,7 @@
 		"@types/cookie": "^0.6.0",
 		"cookie": "^0.6.0",
 		"dotenv": "^16.4.1",
+		"echarts-for-react": "^3.0.2",
 		"envalid": "^8.0.0",
 		"framer-motion": "^11.0.3",
 		"joi": "^17.12.0",

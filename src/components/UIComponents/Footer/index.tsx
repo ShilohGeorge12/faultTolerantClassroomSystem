@@ -3,7 +3,7 @@ import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai';
 import { FaFacebookF } from 'react-icons/fa';
 
 export function Footer() {
-	const h3Classess = 'font-bold text-md text-center text-gray-600';
+	const h3Classess = 'font-bold text-base text-center text-gray-600';
 	const socialLInksAnimations = 'hover:scale-110 transition duration-500 ease-in-out';
 	return (
 		<footer className={`w-full min-h-40 bg-gray-200 flex flex-col items-center justify-center gap-6 px-4 py-8 text-xs`}>

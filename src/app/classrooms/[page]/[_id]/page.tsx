@@ -4,10 +4,14 @@ import { MongoDB } from '@/db';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { BookingClient } from './bookingclient';
+import { ClassroomUsageChart } from '@/components/UIComponents/charts';
 
 export default async function Home({ params: { _id } }: { params: { _id: string } }) {
 	const classroom = await MongoDB.getClassroom().findOne({ _id });
 	if (!classroom) notFound();
+
+	const data = [15, 10, 8, 12, 5];
+	const classroomLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
 	return (
 		<AppLayout>
@@ -42,7 +46,16 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 							/>
 						</div>
 					</section>
-					<section className='text-center text-xl font-medium tracking-wide'>Classroom Usage</section>
+					<section className='size-full flex flex-col items-center'>
+						<h3 className='text-center text-xl font-medium tracking-wide'>Classroom Usage</h3>
+						<div className='w-[95%] h-64 md:w-[60%] md:h-[365px] font-semibold flex items-center justify-center'>
+							<ClassroomUsageChart
+								data={data}
+								labels={classroomLabels}
+								classnames='size-full'
+							/>
+						</div>
+					</section>
 
 					{/* Modal */}
 				</section>
