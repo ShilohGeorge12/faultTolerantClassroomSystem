@@ -19,7 +19,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 							<Image
 								src={'/classrooms/1.jpg'}
 								alt={`classroom image`}
-								className={`image w-[82%] rounded-2xl hover:shadow-lg hover:shadow-gray-400 hover:scale-105 transition duration-500 ease-linear`}
+								className={`image w-[95%] md:w-[82%] rounded-2xl hover:shadow-lg hover:shadow-gray-400 hover:scale-105 transition duration-500 ease-linear`}
 								width={10000}
 								height={10000}
 							/>

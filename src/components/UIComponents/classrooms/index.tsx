@@ -32,7 +32,7 @@ export function Classrooms({ classrooms }: classroomProps) {
 					key={classroom._id}
 					// onClick={() => onCreateClassroom(classroom)}
 					onClick={() => push(`/classrooms/${page}/${classroom._id}`)}
-					className='bg-gray-200 flex flex-col rounded-3xl p-3 transition duration-500 ease-linear hover:scale-105 h-40 w-44 md:h-52 md:w-64'>
+					className='bg-gray-200 flex flex-col rounded-2xl md:rounded-3xl p-3 transition duration-500 ease-linear hover:scale-105 h-40 w-44 md:h-52 md:w-64'>
 					{classroom.tag}
 				</figure>
 			))}

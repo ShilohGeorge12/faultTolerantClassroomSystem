@@ -6,10 +6,10 @@ export function Footer() {
 	const h3Classess = 'font-bold text-md text-center text-gray-600';
 	const socialLInksAnimations = 'hover:scale-110 transition duration-500 ease-in-out';
 	return (
-		<footer className={`w-full min-h-40 bg-gray-200 flex flex-col items-center justify-center gap-4 border border-red-500 px-4 py-8 text-xs`}>
+		<footer className={`w-full min-h-40 bg-gray-200 flex flex-col items-center justify-center gap-6 px-4 py-8 text-xs`}>
 			<div className='flex flex-col items-center justify-center gap-3'>
 				<h3 className={h3Classess}>Follow Us</h3>
-				<nav className='flex gap-x-3 text-2xl text-black'>
+				<nav className='flex gap-5 text-2xl text-black'>
 					<Link
 						href={'/#instagram'}
 						className={socialLInksAnimations}>
@@ -28,8 +28,8 @@ export function Footer() {
 				</nav>
 			</div>
 			<div className='flex flex-col gap-3 items-center justify-center'>
-				<h3 className={h3Classess}>About </h3>
-				<nav className='flex flex-col items-center gap-2'>
+				<h3 className={h3Classess}>About Us</h3>
+				<nav className='flex flex-col items-center gap-4'>
 					<Link
 						href={'/aboutus'}
 						className='hover:font-medium transition duration-500 hover:underline ease-in-out'>

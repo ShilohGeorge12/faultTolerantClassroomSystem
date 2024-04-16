@@ -1,7 +1,6 @@
 import { AppLayout } from '@/components/UIComponents/appLayout';
 import { HomePageClient } from '@/components/UIComponents/homeClient';
 import { HomeClientHeader } from '@/components/UIComponents/homeClient/clientheader';
-import { MenuClient } from '@/components/UIComponents/menuClient';
 import { MongoDB } from '@/db';
 import { CLASSROOM } from '@/types';
 
@@ -25,7 +24,6 @@ export default async function Home({ params: { page } }: { params: { page: strin
 	return (
 		<AppLayout>
 			<section className='w-full h-full flex flex-col'>
-				<MenuClient />
 				<HomeClientHeader />
 				<section className='w-full h-full px-2 md:px-4 pt-2 flex flex-col gap-y-3 overflow-hidden'>
 					<HomePageClient
