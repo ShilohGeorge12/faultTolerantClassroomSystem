@@ -1,40 +1,44 @@
 'use client';
 
+import { Input } from '@/components/UIComponents/input';
 import type { classroomStatusType } from '@/types';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import { LuArrowBigDownDash } from 'react-icons/lu';
+import { LuArrowBigRightDash } from 'react-icons/lu';
 
 interface BookingClientProps {
 	status: classroomStatusType;
 	name: string;
 }
 
-interface bookingDetailsFROMType {
+interface bookingDetails {
 	date: string;
 	time: string;
-}
-interface bookingDetailsTOType {
-	date: string;
-	time: string;
+	dateTime: Date;
 }
 
 export const BookingClient = ({ status, name }: BookingClientProps) => {
 	const dialogRef = useRef<HTMLDialogElement | null>(null);
-	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(true);
-	const [fromBookingDetails, setFromBookingDetails] = useState<bookingDetailsFROMType>({ date: '', time: '00:00' });
-	const [toBookingDetails, setToBookingDetails] = useState<bookingDetailsTOType>({ date: '', time: '' });
+	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+	const initialDate = new Date();
+	const [fromBookingDetails, setFromBookingDetails] = useState<bookingDetails>({ date: '', time: '', dateTime: initialDate });
+	const [toBookingDetails, setToBookingDetails] = useState<bookingDetails>({ date: '', time: '', dateTime: initialDate });
 
-	const onInputChangeFrom = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setFromBookingDetails((prev) => ({ ...prev, [name]: value }));
+	const onChangeFrom = (dateTime: string) => {
+		const date = dateTime.split(' ')[0];
+		const time = dateTime.split(' ')[1];
+		console.log(`from date: ${date}, time: ${time}`);
+		setFromBookingDetails((prev) => ({ ...prev, date, time }));
 	};
-	const onInputChangeTO = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setToBookingDetails((prev) => ({ ...prev, [name]: value }));
+	const onChangeTo = (dateTime: string) => {
+		const date = dateTime.split(' ')[0];
+		const time = dateTime.split(' ')[1];
+		console.log(`to date: ${date}, time: ${time}`);
+		setToBookingDetails((prev) => ({ ...prev, date, time }));
 	};
 	const onSubmit = () => {
 		console.log({ from: fromBookingDetails, to: toBookingDetails });
+		// setIsDialogOpen(false);
 	};
 
 	useEffect(() => {
@@ -56,59 +60,42 @@ export const BookingClient = ({ status, name }: BookingClientProps) => {
 			)}
 			<dialog
 				ref={dialogRef}
-				className='w-[95%] md:w-[45%] min-h-[60vh] text-sm rounded-2xl bg-white/80 backdrop-blur'>
-				<section className='w-full flex-col flex md:gap-16 p-3 relative'>
+				onClick={(e) => e.stopPropagation()}
+				className='modal w-[95%] md:w-[65%] min-h-[80vh] text-sm rounded-2xl bg-white/70 backdrop-blur'>
+				<section className='w-full flex-col flex md:gap-20 gap-10 p-3 relative'>
 					<h4 className='font-semibold tracking-wider text-lg text-center capitalize'>Book {name}</h4>
 					<button
 						type='button'
-						name={`close edit profile Modal`}
-						className={`p-2 transition ease-linear duration-300 text-lg rounded-xl text-red-500 bg-red-200 hover:bg-red-500 hover:text-white absolute top-3 right-3`}
-						onClick={() => setIsDialogOpen(false)}>
+						name={`close popover`}
+						className={`close p-2 transition ease-linear duration-300 text-lg rounded-xl text-red-500 bg-red-200 hover:bg-red-500 hover:text-white absolute top-3 right-3`}
+						onClick={(e) => {
+							setIsDialogOpen(false);
+							e.stopPropagation();
+						}}>
 						<IoMdClose />
 					</button>
-					<div className='flex flex-col items-center justify-center gap-8'>
-						<div className='w-[70%] h-fit flex items-center justify-between '>
-							<input
-								type='date'
-								name='date'
-								value={fromBookingDetails.date}
-								onChange={(e) => onInputChangeFrom(e)}
-								className='border border-gray-500 w-[45%] h-10 rounded-xl px-4'
-							/>
-
-							<input
-								type='time'
-								name='time'
-								value={fromBookingDetails.time}
-								onChange={(e) => onInputChangeFrom(e)}
-								className='border border-gray-500 w-[45%] h-10 rounded-xl px-4'
+					<div className='flex items-center md:flex-row flex-col justify-center gap-4'>
+						<div className='size-fit flex items-center justify-center text-sm'>
+							<Input
+								date={fromBookingDetails.dateTime}
+								onChange={onChangeFrom}
 							/>
 						</div>
 
-						<LuArrowBigDownDash className='text-3xl' />
+						<LuArrowBigRightDash className='text-3xl' />
 
-						<div className='w-[70%] h-fit flex items-center justify-between '>
-							<input
-								type='date'
-								name='date'
-								value={toBookingDetails.date}
-								onChange={(e) => onInputChangeTO(e)}
-								className='border border-gray-500 w-[45%] h-10 rounded-xl px-4'
-							/>
-
-							<input
-								type='time'
-								value={toBookingDetails.time}
-								name='time'
-								onChange={(e) => onInputChangeTO(e)}
-								className='border border-gray-500 w-[45%] h-10 rounded-xl px-4'
+						<div className='size-fit flex items-center justify-center'>
+							<Input
+								date={toBookingDetails.dateTime}
+								onChange={onChangeTo}
 							/>
 						</div>
-
+					</div>
+					<div className='w-full flex items-center justify-center'>
 						<button
 							type='button'
 							name={``}
-							className={`w-1/3 h-10 rounded-xl bg-gray-200 text-gray-600 duration-500 ease-linear transition text-xl tracking-wider hover:text-white hover:bg-gray-500`}
+							className={`button w-1/3 h-10 rounded-xl bg-gray-200 text-gray-600 duration-500 ease-linear transition text-xl tracking-wider hover:text-white hover:bg-gray-500`}
 							onClick={onSubmit}>
 							Submit
 						</button>

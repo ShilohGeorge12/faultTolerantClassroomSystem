@@ -1,37 +1,4 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@font-face {
-	font-family: 'source-sans-pro';
-	src: url('/public/font/source-sans-pro/SourceSansPro-Bold.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-	font-display: swap;
-}
-
-::-webkit-scrollbar {
-	background: transparent;
-	width: 0.4rem;
-	height: 0.25rem;
-	border-radius: 1rem;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-	border-radius: 5px;
-	background: rgb(171, 172, 175);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-	background: rgb(200, 201, 204);
-}
-
-::selection {
-	@apply text-white bg-gray-500 rounded-xl;
-}
-
-::-moz-selection {
-	@apply text-white bg-gray-500 rounded-xl;
-}
+  @tailwind components;
+  @tailwind utilities;
+  
