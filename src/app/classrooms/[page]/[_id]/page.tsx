@@ -1,10 +1,10 @@
 import { AppLayout } from '@/components/UIComponents/appLayout';
-import { MenuClient } from '@/components/UIComponents/menuClient';
 import { MongoDB } from '@/db';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { BookingClient } from './bookingclient';
 import { ClassroomUsageChart } from '@/components/UIComponents/charts';
+import { ClassroomDetailsHeaderClient } from './headerclient';
 
 export default async function Home({ params: { _id } }: { params: { _id: string } }) {
 	const classroom = await MongoDB.getClassroom().findOne({ _id });
@@ -16,7 +16,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 	return (
 		<AppLayout>
 			<section className='w-full h-full'>
-				<MenuClient />
+				<ClassroomDetailsHeaderClient />
 				<section className='w-full h-full flex flex-col py-4 px-4 gap-12'>
 					<section className='grid grid-cols-1 md:grid-cols-2 md:gap-0 gap-10 w-full h-[40%] justify-items-center'>
 						<div className='flex items-center justify-center'>

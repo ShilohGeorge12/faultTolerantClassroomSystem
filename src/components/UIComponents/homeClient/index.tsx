@@ -47,16 +47,8 @@ export function HomePageClient({ totalClassrooms, classrooms, page }: HomePageCl
 				if (isError(res)) {
 					const error = typeof res.error === 'string' ? res.error : res.error[0];
 					toast.error(error);
-					// dispatch({ type: 'logOut', payload: { isloggedIn: false } });
-					// push('/login');
 					return;
 				}
-
-				// if (isAuthStatus(res) && res.authStatus === 'invalid token') {
-				// 	dispatch({ type: 'logOut', payload: { isloggedIn: false } });
-				// 	push('/login');
-				// 	return;
-				// }
 
 				if (isPagClassrooms(res)) {
 					dispatch({
@@ -66,7 +58,6 @@ export function HomePageClient({ totalClassrooms, classrooms, page }: HomePageCl
 				}
 			})
 			.catch((err: Error) => toast.error(err.message));
-		console.log('use effect');
 	}, [params]);
 
 	return (
