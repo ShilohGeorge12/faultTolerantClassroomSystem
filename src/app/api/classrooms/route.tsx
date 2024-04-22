@@ -8,27 +8,29 @@ export const GET = async (req: NextRequest) => {
 		const perPageParams = req.nextUrl.searchParams.get('perpage');
 		const page = pageParams ? parseInt(pageParams) : 0;
 		const perPage = perPageParams ? parseInt(perPageParams) : 8;
-		const totalClassrooms = (await MongoDB.getClassroom().find()).length;
 		const query = req.nextUrl.searchParams.get('f');
+		const totalClassroomPromise = MongoDB.getClassroom().find();
 
 		if (query) {
-			const classrooms = await MongoDB.getClassroom()
+			const classroomsPromise = MongoDB.getClassroom()
 				.find({ status: query })
 				.sort('name -__v')
 				.skip(page * perPage)
 				.limit(perPage)
 				.select('-__v');
+			const [totalClassrooms, classrooms] = await Promise.all([totalClassroomPromise, classroomsPromise]);
 			console.log('classroom(GET) ', page, query);
-			return NextResponse.json({ classrooms, totalClassrooms: classrooms.length, perPage, page });
+			return NextResponse.json({ classrooms, totalClassrooms: totalClassrooms.length, perPage, page });
 		}
-		const classrooms = await MongoDB.getClassroom()
+		const classroomsPromise2 = MongoDB.getClassroom()
 			.find()
 			.sort('name -__v')
 			.skip(page * perPage)
 			.limit(perPage)
 			.select('-__v');
+		const [totalClassrooms, classrooms] = await Promise.all([totalClassroomPromise, classroomsPromise2]);
 		console.log('classroom(GET) ', page);
-		return NextResponse.json({ classrooms, totalClassrooms, perPage, page });
+		return NextResponse.json({ classrooms, totalClassrooms: totalClassrooms.length, perPage, page });
 	} catch (error) {
 		if (error instanceof Error) {
 			console.log(error);

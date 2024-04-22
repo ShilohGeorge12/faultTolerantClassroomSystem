@@ -1,14 +1,16 @@
 'use client';
 
 import { Input } from '@/components/UIComponents/input';
-import type { classroomStatusType } from '@/types';
+import { isClassroom, type classroomStatusType, type responseTypes } from '@/types';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { LuArrowBigRightDash } from 'react-icons/lu';
 
 interface BookingClientProps {
-	status: classroomStatusType;
 	name: string;
+	_id: string;
+	isOccupied: 'Occupied' | 'Available';
 }
 
 interface bookingDetails {
@@ -17,12 +19,14 @@ interface bookingDetails {
 	dateTime: Date;
 }
 
-export const BookingClient = ({ status, name }: BookingClientProps) => {
+export const BookingClient = ({ name, _id, isOccupied }: BookingClientProps) => {
 	const dialogRef = useRef<HTMLDialogElement | null>(null);
 	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 	const initialDate = new Date();
+	const { refresh } = useRouter();
 	const [fromBookingDetails, setFromBookingDetails] = useState<bookingDetails>({ date: '', time: '', dateTime: initialDate });
 	const [toBookingDetails, setToBookingDetails] = useState<bookingDetails>({ date: '', time: '', dateTime: initialDate });
+	const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
 	const onChangeFrom = (dateTime: string) => {
 		const date = dateTime.split(' ')[0];
@@ -36,9 +40,38 @@ export const BookingClient = ({ status, name }: BookingClientProps) => {
 		console.log(`to date: ${date}, time: ${time}`);
 		setToBookingDetails((prev) => ({ ...prev, date, time }));
 	};
-	const onSubmit = () => {
-		console.log({ from: fromBookingDetails, to: toBookingDetails });
-		// setIsDialogOpen(false);
+
+	const onSubmit = async () => {
+		setErrorMessage([]);
+		if (fromBookingDetails.date === '' || fromBookingDetails.time === '') {
+			setErrorMessage((prev) => [...prev, 'fill the start date and time details']);
+		}
+
+		if (toBookingDetails.date === '' || toBookingDetails.time === '') {
+			setErrorMessage((prev) => [...prev, 'fill the end date and time details']);
+			return;
+		}
+
+		const data = new FormData();
+		const booking = {
+			startDate: fromBookingDetails.date,
+			endDate: toBookingDetails.date,
+			startTime: fromBookingDetails.time,
+			endTime: toBookingDetails.time,
+			userId: '660e876c379f697ca786a06b',
+		};
+
+		Object.entries(booking).forEach(([key, val]) => data.append(key, val));
+		const req = await fetch(`/api/classrooms/${_id}`, {
+			method: 'POST',
+			body: data,
+		});
+		const res = (await req.json()) as responseTypes;
+		if (isClassroom(res)) {
+			refresh();
+			setIsDialogOpen(false);
+			console.log({ from: fromBookingDetails, to: toBookingDetails });
+		}
 	};
 
 	useEffect(() => {
@@ -47,7 +80,7 @@ export const BookingClient = ({ status, name }: BookingClientProps) => {
 
 	return (
 		<>
-			{status === 'FREE' && (
+			{isOccupied === 'Available' && (
 				<div className='flex items-center'>
 					<button
 						type='button'

@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { BookingClient } from './bookingclient';
 import { ClassroomUsageChart } from '@/components/UIComponents/charts';
 import { ClassroomDetailsHeaderClient } from './headerclient';
+import { isBefore } from 'date-fns';
+import { CLASSROOMBOOKING } from '@/types';
 
 export default async function Home({ params: { _id } }: { params: { _id: string } }) {
 	const classroom = await MongoDB.getClassroom().findOne({ _id });
@@ -12,6 +14,31 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 
 	const data = [15, 10, 8, 12, 5];
 	const classroomLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+
+	const today = new Date();
+
+	const latestbooking = classroom.bookings.reduce((latest, booking) => {
+		const bookingStartDate = new Date(booking.startDate);
+		const bookingEndDate = new Date(booking.endDate);
+		const bookingCreatedAt = new Date(booking.createdAt);
+
+		// Check if booking overlaps today using isBefore from date-fns
+		const overlapsToday = (isBefore(bookingStartDate, today) && isBefore(today, bookingEndDate)) || isBefore(bookingCreatedAt, today);
+
+		// If overlaps today and newer than current latest, update latest
+		return overlapsToday && (!latest || isBefore(latest.createdAt, booking.createdAt)) ? booking : latest;
+	});
+
+	const isOccupied = latestbooking && withinBookingTime(latestbooking);
+
+	function withinBookingTime(booking: CLASSROOMBOOKING) {
+		const bookingStartTime = Number(booking.startTime.split(':')[0]);
+		const bookingEndTime = Number(booking.endTime.split(':')[0]);
+
+		const currentTime = new Date();
+		const currentHour = currentTime.getHours();
+		return currentHour >= bookingStartTime && currentHour < bookingEndTime;
+	}
 
 	return (
 		<AppLayout>
@@ -36,19 +63,20 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								<li className='font-medium'>Classroom Location</li>
 								<li className='font-light tracking-wide'>{classroom.name}</li>
 								<li className='font-medium'>Classroom Status</li>
-								<li className='font-light tracking-wide'>{classroom.status === 'FREE' ? 'Available' : 'Occupied'}</li>
+								<li className='font-light tracking-wide'>{isOccupied ? 'Occupied' : 'Available'}</li>
 								<li className='font-medium'>Digital Tag</li>
 								<li className='font-light tracking-wide'>{classroom.tag}</li>
 							</ul>
 							<BookingClient
-								status={classroom.status}
+								_id={classroom._id.toString()}
+								isOccupied={isOccupied ? 'Occupied' : 'Available'}
 								name={classroom.name}
 							/>
 						</div>
 					</section>
 					<section className='size-full flex flex-col items-center'>
 						<h3 className='text-center text-xl font-medium tracking-wide'>Classroom Usage</h3>
-						<div className='w-[95%] h-64 md:w-[60%] md:h-[365px] font-semibold flex items-center justify-center'>
+						<div className='w-[95%] h-64 md:w-[45%] md:h-[350px] font-semibold flex items-center justify-center'>
 							<ClassroomUsageChart
 								data={data}
 								labels={classroomLabels}

@@ -1,4 +1,4 @@
-import { classroomValidation, classroomValidationReturnType } from '@/types';
+import { classroomBookingValidation, classroomBookingValidationReturnType, classroomValidation, classroomValidationReturnType } from '@/types';
 import joi from 'joi';
 
 export function validateClassroom(schema: unknown): classroomValidationReturnType {
@@ -9,6 +9,17 @@ export function validateClassroom(schema: unknown): classroomValidationReturnTyp
 		tag: joi.string().required().min(4),
 	});
 	return classroomSchema.validate(schema, { abortEarly: false });
+}
+
+export function validateClassroomBooking(schema: unknown): classroomBookingValidationReturnType {
+	const bookingSchema = joi.object<classroomBookingValidation>({
+		userId: joi.string().required(),
+		startDate: joi.string().required(),
+		startTime: joi.string().required(),
+		endDate: joi.string().required(),
+		endTime: joi.string().required(),
+	});
+	return bookingSchema.validate(schema, { abortEarly: false });
 }
 
 // export function validateUpdateUser(schema: unknown): validateUpdateUserType {

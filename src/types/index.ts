@@ -1,5 +1,4 @@
 import { Schema } from 'mongoose';
-// import { Dispatch, SetStateAction } from 'react';
 import { ValidationResult } from 'joi';
 
 export type USER = {
@@ -24,13 +23,23 @@ export type CLASSROOM_DB = {
 	tag: string;
 	location: string;
 	status: classroomStatusType;
+	bookings: CLASSROOMBOOKING[];
 };
+
+export interface CLASSROOMBOOKING {
+	startDate: Date;
+	endDate: Date;
+	startTime: string;
+	endTime: string;
+	userId: Schema.Types.ObjectId;
+	createdAt: Date;
+}
 
 export type BOOKING_DB = {
 	userId: Schema.Types.ObjectId;
 	classroomId: Schema.Types.ObjectId;
-	startTime: Date;
-	endTime: Date;
+	startTime: string;
+	endTime: string;
 	status: classroomStatusType;
 };
 
@@ -96,7 +105,7 @@ interface StatusType {
 
 type AuthStatusType = { readonly authStatus: 'invalid token'; readonly user: {} } | { readonly authStatus: 'Still Valid'; readonly user: USER };
 
-export type responseTypes = USER | CLASSROOM | CLASSROOM[] | paginatedClassrooms | searchResult | StatusType | ErrorType | AuthStatusType;
+export type responseTypes = USER | CLASSROOM | CLASSROOM[] | paginatedClassrooms | searchResult | StatusType | ErrorType;
 
 // Type Guards
 export const isClassrooms = (_arg: responseTypes): _arg is CLASSROOM[] => {
@@ -123,3 +132,5 @@ export const MAX_AGE = 30 * 60;
 export const COOKIE_NAME = 'key';
 export type classroomValidation = Omit<CLASSROOM, '_id'>;
 export type classroomValidationReturnType = ValidationResult<Omit<CLASSROOM, '_id'>>;
+export type classroomBookingValidation = Omit<CLASSROOMBOOKING, 'createdAt'>;
+export type classroomBookingValidationReturnType = ValidationResult<Omit<CLASSROOMBOOKING, 'createdAt'>>;

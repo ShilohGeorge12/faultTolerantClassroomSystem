@@ -1,6 +1,5 @@
 'use client';
 import ReactCharts from 'echarts-for-react';
-import { HTMLAttributes } from 'react';
 
 interface ClassroomUsageChartProps {
 	data: number[];

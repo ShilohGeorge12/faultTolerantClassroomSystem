@@ -13,7 +13,7 @@ export function Input({ onChange, date }: InputProps) {
 			<TuiDateTimePicker
 				handleChange={onChange}
 				date={date}
-				format='dd/MM/YYYY HH:mm'
+				format='dd/MM/YYYY hh:mm'
 				inputWidth={170}
 				containerWidth={200}
 				fontSize={14}
