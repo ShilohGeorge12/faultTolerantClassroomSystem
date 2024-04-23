@@ -1,7 +1,6 @@
 'use client';
 import { useContext, useReducer, createContext, ReactNode } from 'react';
 import type { State, ReducerType, stateAction } from '../types';
-// import { toast } from 'sonner';
 
 const initState: State = {
 	loggedIn: false,
@@ -10,7 +9,6 @@ const initState: State = {
 		_id: '11',
 		username: 'Guest User',
 		password: '',
-		role: 'guest',
 		createdAt: new Date(),
 	},
 	classrooms: [],

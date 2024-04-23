@@ -6,17 +6,13 @@ export function USER_DB_SCHEMA(): Schema<USER_DB> {
 		username: {
 			type: String,
 			minlength: 2,
+			unique: true,
 			required: [true, 'Username can not be empty'],
 		},
 		password: {
 			type: String,
 			minlength: 20,
 			required: [true, 'Password Can not be empty'],
-		},
-		role: {
-			type: String,
-			enum: ['Admin', 'Class Representative', 'Lecturer'],
-			required: true,
 		},
 		createdAt: {
 			type: Date,

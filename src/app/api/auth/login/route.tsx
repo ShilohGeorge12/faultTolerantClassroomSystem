@@ -1,18 +1,12 @@
 import { MongoDB } from '@/db';
-import { validateUser } from '@/db/validators';
+import { validateAuth } from '@/db/validators';
 import { NextResponse, NextRequest } from 'next/server';
-
-export async function GET(_: NextRequest) {
-	const users = await MongoDB.getUser().find().sort('username').select('-__v -password'); //.populate('animes', '-__v -password');
-
-	return NextResponse.json(users, { status: 200 });
-}
 
 export async function POST(req: NextRequest) {
 	try {
 		const body = await req.formData();
 		const bodyObj = Object.fromEntries(body.entries());
-		const { error, value } = validateUser(bodyObj);
+		const { error, value } = validateAuth(bodyObj);
 
 		if (error) {
 			console.log(error);
@@ -21,13 +15,13 @@ export async function POST(req: NextRequest) {
 			return NextResponse.json({ error: errArr }, { status: 400 });
 		}
 
-		const user = await MongoDB.getUser().create({
-			password: value.password,
-			username: value.username,
-			createdAt: new Date(),
-		});
+		const user = await MongoDB.getUser().findOne({ username: value.username, password: value.password });
 
-		return NextResponse.json(user, { status: 201 });
+		if (!user) {
+			return NextResponse.json({ error: 'invalid login credentials' }, { status: 400 });
+		}
+
+		return NextResponse.json(user, { status: 200 });
 	} catch (error) {
 		if (error instanceof Error) {
 			console.log(error.message);

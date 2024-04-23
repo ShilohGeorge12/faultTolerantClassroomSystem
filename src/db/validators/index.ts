@@ -1,12 +1,20 @@
-import { classroomBookingValidation, classroomBookingValidationReturnType, classroomValidation, classroomValidationReturnType } from '@/types';
+import {
+	authValidationReturnType,
+	authvalidation,
+	classroomBookingValidation,
+	classroomBookingValidationReturnType,
+	classroomValidation,
+	classroomValidationReturnType,
+	userValidation,
+	userValidationReturnType,
+} from '@/types';
 import joi from 'joi';
 
 export function validateClassroom(schema: unknown): classroomValidationReturnType {
 	const classroomSchema = joi.object<classroomValidation>({
 		name: joi.string().min(2).required(),
 		location: joi.string().min(4).required(),
-		status: joi.string().valid('IN USE', 'FREE'),
-		tag: joi.string().required().min(4),
+		tag: joi.string().required().min(8),
 	});
 	return classroomSchema.validate(schema, { abortEarly: false });
 }
@@ -20,6 +28,22 @@ export function validateClassroomBooking(schema: unknown): classroomBookingValid
 		endTime: joi.string().required(),
 	});
 	return bookingSchema.validate(schema, { abortEarly: false });
+}
+
+export function validateAuth(schema: unknown): authValidationReturnType {
+	const authSchema = joi.object<authvalidation>({
+		username: joi.string().min(2).required(),
+		password: joi.string().min(6).required(),
+	});
+	return authSchema.validate(schema, { abortEarly: false });
+}
+
+export function validateUser(schema: unknown): userValidationReturnType {
+	const userSchema = joi.object<userValidation>({
+		username: joi.string().min(2).required(),
+		password: joi.string().min(6).required(),
+	});
+	return userSchema.validate(schema, { abortEarly: false });
 }
 
 // export function validateUpdateUser(schema: unknown): validateUpdateUserType {

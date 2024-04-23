@@ -14,7 +14,6 @@ export type classroomStatusType = 'IN USE' | 'FREE';
 export type USER_DB = {
 	username: string;
 	password: string;
-	role: 'admin' | 'guest';
 	createdAt: Date;
 };
 
@@ -22,7 +21,7 @@ export type CLASSROOM_DB = {
 	name: string;
 	tag: string;
 	location: string;
-	status: classroomStatusType;
+	// status: classroomStatusType;
 	bookings: CLASSROOMBOOKING[];
 };
 
@@ -102,10 +101,13 @@ interface ErrorType {
 interface StatusType {
 	readonly status: string;
 }
+interface MessageType {
+	readonly message: string;
+}
 
 type AuthStatusType = { readonly authStatus: 'invalid token'; readonly user: {} } | { readonly authStatus: 'Still Valid'; readonly user: USER };
 
-export type responseTypes = USER | CLASSROOM | CLASSROOM[] | paginatedClassrooms | searchResult | StatusType | ErrorType;
+export type responseTypes = USER | CLASSROOM | CLASSROOM[] | paginatedClassrooms | searchResult | StatusType | ErrorType | MessageType;
 
 // Type Guards
 export const isClassrooms = (_arg: responseTypes): _arg is CLASSROOM[] => {
@@ -113,11 +115,11 @@ export const isClassrooms = (_arg: responseTypes): _arg is CLASSROOM[] => {
 };
 
 export const isClassroom = (_arg: responseTypes): _arg is CLASSROOM => {
-	return _arg && (_arg as CLASSROOM).tag !== undefined && (_arg as CLASSROOM).location !== undefined && (_arg as CLASSROOM).status !== undefined;
+	return _arg && (_arg as CLASSROOM).tag !== undefined && (_arg as CLASSROOM).location !== undefined && (_arg as CLASSROOM).name !== undefined;
 };
 
 export const isUser = (_arg: responseTypes): _arg is USER => {
-	return _arg && (_arg as USER).username !== undefined && (_arg as USER).role !== undefined;
+	return _arg && (_arg as USER).username !== undefined && (_arg as USER).password !== undefined;
 };
 
 export const isPagClassrooms = (_arg: responseTypes): _arg is paginatedClassrooms => {
@@ -125,12 +127,25 @@ export const isPagClassrooms = (_arg: responseTypes): _arg is paginatedClassroom
 };
 
 export const isError = (_arg: responseTypes): _arg is ErrorType => (_arg as ErrorType).error !== undefined;
+export const isMessage = (_arg: responseTypes): _arg is MessageType => (_arg as MessageType).message !== undefined;
 export const isSearchResult = (_arg: responseTypes): _arg is searchResult => (_arg as searchResult).classrooms !== undefined && (_arg as searchResult).q !== undefined;
 
 // Validation Types
 export const MAX_AGE = 30 * 60;
 export const COOKIE_NAME = 'key';
+export type userValidation = Omit<USER_DB, 'createdAt'>;
+export type userValidationReturnType = ValidationResult<Omit<USER_DB, 'createdAt'>>;
 export type classroomValidation = Omit<CLASSROOM, '_id'>;
 export type classroomValidationReturnType = ValidationResult<Omit<CLASSROOM, '_id'>>;
 export type classroomBookingValidation = Omit<CLASSROOMBOOKING, 'createdAt'>;
 export type classroomBookingValidationReturnType = ValidationResult<Omit<CLASSROOMBOOKING, 'createdAt'>>;
+export type authvalidation = Omit<USER_DB, 'createdAt'>;
+export type authValidationReturnType = ValidationResult<Omit<USER_DB, 'createdAt'>>;
+
+// Input Validation Types
+export const USERNAME_REGEX = /^[a-zA-Z\s_-]{2,}$/;
+export const NAME_REGEX = /^[a-zA-Z\s\d]{2,}$/;
+export const PASSWORD_REGEX = /^[a-zA-Z0-9@_-\s]{6,24}$/;
+export const LOCATION_REGEX = /^[a-zA-Z0-9\s]{6,15}$/;
+export const TAG_REGEX = /^[a-zA-Z0-9-]{8,10}$/;
+export const PASSWORD_FORMAT_MESSAGE = `Password must be 6-24 characters long and can only contain letters, numbers, @, _, or -.`;

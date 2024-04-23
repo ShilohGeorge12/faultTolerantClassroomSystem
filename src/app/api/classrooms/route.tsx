@@ -54,15 +54,15 @@ export const POST = async (req: NextRequest) => {
 
 		const search = await MongoDB.getClassroom().findOne({ name: value.name });
 		if (search) {
-			search.status = value.status;
-			search.save();
-			return NextResponse.json({ message: `classroom ${value.name} already exist in our records.` }, { status: 201 });
+			// search.status = value.status;
+			// search.save();
+			return NextResponse.json({ message: `classroom ${value.name} already exist in our records.` }, { status: 400 });
 		}
 
 		const newClassroom = await MongoDB.getClassroom().create({
 			name: value.name,
 			location: value.location,
-			status: value.status,
+			// status: value.status,
 			tag: value.tag,
 		});
 

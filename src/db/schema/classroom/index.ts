@@ -6,7 +6,7 @@ export function CLASSROOM_DB_SCHEMA(): Schema<CLASSROOM_DB> {
 		name: { type: String, required: [true, 'The classroom name is required'] },
 		tag: { type: String, required: true },
 		location: { type: String, required: [true, 'The classroom location is required'] },
-		status: { type: String, enum: ['FREE', 'IN USE'], required: [true, 'Classroom Status is required'] },
+		// status: { type: String, enum: ['FREE', 'IN USE'], required: [true, 'Classroom Status is required'] },
 		bookings: {
 			type: [
 				{

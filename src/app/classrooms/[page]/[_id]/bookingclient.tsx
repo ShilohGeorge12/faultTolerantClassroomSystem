@@ -1,7 +1,8 @@
 'use client';
 
 import { Input } from '@/components/UIComponents/input';
-import { isClassroom, type classroomStatusType, type responseTypes } from '@/types';
+import { useGlobals } from '@/context';
+import { isClassroom, type responseTypes } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
@@ -20,6 +21,9 @@ interface bookingDetails {
 }
 
 export const BookingClient = ({ name, _id, isOccupied }: BookingClientProps) => {
+	const {
+		state: { loggedIn },
+	} = useGlobals();
 	const dialogRef = useRef<HTMLDialogElement | null>(null);
 	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 	const initialDate = new Date();
@@ -80,7 +84,7 @@ export const BookingClient = ({ name, _id, isOccupied }: BookingClientProps) => 
 
 	return (
 		<>
-			{isOccupied === 'Available' && (
+			{isOccupied === 'Available' && loggedIn && (
 				<div className='flex items-center'>
 					<button
 						type='button'
@@ -133,6 +137,20 @@ export const BookingClient = ({ name, _id, isOccupied }: BookingClientProps) => 
 							Submit
 						</button>
 					</div>
+
+					{errorMessage.length > 0 && (
+						<ul
+							aria-errormessage='Login Validation Error Message'
+							className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
+							{errorMessage.map((error) => (
+								<li
+									className='font-semibold tracking-wider capitalize'
+									key={error}>
+									{error}
+								</li>
+							))}
+						</ul>
+					)}
 				</section>
 			</dialog>
 		</>

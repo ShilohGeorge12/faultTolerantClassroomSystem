@@ -7,6 +7,8 @@ import { ClassroomUsageChart } from '@/components/UIComponents/charts';
 import { ClassroomDetailsHeaderClient } from './headerclient';
 import { isBefore } from 'date-fns';
 import { CLASSROOMBOOKING } from '@/types';
+import { Spinner } from '@/components/UIComponents/loadingSpinner';
+import { Suspense } from 'react';
 
 export default async function Home({ params: { _id } }: { params: { _id: string } }) {
 	const classroom = await MongoDB.getClassroom().findOne({ _id });
@@ -17,17 +19,19 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 
 	const today = new Date();
 
-	const latestbooking = classroom.bookings.reduce((latest, booking) => {
-		const bookingStartDate = new Date(booking.startDate);
-		const bookingEndDate = new Date(booking.endDate);
-		const bookingCreatedAt = new Date(booking.createdAt);
+	const latestbooking =
+		classroom.bookings.length > 0 &&
+		classroom.bookings.reduce((latest, booking) => {
+			const bookingStartDate = new Date(booking.startDate);
+			const bookingEndDate = new Date(booking.endDate);
+			const bookingCreatedAt = new Date(booking.createdAt);
 
-		// Check if booking overlaps today using isBefore from date-fns
-		const overlapsToday = (isBefore(bookingStartDate, today) && isBefore(today, bookingEndDate)) || isBefore(bookingCreatedAt, today);
+			// Check if booking overlaps today using isBefore from date-fns
+			const overlapsToday = (isBefore(bookingStartDate, today) && isBefore(today, bookingEndDate)) || isBefore(bookingCreatedAt, today);
 
-		// If overlaps today and newer than current latest, update latest
-		return overlapsToday && (!latest || isBefore(latest.createdAt, booking.createdAt)) ? booking : latest;
-	});
+			// If overlaps today and newer than current latest, update latest
+			return overlapsToday && (!latest || isBefore(latest.createdAt, booking.createdAt)) ? booking : latest;
+		});
 
 	const isOccupied = latestbooking && withinBookingTime(latestbooking);
 
@@ -55,7 +59,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								height={10000}
 							/>
 						</div>
-						<div className='flex flex-col gap-4 bg-gray-200 p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
+						<div className='w-[95%] md:w-[82%] flex flex-col gap-4 bg-gray-200 p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
 							<h3 className='text-xl font-semibold text-center tracking-wide'>Classroom Details</h3>
 							<ul className='text-sm grid grid-cols-2 gap-2 pl-4'>
 								<li className='font-medium'>Location</li>
@@ -77,11 +81,13 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 					<section className='size-full flex flex-col items-center'>
 						<h3 className='text-center text-xl font-medium tracking-wide'>Classroom Usage</h3>
 						<div className='w-[95%] h-64 md:w-[45%] md:h-[350px] font-semibold flex items-center justify-center'>
-							<ClassroomUsageChart
-								data={data}
-								labels={classroomLabels}
-								classnames='size-full'
-							/>
+							<Suspense fallback={<Spinner />}>
+								<ClassroomUsageChart
+									data={data}
+									labels={classroomLabels}
+									classnames='size-full'
+								/>
+							</Suspense>
 						</div>
 					</section>
 
