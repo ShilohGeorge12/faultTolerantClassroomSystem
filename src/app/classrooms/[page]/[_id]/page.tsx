@@ -14,9 +14,6 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 	const classroom = await MongoDB.getClassroom().findOne({ _id });
 	if (!classroom) notFound();
 
-	const data = [15, 10, 8, 12, 5];
-	const classroomLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-
 	const today = new Date();
 
 	const latestbooking =
@@ -25,6 +22,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 			const bookingStartDate = new Date(booking.startDate);
 			const bookingEndDate = new Date(booking.endDate);
 			const bookingCreatedAt = new Date(booking.createdAt);
+			console.log(bookingStartDate, bookingEndDate);
 
 			// Check if booking overlaps today using isBefore from date-fns
 			const overlapsToday = (isBefore(bookingStartDate, today) && isBefore(today, bookingEndDate)) || isBefore(bookingCreatedAt, today);
@@ -43,6 +41,20 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 		const currentHour = currentTime.getHours();
 		return currentHour >= bookingStartTime && currentHour < bookingEndTime;
 	}
+
+	const bookings = classroom.bookings.map((booking) => {
+		const bookingStartDate = new Date(booking.startDate);
+		return bookingStartDate.toDateString();
+	});
+
+	const monday = bookings.filter((day) => day.includes('Mon')).length;
+	const tueday = bookings.filter((day) => day.includes('Tue')).length;
+	const wednesday = bookings.filter((day) => day.includes('Wed')).length;
+	const thursday = bookings.filter((day) => day.includes('Thu')).length;
+	const friday = bookings.filter((day) => day.includes('Fri')).length;
+
+	const data = [monday, tueday, wednesday, thursday, friday];
+	const classroomLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
 	return (
 		<AppLayout>
@@ -70,6 +82,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								<li className='font-light tracking-wide'>{isOccupied ? 'Occupied' : 'Available'}</li>
 								<li className='font-medium'>Digital Tag</li>
 								<li className='font-light tracking-wide'>{classroom.tag}</li>
+								<li className='font-light tracking-wide'>{bookings.toLocaleString()}</li>
 							</ul>
 							<BookingClient
 								_id={classroom._id.toString()}
@@ -90,8 +103,6 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 							</Suspense>
 						</div>
 					</section>
-
-					{/* Modal */}
 				</section>
 			</section>
 		</AppLayout>
