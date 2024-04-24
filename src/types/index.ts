@@ -21,7 +21,7 @@ export type CLASSROOM_DB = {
 	name: string;
 	tag: string;
 	location: string;
-	// status: classroomStatusType;
+	status: classroomStatusType;
 	bookings: CLASSROOMBOOKING[];
 };
 
