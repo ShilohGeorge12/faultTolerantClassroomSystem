@@ -76,12 +76,10 @@ export function FindClassroomsClient() {
 				</div>
 				<button
 					type='button'
-					className='group text-base md:text-lg w-9 h-9 hover:w-[180px] hover:h-10 transition-all ease-in-out duration-700 flex items-center gap-3 justify-center bg-blue-400 text-white rounded-2xl overflow-hidden'
+					className={`group text-base md:text-lg hover:w-[180px] size-9 hover:h-10 transition-all ease-in-out duration-700 flex items-center gap-3 justify-center bg-blue-400 text-white rounded-2xl overflow-hidden`}
 					onClick={onAddClassroom}>
 					<FaPlus />
-					<span className='hidden group-hover:block group-hover:transition-all group-hover:delay-50 duration-1000 ease-linear text-sm md:text-base text-nowrap'>
-						add classroom
-					</span>
+					<span className={`hidden group-hover:block transition-all delay-50 duration-1000 ease-linear text-sm md:text-base text-nowrap`}>add classroom</span>
 				</button>
 			</section>
 
