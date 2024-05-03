@@ -100,7 +100,6 @@ export function AddClassroom({ isDialogOpen, setIsDialogOpen }: addClassroomProp
 						onClick={(e) => {
 							setIsDialogOpen(false);
 							e.stopPropagation();
-							Location;
 						}}>
 						<IoMdClose />
 					</button>

@@ -5,34 +5,19 @@ import Image from 'next/image';
 import { BookingClient } from './bookingclient';
 import { ClassroomUsageChart } from '@/components/UIComponents/charts';
 import { ClassroomDetailsHeaderClient } from './headerclient';
-// import { isBefore } from 'date-fns';
-// import { CLASSROOMBOOKING } from '@/types';
 import { Spinner } from '@/components/UIComponents/loadingSpinner';
 import { Suspense } from 'react';
-import { validateClassroomStatus } from '@/components/functionalComponents/classroomStatue';
+import { getSession } from '@/lib/sessions';
+import { GoClock } from 'react-icons/go';
+import { validateBookings } from '@/components/functionalComponents/validateBookings';
 
 export default async function Home({ params: { _id } }: { params: { _id: string } }) {
+	const sessions = await getSession();
 	const classroom = await MongoDB.getClassroom().findOne({ _id });
 	if (!classroom) notFound();
 
 	const today = new Date();
-
-	// const latestbooking =
-	// 	classroom.bookings.length > 0 &&
-	// 	classroom.bookings.reduce((latest, booking) => {
-	// 		const bookingStartDate = new Date(booking.startDate);
-	// 		const bookingEndDate = new Date(booking.endDate);
-	// 		const bookingCreatedAt = new Date(booking.createdAt);
-	// 		console.log(bookingStartDate, bookingEndDate);
-
-	// 		// Check if booking overlaps today using isBefore from date-fns
-	// 		const overlapsToday = (isBefore(bookingStartDate, today) && isBefore(today, bookingEndDate)) || isBefore(bookingCreatedAt, today);
-
-	// 		// If overlaps today and newer than current latest, update latest
-	// 		return overlapsToday && (!latest || isBefore(latest.createdAt, booking.createdAt)) ? booking : latest;
-	// 	});
-
-	const isOccupied = validateClassroomStatus({ today, classroom }); //latestbooking && withinBookingTime(latestbooking);
+	const isOccupied = validateBookings(classroom.bookings, today);
 
 	if (!isOccupied) {
 		classroom.status = 'FREE';
@@ -41,15 +26,6 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 		classroom.status = 'IN USE';
 		classroom.save();
 	}
-
-	// function withinBookingTime(booking: CLASSROOMBOOKING) {
-	// 	const bookingStartTime = Number(booking.startTime.split(':')[0]);
-	// 	const bookingEndTime = Number(booking.endTime.split(':')[0]);
-
-	// 	const currentTime = new Date();
-	// 	const currentHour = currentTime.getHours();
-	// 	return currentHour >= bookingStartTime && currentHour < bookingEndTime;
-	// }
 
 	const bookings = classroom.bookings.map((booking) => {
 		const bookingStartDate = new Date(booking.startDate);
@@ -96,20 +72,60 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								_id={classroom._id.toString()}
 								isOccupied={isOccupied ? 'Occupied' : 'Available'}
 								name={classroom.name}
+								session={sessions}
 							/>
 						</div>
 					</section>
-					<section className='size-full flex flex-col items-center'>
-						<h3 className='text-center text-xl font-medium tracking-wide'>Classroom Usage</h3>
-						<div className='w-[95%] h-64 md:w-[45%] md:h-[350px] font-semibold flex items-center justify-center'>
-							<Suspense fallback={<Spinner />}>
-								<ClassroomUsageChart
-									data={data}
-									labels={classroomLabels}
-									classnames='size-full'
-								/>
-							</Suspense>
-						</div>
+					<section className='w-full grid grid-cols-1 md:grid-cols-2 gap-2'>
+						<section className='size-full flex flex-col items-center'>
+							<h3 className='text-center text-xl font-medium tracking-wide'>Classroom Usage</h3>
+							<div className='w-[95%] h-64 md:w-full md:h-[350px] font-semibold flex items-center justify-center'>
+								<Suspense fallback={<Spinner />}>
+									<ClassroomUsageChart
+										data={data}
+										labels={classroomLabels}
+										classnames='size-full'
+									/>
+								</Suspense>
+							</div>
+						</section>
+						<section className='size-full flex flex-col items-center gap-12'>
+							<h3 className='text-center text-xl font-medium tracking-wide'>Booking History</h3>
+							<ul className='w-[95%]'>
+								{classroom.bookings.length > 0 &&
+									classroom.bookings.map((booking) => (
+										<li
+											key={booking.createdAt.toString()}
+											className='grid grid-cols-9 gap-4 md:w-[90%] justify-start transition-all duration-500 ease-in-out hover:scale-105 border-b pb-2 border-gray-300'>
+											<span className='col-span-1 flex justify-start items-center text-xl text-gray-500'>
+												<GoClock />
+											</span>
+											<div className='flex flex-col gap-2 items-start col-span-2'>
+												<h3 className='font-medium tracking-wide text-base'>Start date</h3>
+												<p className='font-medium text-gray-400'>{booking.startDate.toString()}</p>
+											</div>
+											<div className='flex flex-col gap-2 items-start col-span-2'>
+												<h3 className='font-medium tracking-wide text-base'>Start time</h3>
+												<p className='font-medium text-gray-400'>{booking.startTime.toString()}</p>
+											</div>
+											<div className='flex flex-col gap-2 items-start col-span-2'>
+												<h3 className='font-medium tracking-wide text-base'>End date</h3>
+												<p className='font-medium text-gray-400'>{booking.endDate.toString()}</p>
+											</div>
+											<div className='flex flex-col gap-2 items-start col-span-2'>
+												<h3 className='font-medium tracking-wide text-base'>End time</h3>
+												<p className='font-medium text-gray-400'>{booking.endTime.toString()}</p>
+											</div>
+										</li>
+									))}
+
+								{classroom.bookings.length === 0 && (
+									<li className='gap-4 md:w-[90%] flex items-center justify-center text-base transition-all duration-500 ease-in-out border-b pb-2 border-gray-300'>
+										Booking history is empty
+									</li>
+								)}
+							</ul>
+						</section>
 					</section>
 				</section>
 			</section>

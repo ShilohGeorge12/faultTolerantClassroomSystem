@@ -149,3 +149,17 @@ export const PASSWORD_REGEX = /^[a-zA-Z0-9@_-\s]{6,24}$/;
 export const LOCATION_REGEX = /^[a-zA-Z0-9\s]{6,15}$/;
 export const TAG_REGEX = /^[a-zA-Z0-9-]{8,10}$/;
 export const PASSWORD_FORMAT_MESSAGE = `Password must be 6-24 characters long and can only contain letters, numbers, @, _, or -.`;
+
+// session Types
+export type sessionType = {
+	user: {
+		username: USER_DB['username'];
+	};
+	expires: Date;
+	iat: any;
+	exp: any;
+};
+
+export type loginDetails = {
+	username: USER_DB['username'];
+};

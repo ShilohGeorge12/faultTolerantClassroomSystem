@@ -1,27 +1,25 @@
 'use client';
-import { formatCurrentTime } from '@/components/functionalComponents/formatCurrentTime';
-import { useSearchParams } from 'next/navigation';
-import { FilterButton } from '../button';
-import { useGlobals } from '@/context';
+
 import { Fragment, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useGlobals } from '@/context';
+import { formatCurrentTime } from '@/components/functionalComponents/formatCurrentTime';
+import { PaginationControls } from '@/components/functionalComponents/paginationControls';
 import { CLASSROOM, isError, isPagClassrooms, responseTypes } from '@/types';
+import { FilterButton } from '../button';
 import { toast } from 'sonner';
 import { Classrooms } from '../classrooms';
-import { PaginationControls } from '@/components/functionalComponents/paginationControls';
 
 interface HomePageClientProps {
 	totalClassrooms: number;
 	classrooms: CLASSROOM[];
 	page: number;
+	username: string;
 }
 
-export function HomePageClient({ totalClassrooms, classrooms, page }: HomePageClientProps) {
+export function HomePageClient({ totalClassrooms, classrooms, page, username }: HomePageClientProps) {
 	const {
-		state: {
-			user: { username },
-			filteredClassrooms,
-			totalfilteredClassrooms,
-		},
+		state: { filteredClassrooms, totalfilteredClassrooms },
 		dispatch,
 	} = useGlobals();
 	const time = formatCurrentTime();
@@ -31,11 +29,6 @@ export function HomePageClient({ totalClassrooms, classrooms, page }: HomePageCl
 	const filters = ['all', 'available', 'occupied'];
 	const H3Classes = `font-bold text-xl capitalize text-black`;
 	const filterClasses = 'bg-black hover:bg-gray-400';
-	// const [Nav, data] = usePagination({
-	// 	classrooms: !params || params === 'all' ? classrooms : filteredClassrooms,
-	// 	limitPerPage,
-	// 	totalClassrooms,
-	// });
 
 	useEffect(() => {
 		let query: string = '';
@@ -71,7 +64,6 @@ export function HomePageClient({ totalClassrooms, classrooms, page }: HomePageCl
 						<Fragment key={filter}>
 							{filter === 'all' && (
 								<FilterButton
-									// key={filter}
 									value={filter}
 									page={page}
 									more={filter === params || !params ? 'bg-blue-500' : filterClasses}
@@ -79,7 +71,6 @@ export function HomePageClient({ totalClassrooms, classrooms, page }: HomePageCl
 							)}
 							{filter !== 'all' && (
 								<FilterButton
-									// key={filter}
 									value={filter}
 									page={page}
 									more={filter === params ? 'bg-blue-500' : filterClasses}
@@ -94,5 +85,3 @@ export function HomePageClient({ totalClassrooms, classrooms, page }: HomePageCl
 		</>
 	);
 }
-
-// implement caching in the pagination

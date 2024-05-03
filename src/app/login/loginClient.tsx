@@ -1,5 +1,6 @@
 'use client';
 
+import { onLoginAction } from '@/actions';
 import { useGlobals } from '@/context';
 import { PASSWORD_FORMAT_MESSAGE, PASSWORD_REGEX, USERNAME_REGEX, isError, isUser, responseTypes } from '@/types';
 import { useRouter } from 'next/navigation';
@@ -55,30 +56,33 @@ export function LoginClient() {
 
 		if (hasError) return;
 		// setStatus('fetching');
-		const formData = new FormData();
-		const body = {
-			username: details.username.trim(),
-			password: details.password.trim(),
-		};
-		Object.entries(body).forEach(([key, val]) => formData.append(key, val));
-		const req = await fetch('/api/auth/login', {
-			method: 'POST',
-			body: formData,
-		});
+		// const formData = new FormData();
+		// const body = {
+		// 	username: details.username.trim(),
+		// 	password: details.password.trim(),
+		// };
+		// Object.entries(body).forEach(([key, val]) => formData.append(key, val));
+		// const req = await fetch('/api/auth/login', {
+		// 	method: 'POST',
+		// 	body: formData,
+		// });
 
-		const res = (await req.json()) as unknown as responseTypes;
-		if (isError(res)) {
-			const error = typeof res.error === 'string' ? res.error : res.error.join(' ');
-			toast.error(error);
-			setStatus('idle');
-			return;
-		}
+		// const res = (await req.json()) as unknown as responseTypes;
+		// if (isError(res)) {
+		// 	const error = typeof res.error === 'string' ? res.error : res.error.join(' ');
+		// 	toast.error(error);
+		// 	setStatus('idle');
+		// 	return;
+		// }
 
-		if (isUser(res)) {
-			setStatus('idle');
-			dispatch({ type: 'logIn', payload: { isloggedIn: true, user: res } });
-			push('/');
-		}
+		// if (isUser(res)) {
+		// 	setStatus('idle');
+		// 	dispatch({ type: 'logIn', payload: { isloggedIn: true, user: res } });
+		// }
+
+		const loginError = await onLoginAction({ username: username.trim() });
+		if (loginError) setErrorMessage(['invalid login credentials']);
+		push('/classrooms/1');
 	};
 
 	return (

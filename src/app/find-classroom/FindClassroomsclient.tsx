@@ -2,7 +2,7 @@
 
 import { Classrooms } from '@/components/UIComponents/classrooms';
 import { useGlobals } from '@/context';
-import { CLASSROOM, isError, isSearchResult, responseTypes } from '@/types';
+import { CLASSROOM, isError, isSearchResult, responseTypes, sessionType } from '@/types';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
@@ -10,7 +10,11 @@ import { toast } from 'sonner';
 import { useDebounce } from 'use-debounce';
 import { AddClassroom } from './addClassroom';
 
-export function FindClassroomsClient() {
+interface FindClassroomsClientProps {
+	session: sessionType | null;
+}
+
+export function FindClassroomsClient({ session }: FindClassroomsClientProps) {
 	const {
 		state: { loggedIn },
 	} = useGlobals();
@@ -54,7 +58,7 @@ export function FindClassroomsClient() {
 	}, [query]);
 
 	const onAddClassroom = () => {
-		if (!loggedIn) {
+		if (!session) {
 			toast.info(`only authorized users can add classrooms`);
 			return;
 		}

@@ -1,8 +1,7 @@
 'use client';
 
 import { Input } from '@/components/UIComponents/input';
-import { useGlobals } from '@/context';
-import { isClassroom, type responseTypes } from '@/types';
+import { isClassroom, sessionType, type responseTypes } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
@@ -12,6 +11,7 @@ interface BookingClientProps {
 	name: string;
 	_id: string;
 	isOccupied: 'Occupied' | 'Available';
+	session: sessionType | null;
 }
 
 interface bookingDetails {
@@ -20,10 +20,7 @@ interface bookingDetails {
 	dateTime: Date;
 }
 
-export const BookingClient = ({ name, _id, isOccupied }: BookingClientProps) => {
-	const {
-		state: { loggedIn },
-	} = useGlobals();
+export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientProps) => {
 	const dialogRef = useRef<HTMLDialogElement | null>(null);
 	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 	const initialDate = new Date();
@@ -84,7 +81,7 @@ export const BookingClient = ({ name, _id, isOccupied }: BookingClientProps) => 
 
 	return (
 		<>
-			{isOccupied === 'Available' && loggedIn && (
+			{isOccupied === 'Available' && session && (
 				<div className='flex items-center'>
 					<button
 						type='button'
@@ -131,7 +128,7 @@ export const BookingClient = ({ name, _id, isOccupied }: BookingClientProps) => 
 					<div className='w-full flex items-center justify-center'>
 						<button
 							type='button'
-							name={``}
+							name={`submit`}
 							className={`button w-1/3 h-10 rounded-xl bg-gray-200 text-gray-600 duration-500 ease-linear transition text-xl tracking-wider hover:text-white hover:bg-gray-500`}
 							onClick={onSubmit}>
 							Submit
