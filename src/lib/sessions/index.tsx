@@ -68,5 +68,6 @@ export async function updateSession(request: NextRequest) {
 		return res;
 	}
 
+	// await logout();
 	return res;
 }

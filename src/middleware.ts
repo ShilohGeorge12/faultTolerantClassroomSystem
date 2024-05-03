@@ -16,8 +16,8 @@ export async function middleware(req: NextRequest) {
 
 		if (authPaths.includes(req.nextUrl.pathname) || dynamicHomeRegex.test(req.nextUrl.pathname) || dynamicClassroomRegex.test(req.nextUrl.pathname)) {
 			console.log('updateSession ', req.nextUrl.pathname);
-			return await updateSession(req);
-			// return response;
+			// return await updateSession(req);
+			return response;
 		}
 
 		return response;

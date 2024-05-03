@@ -128,83 +128,85 @@ export function SideBarClient({ session }: sideBarClientProps) {
 					</section>
 				</nav>
 			</aside>
-			<Drawer
-				key={'menu_drawer'}
-				open={menu === 'open'}
-				onClose={() => dispatch({ type: 'menu_close' })}
-				direction='left'
-				size={'60px'}
-				className='flex flex-col min gap-10 rounded-r-xl'>
-				<section
-					id='top'
-					className='md:h-[11%] h-[11%]'
-				/>
-				<nav
-					id='navbuttons'
-					className='w-full pl-3 md:pl-6 pt-2 h-5/6 flex items-start flex-col gap-2 font-bold'>
-					<NavButton
-						name={`Classrooms`}
-						more={`${isPath('/classrooms')}`}
-						value={
-							<>
-								<FaLaptop className='text-lg' />
-								<span className='hidden md:flex'>Classrooms</span>
-							</>
-						}
-						onClick={onClassroom}
+			{menu === 'open' && (
+				<Drawer
+					key={'menu_drawer'}
+					open={menu === 'open'}
+					onClose={() => dispatch({ type: 'menu_close' })}
+					direction='left'
+					size={'60px'}
+					className='flex flex-col min gap-10 rounded-r-xl'>
+					<section
+						id='top'
+						className='md:h-[11%] h-[11%]'
 					/>
-					<NavButton
-						name={`Find Classroom`}
-						more={`${isPath('/find-classroom')}`}
-						value={
-							<>
-								<FaSearch className='text-base' />
-								<span className='hidden md:flex'>Find Classroom</span>
-							</>
-						}
-						onClick={onFindClassroom}
-					/>
-					{session && (
+					<nav
+						id='navbuttons'
+						className='w-full pl-3 md:pl-6 pt-2 h-5/6 flex items-start flex-col gap-2 font-bold'>
 						<NavButton
-							name={`Settings`}
-							more={`${isPath('/settings')}`}
+							name={`Classrooms`}
+							more={`${isPath('/classrooms')}`}
 							value={
 								<>
-									<CiSettings className='text-xl' />
-									<span className='hidden md:flex'>Settings</span>
+									<FaLaptop className='text-lg' />
+									<span className='hidden md:flex'>Classrooms</span>
 								</>
 							}
-							onClick={onSettings}
+							onClick={onClassroom}
 						/>
-					)}
-
-					<section className='w-[80%] h-[68%] flex items-end justify-start'>
+						<NavButton
+							name={`Find Classroom`}
+							more={`${isPath('/find-classroom')}`}
+							value={
+								<>
+									<FaSearch className='text-base' />
+									<span className='hidden md:flex'>Find Classroom</span>
+								</>
+							}
+							onClick={onFindClassroom}
+						/>
 						{session && (
-							<AuthButton
-								name={`Log Out Button`}
-								onClick={onLogOut}
+							<NavButton
+								name={`Settings`}
+								more={`${isPath('/settings')}`}
 								value={
 									<>
-										<MdOutlinePowerSettingsNew className='text-lg' />
-										<span className='hidden md:flex'>Log Out</span>
+										<CiSettings className='text-xl' />
+										<span className='hidden md:flex'>Settings</span>
 									</>
 								}
+								onClick={onSettings}
 							/>
 						)}
 
-						{!session && (
-							<Link
-								href={'/login'}
-								className='flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm bg-black hover:bg-blue-500 text-white'>
-								<>
-									<AiOutlineLogin className='text-lg' />
-									<span className='hidden md:flex'>Login</span>
-								</>
-							</Link>
-						)}
-					</section>
-				</nav>
-			</Drawer>
+						<section className='w-[80%] h-[68%] flex items-end justify-start'>
+							{session && (
+								<AuthButton
+									name={`Log Out Button`}
+									onClick={onLogOut}
+									value={
+										<>
+											<MdOutlinePowerSettingsNew className='text-lg' />
+											<span className='hidden md:flex'>Log Out</span>
+										</>
+									}
+								/>
+							)}
+
+							{!session && (
+								<Link
+									href={'/login'}
+									className='flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm bg-black hover:bg-blue-500 text-white'>
+									<>
+										<AiOutlineLogin className='text-lg' />
+										<span className='hidden md:flex'>Login</span>
+									</>
+								</Link>
+							)}
+						</section>
+					</nav>
+				</Drawer>
+			)}
 		</>
 	);
 }
