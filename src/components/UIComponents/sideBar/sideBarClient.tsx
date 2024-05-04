@@ -87,19 +87,17 @@ export function SideBarClient({ session }: sideBarClientProps) {
 						}
 						onClick={onFindClassroom}
 					/>
-					{session && (
-						<NavButton
-							name={`Settings`}
-							more={`${isPath('/settings')}`}
-							value={
-								<>
-									<CiSettings className='text-xl' />
-									<span className='hidden md:flex'>Settings</span>
-								</>
-							}
-							onClick={onSettings}
-						/>
-					)}
+					<NavButton
+						name={`Settings`}
+						more={`${isPath('/settings')} ${session ? 'visible' : 'invisible'}`}
+						value={
+							<>
+								<CiSettings className='text-xl' />
+								<span className='hidden md:flex'>Settings</span>
+							</>
+						}
+						onClick={onSettings}
+					/>
 
 					<section className='w-[80%] h-[68%] flex items-end justify-start'>
 						{session && (
