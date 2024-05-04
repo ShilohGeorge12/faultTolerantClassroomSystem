@@ -1,8 +1,9 @@
 'use client';
 
+import { ChangeEvent, useEffect, useRef, useState, MouseEvent } from 'react';
+import { onEditProfileAction } from '@/actions';
 import { PASSWORD_FORMAT_MESSAGE, PASSWORD_REGEX, USERNAME_REGEX } from '@/types';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 
 interface EditProfileProps {
@@ -15,9 +16,19 @@ export function EditProfile({ username }: EditProfileProps) {
 		password: '',
 	};
 	const dialogRef = useRef<HTMLDialogElement | null>(null);
-	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(true);
+	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState<string[]>([]);
 	const [details, setDetails] = useState<typeof initState>(initState);
+	const [viewPasword, setViewPasword] = useState<boolean>(false);
+
+	const onViewPasword = (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		if (viewPasword) {
+			setViewPasword(false);
+		} else {
+			setViewPasword(true);
+		}
+	};
 
 	useEffect(() => {
 		isDialogOpen ? dialogRef.current?.showModal() : dialogRef.current?.close();
@@ -28,8 +39,13 @@ export function EditProfile({ username }: EditProfileProps) {
 		setDetails((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const onSubmit = () => {
+	const onSubmit = async () => {
 		setErrorMessage([]);
+
+		if (details.username === username && details.password === '') {
+			setIsDialogOpen(false);
+			return;
+		}
 
 		let hasError: boolean = false;
 		if (!USERNAME_REGEX.test(details.username)) {
@@ -42,7 +58,17 @@ export function EditProfile({ username }: EditProfileProps) {
 		}
 		if (hasError) return;
 
-		// setDetails(initState);
+		const newUsername = details.username === username ? undefined : details.username;
+		const newPassword = details.password === '' ? undefined : details.password;
+
+		const error = await onEditProfileAction({
+			username,
+			newUsername,
+			newPassword,
+		});
+
+		if (error) return setErrorMessage([error]);
+		setDetails(initState);
 		setIsDialogOpen(false);
 	};
 	return (
@@ -73,8 +99,9 @@ export function EditProfile({ username }: EditProfileProps) {
 					</button>
 
 					<section className='w-full flex flex-col items-center justify-center gap-8 mt-10'>
-						<div className='w-[90%] h-11 relative flex items-center justify-center'>
+						<div className='w-[90%] h-11 flex items-center justify-center'>
 							<input
+								type='text'
 								name='username'
 								placeholder='username...'
 								className='md:w-[70%] w-full h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-lg'
@@ -83,14 +110,24 @@ export function EditProfile({ username }: EditProfileProps) {
 							/>
 						</div>
 
-						<div className='w-[90%] h-11 relative flex items-center justify-center'>
-							<input
-								name='password'
-								placeholder='password...'
-								className='md:w-[70%] w-full h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-lg'
-								value={details.password}
-								onChange={onChange}
-							/>
+						<div className='w-[90%] h-11 flex items-center justify-center'>
+							<div className='md:w-[70%] w-full h-full relative'>
+								<input
+									type={viewPasword ? 'text' : 'password'}
+									name='password'
+									placeholder='password...'
+									className='w-full h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-lg peer'
+									value={details.password}
+									onChange={onChange}
+								/>
+
+								<button
+									type='button'
+									className={`absolute peer-hover:right-1 transition-all duration-500 ease-in-out text-gray-500 text-base right-3 bottom-3`}
+									onClick={onViewPasword}>
+									{viewPasword ? <FaEyeSlash /> : <FaEye />}
+								</button>
+							</div>
 						</div>
 					</section>
 
@@ -99,7 +136,8 @@ export function EditProfile({ username }: EditProfileProps) {
 						name={`finalize profile`}
 						className={`w-[90%] md:w-[65%] h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-xl flex items-center justify-center rounded-xl tracking-wider font-semibold`}
 						onClick={onSubmit}
-						disabled={details.username === username || details.password === ''}>
+						// disabled={details.username === username || details.password === ''}
+					>
 						Finalize Profile
 					</button>
 

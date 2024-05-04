@@ -1,9 +1,8 @@
 'use server';
 
 import { MongoDB } from '@/db';
-// import { redirect } from 'next/navigation';
 import { login, logout } from '@/lib/sessions';
-import { loginDetails } from '@/types';
+import { loginDetails, onEditProfileDetails } from '@/types';
 
 export const onLoginAction = async ({ username }: loginDetails) => {
 	const checkUser = await MongoDB.getUser().findOne({ username });
@@ -14,10 +13,30 @@ export const onLoginAction = async ({ username }: loginDetails) => {
 	await login({
 		username,
 	});
-	// redirect('/home');
 };
 
 export const onLogoutAction = async () => {
 	await logout();
-	// redirect('/home');
+};
+
+export const onEditProfileAction = async ({ username, newUsername, newPassword }: onEditProfileDetails) => {
+	try {
+		const user = await MongoDB.getUser().findOne({ username });
+		if (!user) {
+			return 'user profile was not found';
+		}
+
+		if (newUsername) {
+			user.username = newUsername;
+		}
+
+		if (newPassword && user.password !== newPassword) {
+			user.password = newPassword;
+		}
+
+		user.save();
+		return null;
+	} catch (e) {
+		return e instanceof Error ? e.message : 'something went wrong';
+	}
 };

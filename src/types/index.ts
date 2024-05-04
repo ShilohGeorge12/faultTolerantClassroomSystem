@@ -160,6 +160,13 @@ export type sessionType = {
 	exp: any;
 };
 
+// action types
 export type loginDetails = {
 	username: USER_DB['username'];
+};
+
+export type onEditProfileDetails = {
+	username: USER_DB['username'];
+	newUsername?: USER_DB['username'];
+	newPassword?: USER_DB['password'];
 };

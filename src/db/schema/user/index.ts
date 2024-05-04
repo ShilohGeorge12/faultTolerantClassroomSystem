@@ -11,7 +11,7 @@ export function USER_DB_SCHEMA(): Schema<USER_DB> {
 		},
 		password: {
 			type: String,
-			minlength: 20,
+			minlength: 6,
 			required: [true, 'Password Can not be empty'],
 		},
 		createdAt: {
