@@ -2,11 +2,10 @@
 
 import { onLoginAction } from '@/actions';
 import { useGlobals } from '@/context';
-import { PASSWORD_FORMAT_MESSAGE, PASSWORD_REGEX, USERNAME_REGEX, isError, isUser, responseTypes } from '@/types';
+import { PASSWORD_FORMAT_MESSAGE, PASSWORD_REGEX, USERNAME_REGEX } from '@/types';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState, MouseEvent } from 'react';
 import { FaEye, FaEyeSlash, FaSpinner } from 'react-icons/fa';
-import { toast } from 'sonner';
 
 export function LoginClient() {
 	const initState = {

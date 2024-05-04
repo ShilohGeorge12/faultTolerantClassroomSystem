@@ -3,7 +3,6 @@ import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { loginDetails, sessionType } from '@/types';
-// import { redirect } from 'next/navigation';
 
 const secretKey = process.env.SECRET as string;
 const key = new TextEncoder().encode(secretKey);
@@ -23,12 +22,11 @@ export async function decrypt(input: string): Promise<any> {
 	return payload;
 }
 
-export async function login(logindetails: loginDetails) {
+export async function login({ username, userId }: loginDetails) {
 	// Create the session
-	const { username } = logindetails;
-
 	const user = {
 		username,
+		userId,
 	};
 
 	const session = await encrypt({ user, expires: expiryTime });
@@ -44,7 +42,7 @@ export async function logout() {
 export async function getSession(): Promise<sessionType | null> {
 	try {
 		const session = cookies().get('session');
-		if (!session) return null; //redirect('/getstarted');
+		if (!session) return null;
 		return await decrypt(session.value);
 	} catch (err) {
 		return null;
@@ -55,19 +53,7 @@ export async function updateSession(request: NextRequest) {
 	const session = request.cookies.get('session')?.value;
 	const res = NextResponse.next();
 	if (session) {
-		// Refresh the session so it doesn't expire
-		const parsed = await decrypt(session);
-		parsed.expires = expiryTime;
-
-		res.cookies.set({
-			name: 'session',
-			value: await encrypt(parsed),
-			httpOnly: true,
-			expires: parsed.expires,
-		});
 		return res;
 	}
-
-	// await logout();
-	return res;
+	return NextResponse.redirect(new URL('/classrooms/1', request.url));
 }

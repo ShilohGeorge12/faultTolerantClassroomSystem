@@ -99,7 +99,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 						</section>
 						<section className='size-full flex flex-col items-center gap-12'>
 							<h3 className='text-center text-xl font-medium tracking-wide'>Booking History</h3>
-							<ul className='w-[99%] md:w-[95%] border border-red-500'>
+							<ul className='w-[99%] md:w-[95%]'>
 								{classroom.bookings.length > 0 &&
 									classroom.bookings.map((booking) => (
 										<li

@@ -153,6 +153,7 @@ export const PASSWORD_FORMAT_MESSAGE = `Password must be 6-24 characters long an
 // session Types
 export type sessionType = {
 	user: {
+		userId: USER['_id'];
 		username: USER_DB['username'];
 	};
 	expires: Date;
@@ -162,6 +163,7 @@ export type sessionType = {
 
 // action types
 export type loginDetails = {
+	userId: USER['_id'];
 	username: USER_DB['username'];
 };
 
@@ -176,4 +178,12 @@ export type onEditClassroomDetails = {
 	newName?: CLASSROOM['name'];
 	newLocation?: CLASSROOM['location'];
 	newTag?: CLASSROOM['tag'];
+};
+
+export type deleteClassroom = {
+	tag: CLASSROOM['tag'];
+};
+
+export type deleteAccount = {
+	userId: USER['_id'];
 };

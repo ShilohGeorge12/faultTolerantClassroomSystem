@@ -88,7 +88,7 @@ export function EditProfile({ username }: EditProfileProps) {
 				ref={dialogRef}
 				onClick={(e) => e.stopPropagation()}
 				className='modal w-[95%] md:w-[65%] min-h-[50vh] text-sm rounded-2xl bg-white/70 backdrop-blur'>
-				<section className='w-full flex-col flex md:gap-20 gap-10 p-3 justify-center items-center relative'>
+				<form className='w-full flex-col flex md:gap-20 gap-10 p-3 justify-center items-center relative'>
 					<h4 className='font-semibold tracking-wider text-lg text-center capitalize'>Edit your Profile</h4>
 					<button
 						type='button'
@@ -138,9 +138,7 @@ export function EditProfile({ username }: EditProfileProps) {
 						type='button'
 						name={`finalize profile`}
 						className={`w-[90%] md:w-[65%] h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
-						onClick={onSubmit}
-						// disabled={details.username === username || details.password === ''}
-					>
+						onClick={onSubmit}>
 						Finalize Profile
 					</button>
 
@@ -157,7 +155,7 @@ export function EditProfile({ username }: EditProfileProps) {
 							))}
 						</ul>
 					)}
-				</section>
+				</form>
 			</dialog>
 		</>
 	);

@@ -20,7 +20,7 @@ export function EditClassroom({ session, classroom }: EditClassroomProps) {
 		tag: '',
 	};
 	const dialogRef = useRef<HTMLDialogElement | null>(null);
-	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(true);
+	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState<string[]>([]);
 	const [details, setDetails] = useState<typeof initState>(initState);
 	const { refresh } = useRouter();
