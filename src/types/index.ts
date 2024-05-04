@@ -170,3 +170,10 @@ export type onEditProfileDetails = {
 	newUsername?: USER_DB['username'];
 	newPassword?: USER_DB['password'];
 };
+
+export type onEditClassroomDetails = {
+	_id: CLASSROOM['_id'];
+	newName?: CLASSROOM['name'];
+	newLocation?: CLASSROOM['location'];
+	newTag?: CLASSROOM['tag'];
+};
