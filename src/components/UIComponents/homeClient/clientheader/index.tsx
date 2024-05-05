@@ -25,14 +25,19 @@ export function HomeClientHeader({ username }: HomeClientHeaderProps) {
 			<section className='w-full flex gap-2 items-center py-2 justify-between md:px-4 px-1'>
 				<span />
 				<div className='flex items-center gap-2 md:gap-1 hover:scale-105 transition duration-500 ease-in-out'>
-					<Image
+					{/* <Image
 						src={`/images/user.png`}
 						className='size-8'
 						alt={`${username} profile picture`}
 						width={100}
 						height={100}
 					/>
-					<MdOutlineKeyboardArrowDown className='text-2xl text-gray-400' />
+					<MdOutlineKeyboardArrowDown className='text-2xl text-gray-400' /> */}
+					<div className='w-full flex items-center justify-center '>
+						<div className='size-7 border-[3px] bg-gray-200 border-gray-400 rounded-full flex items-center justify-center text-base font-bold text-gray-500'>
+							{username[0]}
+						</div>
+					</div>
 					<button
 						type='button'
 						name={`Toggle Menu Button`}

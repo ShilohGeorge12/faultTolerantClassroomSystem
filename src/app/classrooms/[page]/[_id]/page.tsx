@@ -60,17 +60,17 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								height={10000}
 							/>
 						</div>
-						<div className='w-[95%] md:w-[82%] flex flex-col gap-4 bg-gray-200 p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear relative'>
+						<div className='w-[98%] md:w-[82%] flex flex-col gap-4 bg-gray-200 py-3 px-2 md:p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear relative'>
 							<h3 className='text-xl font-semibold text-center tracking-wide'>Classroom Details</h3>
-							<ul className='text-sm grid grid-cols-3 gap-3 pl-4'>
-								<li className='font-medium'>Classroom Venue</li>
-								<li className='font-light tracking-wide col-span-2'>{classroom.location}</li>
-								<li className='font-medium'>Classroom Location</li>
-								<li className='font-light tracking-wide col-span-2'>{classroom.name}</li>
-								<li className='font-medium'>Classroom Status</li>
-								<li className='font-light tracking-wide col-span-2'>{isOccupied ? 'Occupied' : 'Available'}</li>
-								<li className='font-medium'>Digital Tag</li>
-								<li className='font-light tracking-wide col-span-2'>{classroom.tag}</li>
+							<ul className='text-sm grid grid-cols-7 gap-3 pl-4'>
+								<li className='font-medium col-span-3'>Classroom Venue</li>
+								<li className='font-light tracking-wide col-span-4'>{classroom.location}</li>
+								<li className='font-medium col-span-3'>Classroom Location</li>
+								<li className='font-light tracking-wide col-span-4'>{classroom.name}</li>
+								<li className='font-medium col-span-3'>Classroom Status</li>
+								<li className='font-light tracking-wide col-span-4'>{isOccupied ? 'Occupied' : 'Available'}</li>
+								<li className='font-medium col-span-3'>Digital Tag</li>
+								<li className='font-light tracking-wide col-span-4'>{classroom.tag}</li>
 							</ul>
 							<EditClassroom
 								session={session}
@@ -120,7 +120,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 											</div>
 											<div className='flex flex-col gap-2 items-start col-span-2'>
 												<h3 className='font-medium tracking-wide md:text-base text-sm'>End date</h3>
-												<p className='font-medium text-gray-400 flex justify-center md:justify-start w-full'>{booking.endDate.toString()}</p>
+												<p className='font-medium text-gray-400 flex justify-center md:justify-start w-full'>{booking.endDate.toString().replaceAll('-', '/')}</p>
 											</div>
 											<div className='flex flex-col gap-2 items-start col-span-2'>
 												<h3 className='font-medium tracking-wide md:text-base text-sm'>End time</h3>
