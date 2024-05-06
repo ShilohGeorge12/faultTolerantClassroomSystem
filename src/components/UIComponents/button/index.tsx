@@ -10,27 +10,49 @@ interface buttonProps {
 	more: string;
 }
 
-export function NavButton({ value, name, more, onClick }: Omit<buttonProps, 'size'>) {
+type AuthButtonProps = Omit<buttonProps, 'size' | 'more'> & ({ href: string; islogin: true } | { islogin?: undefined });
+type NavButtonProps = Omit<buttonProps, 'size' | 'onClick'> & { href: string; onClick?: buttonProps['onClick'] };
+
+export function NavButton({ value, name, more, href, onClick }: NavButtonProps) {
 	return (
-		<button
-			type='button'
-			name={name}
-			className={`flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm ${more}`}
-			onClick={onClick}>
-			{value}
-		</button>
+		<Link
+			title={name}
+			href={href}>
+			<span
+				className={`flex transition duration-500 ease-in-out hover:scale-105 md:w-[148px] h-[36px] px-2 rounded-lg gap-x-2 items-center text-sm ${more}`}
+				onClick={onClick}>
+				{value}
+			</span>
+		</Link>
 	);
 }
 
-export function AuthButton({ value, name, onClick }: Omit<buttonProps, 'size' | 'more'>) {
+export function AuthButton(props: AuthButtonProps) {
+	const { value, name, islogin, onClick } = props;
 	return (
-		<button
-			type='button'
-			name={name}
-			className={`flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm bg-black hover:bg-red-500 text-white`}
-			onClick={onClick}>
-			{value}
-		</button>
+		<>
+			{islogin && (
+				<Link
+					title={name}
+					href={props.href}>
+					<span
+						className={`flex transition duration-500 ease-in-out hover:scale-105 md:w-[148px] h-[36px] px-2 rounded-lg gap-x-2 items-center text-sm hover:bg-blue-500		bg-black text-white`}
+						onClick={onClick}>
+						{value}
+					</span>
+				</Link>
+			)}
+
+			{!islogin && (
+				<button
+					type='button'
+					name={name}
+					className={`flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm bg-black hover:bg-red-500 text-white`}
+					onClick={onClick}>
+					{value}
+				</button>
+			)}
+		</>
 	);
 }
 

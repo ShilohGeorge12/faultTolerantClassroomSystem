@@ -36,6 +36,7 @@ export const ClassroomUsageChart = ({ data, labels, classnames }: ClassroomUsage
 			className={classnames}
 			style={{
 				height: '100%',
+				width: '100%',
 			}}
 		/>
 	);
