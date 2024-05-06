@@ -1,10 +1,10 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { onLogoutAction } from '@/actions';
 import { useGlobals } from '@/context';
 import { UrlPath, sessionType } from '@/types';
+import { motion } from 'framer-motion';
 import { AuthButton, NavButton } from '../button';
 
 import { FaLaptop } from 'react-icons/fa6';
@@ -13,16 +13,14 @@ import { CiSettings } from 'react-icons/ci';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { AiOutlineLogin } from 'react-icons/ai';
 
-import Drawer from 'react-modern-drawer';
-import 'react-modern-drawer/dist/index.css';
-
 interface sideBarClientProps {
 	session: sessionType | null;
 }
 
 export function SideBarClient({ session }: sideBarClientProps) {
 	const pathname = usePathname();
-	const { push } = useRouter();
+	const dynamicClassroomRegex = /^\/classrooms\/\d+\/[^/]+$/;
+	const dynamicHomeRegex = /^\/classrooms\/[^\/]+$/;
 	const {
 		state: { menu },
 		dispatch,
@@ -30,78 +28,84 @@ export function SideBarClient({ session }: sideBarClientProps) {
 
 	const isPath = (path: UrlPath, subPaths?: string) => {
 		if (pathname === path || pathname.includes(path)) {
-			//|| pathname.includes(subPaths)) {
 			return 'bg-blue-400 text-white';
 		}
 		return 'text-black';
 	};
 
 	const onClassroom = async () => {
-		push('/');
 		dispatch({ type: 'menu_close' });
 	};
 
 	const onFindClassroom = async () => {
-		push('/find-classroom');
 		dispatch({ type: 'menu_close' });
 	};
 	const onSettings = async () => {
-		push('/settings');
 		dispatch({ type: 'menu_close' });
 	};
 
 	const onLogOut = async () => {
 		dispatch({ type: 'menu_close' });
-		await onLogoutAction(); // push('/');
+		await onLogoutAction();
+	};
+
+	const dynamicHeight = () => {
+		if (dynamicClassroomRegex.test(pathname)) return 'h-[55%]';
+		if (dynamicHomeRegex.test(pathname) || pathname === '/find-classroom') return 'h-[71%]';
+
+		return 'h-[70%]';
 	};
 
 	return (
 		<>
-			<aside className={`w-2/12 hidden md:block h-full bg-gray-200`}>
+			<aside className={`w-2/12 hidden md:block h-fulls min-h-[110vh] bg-gray-200`}>
 				<section
 					id='top'
 					className='md:h-[11%] h-[11%]'
 				/>
 				<nav
 					id='navbuttons'
-					className='w-full pl-3 md:pl-6 pt-2 h-5/6 flex items-start flex-col gap-2 font-bold'>
+					className='w-full px-3 md:px-6 pt-2 h-5/6 flex items-center md:items-start flex-col gap-2 font-bold'>
 					<NavButton
 						name={`Classrooms`}
 						more={`${isPath('/classrooms')}`}
+						href='/'
 						value={
 							<>
 								<FaLaptop className='text-lg' />
 								<span className='hidden md:flex'>Classrooms</span>
 							</>
 						}
-						onClick={onClassroom}
 					/>
+
 					<NavButton
 						name={`Find Classroom`}
 						more={`${isPath('/find-classroom')}`}
+						href='/find-classroom'
 						value={
 							<>
 								<FaSearch className='text-base' />
 								<span className='hidden md:flex'>Find Classroom</span>
 							</>
 						}
-						onClick={onFindClassroom}
 					/>
+
 					<NavButton
 						name={`Settings`}
 						more={`${isPath('/settings')} ${session ? 'visible' : 'invisible'}`}
+						href='/settings'
 						value={
 							<>
 								<CiSettings className='text-xl' />
 								<span className='hidden md:flex'>Settings</span>
 							</>
 						}
-						onClick={onSettings}
 					/>
 
-					<section className='w-[80%] h-[68%] flex items-end justify-start'>
+					<section className={`w-[80%] ${dynamicHeight()} flex items-end justify-start `}>
 						{session && (
 							<AuthButton
+								href={pathname}
 								name={`Log Out Button`}
 								onClick={onLogOut}
 								value={
@@ -114,72 +118,87 @@ export function SideBarClient({ session }: sideBarClientProps) {
 						)}
 
 						{!session && (
-							<Link
+							<AuthButton
 								href={'/login'}
-								className='flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm bg-black hover:bg-blue-500 text-white'>
-								<>
-									<AiOutlineLogin className='text-lg' />
-									<span className='hidden md:flex'>Login</span>
-								</>
-							</Link>
+								name={'Log In Button'}
+								islogin
+								onClick={() => null}
+								value={
+									<>
+										<AiOutlineLogin className='text-lg' />
+										<span className='hidden md:flex'>Login</span>
+									</>
+								}
+							/>
 						)}
 					</section>
 				</nav>
 			</aside>
-			{menu === 'open' && (
-				<Drawer
-					key={'menu_drawer'}
-					open={menu === 'open'}
-					onClose={() => dispatch({ type: 'menu_close' })}
-					direction='left'
-					size={'60px'}
-					className='flex flex-col min gap-10 rounded-r-xl'>
+
+			<motion.aside
+				initial={{ x: '-100vw', opacity: 0 }}
+				animate={{ x: 0, opacity: 1 }}
+				exit={{ x: '-100vw', opacity: 0 }}
+				transition={{ duration: 0.5, ease: 'easeInOut' }}
+				className={`${menu === 'open' ? 'flex' : 'hidden'} md:hidden w-screen h-screen flex-col fixed top-0 left-0 bg-black/30 transition-all duration-300 ease-linear`}
+				onClick={() => dispatch({ type: 'menu_close' })}>
+				<motion.section
+					initial={{ x: 0, opacity: 1 }} // Start visible and avoid unnecessary animation
+					animate={{ x: 0, opacity: 1 }} // No animation needed when open
+					exit={{ x: '-100vw', opacity: 0 }} // Animate out smoothly
+					transition={{ duration: 0.5, ease: 'easeInOut' }}
+					onClick={(e) => e.stopPropagation()}
+					className='w-[20%] h-full rounded-r-xl bg-white/85 backdrop-blur flex items-center justify-center'>
 					<section
 						id='top'
 						className='md:h-[11%] h-[11%]'
 					/>
 					<nav
 						id='navbuttons'
-						className='w-full pl-3 md:pl-6 pt-2 h-5/6 flex items-start flex-col gap-2 font-bold'>
+						className='w-full px-3 md:px-6 pt-2 h-5/6 flex items-center md:items-start flex-col gap-2 font-bold'>
 						<NavButton
 							name={`Classrooms`}
 							more={`${isPath('/classrooms')}`}
+							href='/'
+							onClick={onClassroom}
 							value={
 								<>
 									<FaLaptop className='text-lg' />
 									<span className='hidden md:flex'>Classrooms</span>
 								</>
 							}
-							onClick={onClassroom}
 						/>
+
 						<NavButton
 							name={`Find Classroom`}
 							more={`${isPath('/find-classroom')}`}
+							href='/find-classroom'
+							onClick={onFindClassroom}
 							value={
 								<>
 									<FaSearch className='text-base' />
 									<span className='hidden md:flex'>Find Classroom</span>
 								</>
 							}
-							onClick={onFindClassroom}
 						/>
-						{session && (
-							<NavButton
-								name={`Settings`}
-								more={`${isPath('/settings')}`}
-								value={
-									<>
-										<CiSettings className='text-xl' />
-										<span className='hidden md:flex'>Settings</span>
-									</>
-								}
-								onClick={onSettings}
-							/>
-						)}
 
-						<section className='w-[80%] h-[68%] flex items-end justify-start'>
+						<NavButton
+							name={`Settings`}
+							more={`${isPath('/settings')} ${session ? 'visible' : 'invisible'}`}
+							href='/settings'
+							onClick={onSettings}
+							value={
+								<>
+									<CiSettings className='text-xl' />
+									<span className='hidden md:flex'>Settings</span>
+								</>
+							}
+						/>
+
+						<section className={`w-[80%] ${dynamicHeight()} flex items-end justify-start `}>
 							{session && (
 								<AuthButton
+									href={pathname}
 									name={`Log Out Button`}
 									onClick={onLogOut}
 									value={
@@ -192,19 +211,23 @@ export function SideBarClient({ session }: sideBarClientProps) {
 							)}
 
 							{!session && (
-								<Link
+								<AuthButton
 									href={'/login'}
-									className='flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm bg-black hover:bg-blue-500 text-white'>
-									<>
-										<AiOutlineLogin className='text-lg' />
-										<span className='hidden md:flex'>Login</span>
-									</>
-								</Link>
+									name={'Log In Button'}
+									islogin
+									onClick={() => null}
+									value={
+										<>
+											<AiOutlineLogin className='text-lg' />
+											<span className='hidden md:flex'>Login</span>
+										</>
+									}
+								/>
 							)}
 						</section>
 					</nav>
-				</Drawer>
-			)}
+				</motion.section>
+			</motion.aside>
 		</>
 	);
 }

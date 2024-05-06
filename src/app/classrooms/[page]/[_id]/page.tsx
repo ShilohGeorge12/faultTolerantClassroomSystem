@@ -49,18 +49,18 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 		<AppLayout>
 			<section className='w-full h-full'>
 				<ClassroomDetailsHeaderClient />
-				<section className='w-full h-full flex flex-col py-4 px-4 gap-12'>
-					<section className='grid grid-cols-1 md:grid-cols-2 md:gap-0 gap-10 w-full h-[40%] justify-items-center'>
-						<div className='flex items-center justify-center'>
+				<section className='w-full h-full flex flex-col py-4 px-4 gap-10 md:gap-12'>
+					<section className='grid grid-cols-1 md:grid-cols-2 md:gap-0 gap-10 w-full md:h-[300px] justify-items-center'>
+						<div className='flex items-centers justify-center'>
 							<Image
 								src={'/classrooms/1.jpg'}
 								alt={`classroom image`}
-								className={`image w-[95%] md:w-[82%] rounded-2xl hover:shadow-lg hover:shadow-gray-400 hover:scale-105 transition duration-500 ease-linear`}
+								className={`image w-[95%] md:w-[82%] rounded-2xl hover:shadow-lg hover:shadow-gray-400 hover:scale-105 transition duration-300 ease-linear`}
 								width={10000}
 								height={10000}
 							/>
 						</div>
-						<div className='w-[98%] md:w-[82%] flex flex-col gap-4 bg-gray-200 py-3 px-2 md:p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear relative'>
+						<div className='w-[98%] md:w-[82%] flex flex-col gap-4 bg-gray-200 py-3 px-2 md:p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-300 ease-linear relative'>
 							<h3 className='text-xl font-semibold text-center tracking-wide'>Classroom Details</h3>
 							<ul className='text-sm grid grid-cols-7 gap-3 pl-4'>
 								<li className='font-medium col-span-3'>Classroom Venue</li>
@@ -84,15 +84,16 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 							/>
 						</div>
 					</section>
-					<section className='w-full grid grid-cols-1 md:grid-cols-2 gap-2'>
+
+					<section className='w-full h-fit min-h-[50vh] flex md:flex-row justify-center flex-col gap-2'>
 						<section className='size-full flex flex-col items-center'>
 							<h3 className='text-center text-xl font-medium tracking-wide'>Classroom Usage</h3>
-							<div className='w-[95%] h-64 md:w-full md:h-[350px] font-semibold flex items-center justify-center'>
+							<div className='w-[95%] h-64 md:w-full md:h-[370px] font-semibold flex items-center justify-center'>
 								<Suspense fallback={<Spinner />}>
 									<ClassroomUsageChart
 										data={data}
 										labels={classroomLabels}
-										classnames='size-full'
+										classnames='size-full p-0 m-0'
 									/>
 								</Suspense>
 							</div>

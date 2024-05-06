@@ -17,7 +17,7 @@ export function PaginationControls({ totalClassrooms }: ControlsProps) {
 			<button
 				type='button'
 				name={`Prev Page`}
-				className={`bg-black p-1 rounded-lg transition ease-in-out duration-500 hover:scale-105 hover:bg-blue-400 text-white disabled:bg-gray-400`}
+				className={`bg-black p-2 rounded-lg transition ease-in-out duration-500 hover:scale-105 hover:bg-blue-400 text-white disabled:bg-gray-400`}
 				onClick={() => push(`/classrooms/${Number(params.page) - 1}`)}
 				disabled={Number(params.page) <= 1}>
 				Prev Page
@@ -28,7 +28,7 @@ export function PaginationControls({ totalClassrooms }: ControlsProps) {
 			<button
 				type='button'
 				name={`Next Page`}
-				className={`bg-black p-1 rounded-lg transition ease-in-out duration-500 hover:scale-105 hover:bg-blue-400 text-white disabled:bg-gray-400`}
+				className={`bg-black p-2 rounded-lg transition ease-in-out duration-500 hover:scale-105 hover:bg-blue-400 text-white disabled:bg-gray-400`}
 				onClick={() => push(`/classrooms/${Number(params.page) + 1}`)}
 				disabled={Number(params.page) >= len}>
 				Next Page

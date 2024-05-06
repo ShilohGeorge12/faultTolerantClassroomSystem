@@ -71,8 +71,8 @@ export function LoginClient() {
 					type='text'
 					id='username'
 					name='username'
-					placeholder='...'
-					className='py-2 px-4 placeholder-gray-500 tracking-wider text-gray-600 text-base md:text-xl rounded-xl bg-gray-200 w-[260px] md:w-[460px] h-10 outline-0 hover:scale-105 focus:scale-105 transition-all duration-500 ease-in-out focus:ring-2 ring-gray-200'
+					placeholder='username...'
+					className='py-2 px-4 placeholder-gray-500 placeholder:text-base tracking-wider text-gray-600 text-base md:text-xl rounded-xl bg-gray-200 w-[260px] md:w-[460px] h-10 outline-0 hover:scale-105 focus:scale-105 transition-all duration-500 ease-in-out focus:ring-2 ring-gray-200'
 					value={details.username}
 					onChange={onChange}
 					disabled={status === 'fetching' ? true : false}
@@ -88,8 +88,8 @@ export function LoginClient() {
 					type={viewPasword ? 'text' : 'password'}
 					id='password'
 					name='password'
-					placeholder='...'
-					className='peer py-2 px-4 placeholder-gray-500 tracking-wider text-gray-600 text-base md:text-xl rounded-xl bg-gray-200 w-[260px] md:w-[460px] h-10 outline-0 hover:scale-105 focus:scale-105 transition-all duration-500 ease-in-out focus:ring-2 ring-gray-200'
+					placeholder='password...'
+					className='peer py-2 px-4 placeholder-gray-500 placeholder:text-base tracking-wider text-gray-600 text-base md:text-xl rounded-xl bg-gray-200 w-[260px] md:w-[460px] h-10 outline-0 hover:scale-105 focus:scale-105 transition-all duration-500 ease-in-out focus:ring-2 ring-gray-200'
 					value={details.password}
 					onChange={onChange}
 					disabled={status === 'fetching' ? true : false}
