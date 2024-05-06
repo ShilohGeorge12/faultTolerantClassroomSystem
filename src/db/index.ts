@@ -3,20 +3,17 @@ import mongoose, { Connection, Model } from 'mongoose';
 import { env } from '@/env';
 import type { USER_DB, BOOKING_DB, CLASSROOM_DB } from '@/types';
 import { USER_DB_SCHEMA } from './schema/user';
-import { BOOKING_DB_SCHEMA } from './schema/booking';
 import { CLASSROOM_DB_SCHEMA } from './schema/classroom';
 
 class Database {
 	private static instance: Database;
 	private connection!: Connection;
 	private userModel: Model<USER_DB>;
-	private bookingModel: Model<BOOKING_DB>;
 	private classroomModel: Model<CLASSROOM_DB>;
 
 	private constructor() {
 		this.connect();
 		this.userModel = this.createUserModel();
-		this.bookingModel = this.createBookingModel();
 		this.classroomModel = this.createClassroomModel();
 	}
 
@@ -41,11 +38,6 @@ class Database {
 		return this.connection.model<USER_DB>('users', UserSchema);
 	}
 
-	private createBookingModel(): Model<BOOKING_DB> {
-		const BookingSchema = BOOKING_DB_SCHEMA();
-		return this.connection.model<BOOKING_DB>('bookings', BookingSchema);
-	}
-
 	private createClassroomModel(): Model<CLASSROOM_DB> {
 		const ClassroomSchema = CLASSROOM_DB_SCHEMA();
 		return this.connection.model<CLASSROOM_DB>('classrooms', ClassroomSchema);
@@ -64,10 +56,6 @@ class Database {
 
 	public getClassroom(): Model<CLASSROOM_DB> {
 		return this.classroomModel;
-	}
-
-	public getBookings(): Model<BOOKING_DB> {
-		return this.bookingModel;
 	}
 }
 
