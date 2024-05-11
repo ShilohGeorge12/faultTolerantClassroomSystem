@@ -93,8 +93,6 @@ export function HomeClientHeader({ username }: HomeClientHeaderProps) {
 						)}
 					</form>
 				</AsideDrawer>
-
-				{/* <span /> */}
 				<div className='flex items-center gap-2 md:gap-1 hover:scale-105 transition duration-500 ease-in-out'>
 					<div className='w-full flex items-center justify-center '>
 						<div className='size-7 border-[3px] bg-gray-200 border-gray-400 rounded-full flex items-center justify-center text-base font-bold text-gray-500'>

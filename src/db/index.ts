@@ -1,7 +1,7 @@
 // db.ts
 import mongoose, { Connection, Model } from 'mongoose';
 import { env } from '@/env';
-import type { USER_DB, BOOKING_DB, CLASSROOM_DB } from '@/types';
+import type { USER_DB, CLASSROOM_DB } from '@/types';
 import { USER_DB_SCHEMA } from './schema/user';
 import { CLASSROOM_DB_SCHEMA } from './schema/classroom';
 
