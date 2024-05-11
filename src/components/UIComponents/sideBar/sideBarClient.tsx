@@ -58,10 +58,10 @@ export function SideBarClient({ session }: sideBarClientProps) {
 
 	return (
 		<>
-			<aside className={`w-2/12 hidden md:block h-fulls min-h-[110vh] bg-gray-200`}>
+			<aside className={`w-[15%] hidden md:block h-screen bg-gray-200 fixed`}>
 				<section
 					id='top'
-					className='md:h-[11%] h-[11%]'
+					className='h-[17%]'
 				/>
 				<nav
 					id='navbuttons'
@@ -140,7 +140,9 @@ export function SideBarClient({ session }: sideBarClientProps) {
 				animate={{ x: 0, opacity: 1 }}
 				exit={{ x: '-100vw', opacity: 0 }}
 				transition={{ duration: 0.5, ease: 'easeInOut' }}
-				className={`${menu === 'open' ? 'flex' : 'hidden'} md:hidden w-screen h-screen flex-col fixed top-0 left-0 bg-black/30 transition-all duration-300 ease-linear`}
+				className={`${
+					menu === 'open' ? 'flex' : 'hidden'
+				} z-20 md:hidden w-screen h-screen flex-col fixed top-0 left-0 bg-black/30 transition-all duration-300 ease-linear`}
 				onClick={() => dispatch({ type: 'menu_close' })}>
 				<motion.section
 					initial={{ x: 0, opacity: 1 }} // Start visible and avoid unnecessary animation
