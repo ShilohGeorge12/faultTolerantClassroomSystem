@@ -1,14 +1,14 @@
 'use client';
 
-import { Classrooms } from '@/components/UIComponents/classrooms';
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useGlobals } from '@/context';
 import { CLASSROOM, isError, isSearchResult, responseTypes, sessionType } from '@/types';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
-import { toast } from 'sonner';
-import { useDebounce } from 'use-debounce';
+import { Classrooms } from '@/components/UIComponents/classrooms';
 import { AddClassroom } from './addClassroom';
+import { useDebounce } from 'use-debounce';
+import { toast } from 'sonner';
+import { FaPlus } from 'react-icons/fa';
 
 interface FindClassroomsClientProps {
 	session: sessionType | null;

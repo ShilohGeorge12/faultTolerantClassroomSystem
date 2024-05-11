@@ -18,7 +18,7 @@ export function Classrooms({ classrooms }: classroomProps) {
 					key={classroom._id}
 					href={`/classrooms/${page ?? 1}/${classroom._id}`}
 					prefetch={false}
-					className='bg-gray-200 flex flex-col rounded-2xl md:rounded-3xl p-3 transition duration-500 ease-linear hover:scale-105 hover:shadow-lg hover:shadow-gray-200 h-40 w-44 md:h-52 md:w-64'>
+					className='bg-gray-200 flex flex-col rounded-2xl md:rounded-3xl p-3 transition duration-500 ease-linear hover:scale-105 hover:shadow-lg hover:shadow-gray-200 h-40 md:h-52 w-full'>
 					{classroom.tag}
 				</Link>
 			))}

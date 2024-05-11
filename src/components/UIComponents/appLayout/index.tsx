@@ -8,13 +8,9 @@ interface AppLayoutProps {
 export async function AppLayout({ children }: AppLayoutProps) {
 	return (
 		<main className={`w-full flex flex-col overflow-y-auto overflow-x-hidden`}>
-			<section className='flex w-full relative min-h-[110vh] '>
-				<SideBar />
-				{children}
-			</section>
+			<SideBar />
+			<section className='flex flex-1 relative min-h-[105vh] md:ml-[15%]'>{children}</section>
 			<Footer />
 		</main>
 	);
 }
-// h-fit min-h-screen md:h-[120vh] md:min-h-[140vh]
-// iphone_sm:min-h-[140vh] h-[122vh]
