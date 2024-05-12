@@ -16,12 +16,6 @@ interface BookingClientProps {
 	session: sessionType | null;
 }
 
-interface bookingDetails {
-	date: string;
-	time: string;
-	dateTime: Date;
-}
-
 export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientProps) => {
 	const { push } = useRouter();
 	const initialDate = new Date();

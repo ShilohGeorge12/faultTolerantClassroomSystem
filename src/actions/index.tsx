@@ -114,7 +114,6 @@ export const bookClassroomAction = async ({ _id, userId, endDate, endTime, start
 			createdAt: new Date(),
 		});
 
-		console.log(classroom.bookings);
 		await classroom.save();
 		revalidatePath(`/classrooms/1/${_id}`);
 		return null;

@@ -11,11 +11,11 @@ export function CLASSROOM_DB_SCHEMA(): Schema<CLASSROOM_DB> {
 			type: [
 				{
 					startDate: {
-						type: String,
+						type: Date,
 						required: [true, 'The start date is required'],
 					},
 					endDate: {
-						type: String,
+						type: Date,
 						required: [true, 'The end date is required'],
 					},
 					startTime: {
@@ -39,5 +39,5 @@ export function CLASSROOM_DB_SCHEMA(): Schema<CLASSROOM_DB> {
 			],
 			default: [],
 		},
-	});
+	}) as Schema<CLASSROOM_DB> & { index: { bookings: { startDate: 1; endDate: 1; startTime: 1; endTime: 1; unique: true } } };
 }

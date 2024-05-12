@@ -1,7 +1,6 @@
 'use client';
 
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { CLASSROOM, LOCATION_REGEX, NAME_REGEX, TAG_REGEX, sessionType } from '@/types';
 import { FaEdit } from 'react-icons/fa';

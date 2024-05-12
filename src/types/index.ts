@@ -122,6 +122,12 @@ export const isUser = (_arg: responseTypes): _arg is USER => {
 	return _arg && (_arg as USER).username !== undefined && (_arg as USER).password !== undefined;
 };
 
+type USER_WITHOUT_PASSWORD = Omit<USER, 'password'> & { _id: Types.ObjectId };
+
+export const isUserNoPassword = (_arg: any): _arg is USER_WITHOUT_PASSWORD => {
+	return _arg && (_arg as USER_WITHOUT_PASSWORD).username !== undefined && (_arg as USER_WITHOUT_PASSWORD)._id !== undefined;
+};
+
 export const isPagClassrooms = (_arg: responseTypes): _arg is paginatedClassrooms => {
 	return _arg && (_arg as paginatedClassrooms).page !== undefined && (_arg as paginatedClassrooms).perPage !== undefined;
 };

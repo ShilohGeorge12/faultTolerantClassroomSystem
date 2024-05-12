@@ -3,7 +3,6 @@ import { MenuClient } from '@/components/UIComponents/menuClient';
 import { getSession } from '@/lib/sessions';
 import { redirect } from 'next/navigation';
 import { EditProfile } from './editProfile';
-import { DeleteClassroom } from './deleteClassroom';
 import { DeleteAccount } from './deleteAccount';
 
 export default async function Settings() {
@@ -27,10 +26,6 @@ export default async function Settings() {
 								<li className='font-light tracking-wide col-span-2'>{session.user.username}</li>
 							</ul>
 							<EditProfile username={session.user.username} />
-						</div>
-						<div className='relative w-full flex flex-col items-center justify-center gap-6 bg-gray-200 py-6 px-4 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
-							<h3 className='text-xl font-semibold text-center tracking-wide'>Delete Classroom</h3>
-							<DeleteClassroom />
 						</div>
 						<div className='relative w-full flex flex-col items-center justify-center gap-6 bg-gray-200 py-6 px-4 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
 							<h3 className='text-xl font-semibold text-center tracking-wide'>Delete Account</h3>

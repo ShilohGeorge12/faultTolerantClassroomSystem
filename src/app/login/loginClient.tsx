@@ -54,8 +54,10 @@ export function LoginClient() {
 		}
 
 		if (hasError) return;
+		setStatus('fetching');
 		const loginError = await onLoginAction({ username: username.trim() });
 		if (loginError) setErrorMessage(['invalid login credentials']);
+		setStatus('idle');
 		push('/classrooms/1');
 	};
 
@@ -116,7 +118,6 @@ export function LoginClient() {
 					)}
 				</button>
 			</div>
-			{/* <div className=""></div> */}
 
 			{errorMessage.length > 0 && (
 				<ul
