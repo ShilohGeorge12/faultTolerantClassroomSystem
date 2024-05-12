@@ -40,7 +40,7 @@ export function DeleteClassroom() {
 			return;
 		}
 
-		const error = await deleteClassroomAction({ tag });
+		const error = await deleteClassroomAction({ _id: '' });
 		if (error) return setErrorMessage([error]);
 		setDetails(initState);
 		setIsDialogOpen(false);

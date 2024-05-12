@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 import { ValidationResult } from 'joi';
 
 export type USER = {
@@ -30,13 +30,13 @@ export interface CLASSROOMBOOKING {
 	endDate: Date;
 	startTime: string;
 	endTime: string;
-	userId: Schema.Types.ObjectId;
+	userId: Types.ObjectId;
 	createdAt: Date;
 }
 
 export type BOOKING_DB = {
-	userId: Schema.Types.ObjectId;
-	classroomId: Schema.Types.ObjectId;
+	userId: Types.ObjectId;
+	classroomId: Types.ObjectId;
 	startTime: string;
 	endTime: string;
 	status: classroomStatusType;
@@ -181,9 +181,18 @@ export type onEditClassroomDetails = {
 };
 
 export type deleteClassroom = {
-	tag: CLASSROOM['tag'];
+	_id: CLASSROOM['_id'];
 };
 
 export type deleteAccount = {
 	userId: USER['_id'];
+};
+
+export type bookClassroom = {
+	_id: CLASSROOM['_id'];
+	userId: string;
+	startDate: CLASSROOMBOOKING['startDate'];
+	endDate: CLASSROOMBOOKING['endDate'];
+	startTime: CLASSROOMBOOKING['startTime'];
+	endTime: CLASSROOMBOOKING['endTime'];
 };

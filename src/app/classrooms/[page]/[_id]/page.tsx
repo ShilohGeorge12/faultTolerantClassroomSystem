@@ -1,17 +1,15 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { Suspense } from 'react';
 import { MongoDB } from '@/db';
 import { getSession } from '@/lib/sessions';
 import { GoClock } from 'react-icons/go';
 import { CLASSROOM } from '@/types';
 import { AppLayout } from '@/components/UIComponents/appLayout';
-import { ClassroomUsageChart } from '@/components/UIComponents/charts';
-import { Spinner } from '@/components/UIComponents/loadingSpinner';
 import { validateBookings } from '@/components/functionalComponents/validateBookings';
 import { BookingClient } from './bookingclient';
 import { ClassroomDetailsHeaderClient } from './headerclient';
 import { EditClassroom } from './editClassroom';
+import { DeleteClassroom } from './deleteClassroom';
 
 export default async function Home({ params: { _id } }: { params: { _id: string } }) {
 	const classroom = await MongoDB.getClassroom().findOne({ _id });
@@ -28,20 +26,6 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 		classroom.status = 'IN USE';
 		classroom.save();
 	}
-
-	const bookings = classroom.bookings.map((booking) => {
-		const bookingStartDate = new Date(booking.startDate);
-		return bookingStartDate.toDateString();
-	});
-
-	const monday = bookings.filter((day) => day.includes('Mon')).length;
-	const tueday = bookings.filter((day) => day.includes('Tue')).length;
-	const wednesday = bookings.filter((day) => day.includes('Wed')).length;
-	const thursday = bookings.filter((day) => day.includes('Thu')).length;
-	const friday = bookings.filter((day) => day.includes('Fri')).length;
-
-	const data = [monday, tueday, wednesday, thursday, friday];
-	const classroomLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
 	const ClassroomDetails = JSON.parse(JSON.stringify(classroom)) as unknown as CLASSROOM;
 
@@ -82,25 +66,18 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								name={classroom.name}
 								session={session}
 							/>
+							<DeleteClassroom
+								session={session}
+								_id={classroom._id.toString()}
+								name={classroom.name}
+							/>
 						</div>
 					</section>
 
-					<section className='w-full h-fit min-h-[50vh] flex md:flex-row justify-center flex-col gap-2'>
-						<section className='size-full flex flex-col items-center'>
-							<h3 className='text-center text-xl font-medium tracking-wide'>Classroom Usage</h3>
-							<div className='w-[95%] h-64 md:w-full md:h-[370px] font-semibold flex items-center justify-center'>
-								<Suspense fallback={<Spinner />}>
-									<ClassroomUsageChart
-										data={data}
-										labels={classroomLabels}
-										classnames='size-full p-0 m-0'
-									/>
-								</Suspense>
-							</div>
-						</section>
-						<section className='size-full flex flex-col items-center gap-12'>
+					<section className='w-full h-fit min-h-[50vh]s flex md:flex-row justify-center flex-col gap-2'>
+						<section className='w-full flex flex-col items-center gap-4 border border-red-500'>
 							<h3 className='text-center text-xl font-medium tracking-wide'>Booking History</h3>
-							<ul className='w-[99%] md:w-[95%]'>
+							<ul className='w-[99%] md:w-[95%] flex flex-col items-center'>
 								{classroom.bookings.length > 0 &&
 									classroom.bookings.map((booking) => (
 										<li
