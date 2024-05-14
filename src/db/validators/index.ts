@@ -19,16 +19,16 @@ export function validateClassroom(schema: unknown): classroomValidationReturnTyp
 	return classroomSchema.validate(schema, { abortEarly: false });
 }
 
-export function validateClassroomBooking(schema: unknown): classroomBookingValidationReturnType {
-	const bookingSchema = joi.object<classroomBookingValidation>({
-		userId: joi.string().required(),
-		startDate: joi.string().required(),
-		startTime: joi.string().required(),
-		endDate: joi.string().required(),
-		endTime: joi.string().required(),
-	});
-	return bookingSchema.validate(schema, { abortEarly: false });
-}
+// export function validateClassroomBooking(schema: unknown): classroomBookingValidationReturnType {
+// 	const bookingSchema = joi.object<classroomBookingValidation>({
+// 		userId: joi.string().required(),
+// 		startDate: joi.string().required(),
+// 		startTime: joi.string().required(),
+// 		endDate: joi.string().required(),
+// 		endTime: joi.string().required(),
+// 	});
+// 	return bookingSchema.validate(schema, { abortEarly: false });
+// }
 
 export function validateAuth(schema: unknown): authValidationReturnType {
 	const authSchema = joi.object<authvalidation>({
