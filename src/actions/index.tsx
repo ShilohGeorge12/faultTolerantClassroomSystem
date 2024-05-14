@@ -2,7 +2,7 @@
 
 import { MongoDB } from '@/db';
 import { login, logout } from '@/lib/sessions';
-import { bookClassroom, deleteAccount, deleteClassroom, loginDetails, onEditClassroomDetails, onEditProfileDetails } from '@/types';
+import { addClassroomDetails, bookClassroom, deleteAccount, deleteClassroom, loginDetails, onEditClassroomDetails, onEditProfileDetails } from '@/types';
 import { revalidatePath } from 'next/cache';
 
 export const onLoginAction = async ({ username }: Pick<loginDetails, 'username'>) => {
@@ -185,3 +185,23 @@ export const bookClassroomAction = async ({ _id, userId, endTime, date, startTim
 // 		return error instanceof Error ? `${error.message}` : '';
 // 	}
 // };
+
+export const AddClassroomAction = async ({ name, location, tag }: addClassroomDetails) => {
+	try {
+		const search = await MongoDB.getClassroom().findOne({
+			$or: [{ name }, { tag }],
+		});
+		if (search) return `classroom ${name} already exist.`;
+
+		await MongoDB.getClassroom().create({
+			name,
+			location,
+			tag,
+		});
+
+		revalidatePath(`/classrooms/1`);
+		return null;
+	} catch (e) {
+		return e instanceof Error ? e.message : 'something went wrong';
+	}
+};

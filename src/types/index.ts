@@ -200,3 +200,9 @@ export type bookClassroom = {
 	startTime: CLASSROOMBOOKING['startTime'];
 	endTime: CLASSROOMBOOKING['endTime'];
 };
+
+export type addClassroomDetails = {
+	name: CLASSROOM_DB['name'];
+	tag: CLASSROOM_DB['tag'];
+	location: CLASSROOM_DB['location'];
+};

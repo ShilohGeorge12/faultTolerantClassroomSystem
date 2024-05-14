@@ -1,14 +1,15 @@
-import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/sessions';
 
 import { AppLayout } from '@/components/UIComponents/appLayout';
 import { MenuClient } from '@/components/UIComponents/menuClient';
 import { DeleteAccount } from '@/components/UIComponents/DeleteAccount';
 import { EditProfile } from '@/components/UIComponents/editProfile';
+import { redirect } from 'next/navigation';
 
 export default async function Settings() {
 	const session = await getSession();
 	if (!session) redirect('/');
+
 	return (
 		<AppLayout>
 			<section className='w-full h-full flex flex-col py-4'>
@@ -20,17 +21,20 @@ export default async function Settings() {
 						</div>
 					</div>
 					<section className='grid grid-cols-1 md:grid-cols-2 w-full gap-8 items-center justify-items-center'>
-						<div className='relative w-full flex flex-col gap-6 bg-gray-200 py-6 px-4 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
-							<h3 className='text-xl font-semibold text-center tracking-wide'>User Profile</h3>
+						<div className='relative w-full flex flex-col gap-6 bg-gray-200 py-8 px-4 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
+							<h3 className='text-xl font-semibold text-center tracking-wide'>Admin Profile</h3>
 							<ul className='text-base grid grid-cols-3 gap-3 pl-4'>
 								<li className='font-medium'>Username: </li>
 								<li className='font-light tracking-wide col-span-2'>{session.user.username}</li>
+								<li className='font-medium'>Role: </li>
+								<li className='font-light tracking-wide col-span-2 capitalize'>{session.user.role}</li>
 							</ul>
 							<EditProfile username={session.user.username} />
 						</div>
-						<div className='relative w-full flex flex-col items-center justify-center gap-6 bg-gray-200 py-6 px-4 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
+
+						<div className='relative w-full flex flex-col items-center justify-center gap-6 bg-gray-200 py-10 px-4 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
 							<h3 className='text-xl font-semibold text-center tracking-wide'>Delete Account</h3>
-							<DeleteAccount session={session} />
+							<DeleteAccount session={session && session} />
 						</div>
 					</section>
 				</section>

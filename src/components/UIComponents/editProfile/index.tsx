@@ -1,11 +1,11 @@
 'use client';
 
-import { ChangeEvent, useEffect, useRef, useState, MouseEvent } from 'react';
+import { ChangeEvent, useRef, useState, MouseEvent } from 'react';
 import { onEditProfileAction } from '@/actions';
 import { PASSWORD_FORMAT_MESSAGE, PASSWORD_REGEX, USERNAME_REGEX } from '@/types';
-import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { IoMdClose } from 'react-icons/io';
-import { useRouter } from 'next/navigation';
+import { FaEdit, FaEye, FaEyeSlash, FaSpinner } from 'react-icons/fa';
+import { usePathname } from 'next/navigation';
+import { AsideDrawer } from '../Drawer';
 
 interface EditProfileProps {
 	username: string;
@@ -16,12 +16,13 @@ export function EditProfile({ username }: EditProfileProps) {
 		username,
 		password: '',
 	};
-	const dialogRef = useRef<HTMLDialogElement | null>(null);
-	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+	const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 	const [errorMessage, setErrorMessage] = useState<string[]>([]);
 	const [details, setDetails] = useState<typeof initState>(initState);
 	const [viewPasword, setViewPasword] = useState<boolean>(false);
-	const { refresh } = useRouter();
+	const [status, setStatus] = useState<'fetching' | 'idle'>('idle');
+	const pathname = usePathname();
 
 	const onViewPasword = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -32,10 +33,6 @@ export function EditProfile({ username }: EditProfileProps) {
 		}
 	};
 
-	useEffect(() => {
-		isDialogOpen ? dialogRef.current?.showModal() : dialogRef.current?.close();
-	}, [isDialogOpen]);
-
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		setDetails((prev) => ({ ...prev, [name]: value }));
@@ -45,16 +42,16 @@ export function EditProfile({ username }: EditProfileProps) {
 		setErrorMessage([]);
 
 		if (details.username === username && details.password === '') {
-			setIsDialogOpen(false);
+			closeBtnRef.current?.click();
 			return;
 		}
 
 		let hasError: boolean = false;
-		if (!USERNAME_REGEX.test(details.username)) {
+		if (details.username !== username && !USERNAME_REGEX.test(details.username)) {
 			setErrorMessage((prev) => [...prev, `Username (${username}) must be at least 2 characters long and can only contain letters, @, _, or -.`]);
 			hasError = true;
 		}
-		if (!PASSWORD_REGEX.test(details.password)) {
+		if (details.password !== '' && !PASSWORD_REGEX.test(details.password)) {
 			setErrorMessage((prev) => [...prev, PASSWORD_FORMAT_MESSAGE]);
 			hasError = true;
 		}
@@ -64,44 +61,39 @@ export function EditProfile({ username }: EditProfileProps) {
 		const newPassword = details.password === '' ? undefined : details.password;
 
 		const error = await onEditProfileAction({
-			path: '/settings',
+			path: pathname,
 			username,
 			newUsername,
 			newPassword,
 		});
 
-		if (error) return setErrorMessage([error]);
+		if (error) {
+			setStatus('idle');
+			setErrorMessage([error]);
+			return;
+		}
 		setDetails(initState);
-		refresh();
-		setIsDialogOpen(false);
+		closeBtnRef.current?.click();
 	};
+
+	const triggerButton = (
+		<button
+			type='button'
+			ref={closeBtnRef}
+			name={`edit profile`}
+			className={`absolute top-4 right-4 bg-gray-100 text-gray-500 hover:text-white hover:bg-gray-500 transition-all duration-500 ease-in-out p-2 text-lg rounded-lg`}
+			onClick={() => setDetails(initState)}>
+			<FaEdit />
+		</button>
+	);
+
 	return (
 		<>
-			<button
-				type='button'
-				name={`edit profile`}
-				className={`absolute top-4 right-4 bg-gray-100 text-gray-500 hover:text-white hover:bg-gray-400 transition-all duration-500 ease-in-out p-2 text-lg rounded-lg`}
-				onClick={() => setIsDialogOpen(true)}>
-				<FaEdit />
-			</button>
-
-			<dialog
-				ref={dialogRef}
-				onClick={(e) => e.stopPropagation()}
-				className='modal w-[95%] md:w-[65%] min-h-[50vh] text-sm rounded-2xl bg-white/70 backdrop-blur'>
-				<form className='w-full flex-col flex md:gap-20 gap-10 p-3 justify-center items-center relative'>
-					<h4 className='font-semibold tracking-wider text-lg text-center capitalize'>Edit your Profile</h4>
-					<button
-						type='button'
-						name={`close popover`}
-						className={`close p-2 transition ease-linear duration-300 text-lg rounded-xl text-red-500 bg-red-200 hover:bg-red-500 hover:text-white absolute top-3 right-3`}
-						onClick={(e) => {
-							setIsDialogOpen(false);
-							e.stopPropagation();
-						}}>
-						<IoMdClose />
-					</button>
-
+			<AsideDrawer
+				title={`Edit your Profile`}
+				h='h-[70vh]'
+				triggerButton={triggerButton}>
+				<form className='size-full flex flex-col gap-10 items-center justify-center'>
 					<section className='w-full flex flex-col items-center justify-center gap-8 mt-10'>
 						<div className='w-[90%] h-11 flex items-center justify-center'>
 							<input
@@ -139,8 +131,14 @@ export function EditProfile({ username }: EditProfileProps) {
 						type='button'
 						name={`finalize profile`}
 						className={`w-[90%] md:w-[65%] h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
-						onClick={onSubmit}>
-						Finalize Profile
+						onClick={onSubmit}
+						disabled={status === 'fetching' ? true : false}>
+						{status === 'idle' && 'Finalize Profile'}
+						{status === 'fetching' && (
+							<span className='animate-rotate'>
+								<FaSpinner />
+							</span>
+						)}
 					</button>
 
 					{errorMessage.length > 0 && (
@@ -157,7 +155,7 @@ export function EditProfile({ username }: EditProfileProps) {
 						</ul>
 					)}
 				</form>
-			</dialog>
+			</AsideDrawer>
 		</>
 	);
 }

@@ -58,3 +58,25 @@ export async function updateSession(request: NextRequest) {
 	}
 	return NextResponse.redirect(new URL('/classrooms/1', request.url));
 }
+
+export async function verifyAdminRoleSession(req: NextRequest) {
+	const res = NextResponse.next();
+	const session = req.cookies.get('session')?.value;
+	if (!session) return NextResponse.redirect(new URL('/classrooms/1', req.url));
+
+	const parsed = await decrypt(session);
+	const role = parsed.user.role;
+	if (role === 'admin') return NextResponse.redirect(new URL('/admin', req.url));
+	return res;
+}
+
+export async function verifyHocRoleSession(req: NextRequest) {
+	const res = NextResponse.next();
+	const session = req.cookies.get('session');
+	if (!session) return NextResponse.redirect(new URL('/classrooms/1', req.url));
+
+	const parsed = await decrypt(session.value);
+	const role = parsed.user.role;
+	if (role === 'hoc') return NextResponse.redirect(new URL('/settings', req.url));
+	return res;
+}

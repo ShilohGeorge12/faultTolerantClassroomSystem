@@ -28,7 +28,7 @@ export function EditClassroom({ session, classroom }: EditClassroomProps) {
 			location: classroom.location,
 			tag: classroom.tag,
 		});
-	}, [classroom]); //add classrooms MS-2F-RC, MS-3F-LC
+	}, [classroom]);
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
