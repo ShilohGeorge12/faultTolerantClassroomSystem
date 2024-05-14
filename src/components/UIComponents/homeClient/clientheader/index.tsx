@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useGlobals } from '@/context';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { CLASSROOM, isError, isSearchResult, responseTypes } from '@/types';
 
 import { Classrooms } from '@/components/UIComponents/classrooms';
@@ -64,10 +63,21 @@ export function HomeClientHeader({ username }: HomeClientHeaderProps) {
 		}
 	}, [query]);
 
+	const triggerButton = (
+		<button
+			type='button'
+			name='search classrooms'
+			className='w-3/4 md:w-1/3 h-7 text-gray-500 placeholder-gray-500 tracking-wider placeholder:tracking-wider font-medium text-base md:text-lg outline-0 ring-2 bg-gray-100 ring-gray-200 hover:ring-4 rounded-xl'>
+			Search for a Classroom...
+		</button>
+	);
+
 	return (
 		<>
 			<section className='w-full flex gap-2 items-center py-2 px-3 md:px-4 justify-between'>
-				<AsideDrawer title='Search for a Classroom'>
+				<AsideDrawer
+					title='Search for a Classroom'
+					triggerButton={triggerButton}>
 					<form className='w-full flex flex-col justify-centers items-center gap-4 h-full '>
 						<div className='md:w-[60%] w-[90%] h-11'>
 							<input

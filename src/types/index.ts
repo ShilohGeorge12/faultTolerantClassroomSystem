@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 import { ValidationResult } from 'joi';
 
 export type USER = {
@@ -14,6 +14,7 @@ export type classroomStatusType = 'IN USE' | 'FREE';
 export type USER_DB = {
 	username: string;
 	password: string;
+	role: 'admin' | 'hoc';
 	createdAt: Date;
 };
 
@@ -26,17 +27,16 @@ export type CLASSROOM_DB = {
 };
 
 export interface CLASSROOMBOOKING {
-	startDate: Date;
-	endDate: Date;
-	startTime: string;
-	endTime: string;
-	userId: Schema.Types.ObjectId;
+	date: Date;
+	startTime: Date;
+	endTime: Date;
+	userId: Types.ObjectId;
 	createdAt: Date;
 }
 
 export type BOOKING_DB = {
-	userId: Schema.Types.ObjectId;
-	classroomId: Schema.Types.ObjectId;
+	userId: Types.ObjectId;
+	classroomId: Types.ObjectId;
 	startTime: string;
 	endTime: string;
 	status: classroomStatusType;
@@ -67,7 +67,7 @@ export interface Icontext {
 
 export type ReducerType = (state: State, action: stateAction) => State;
 
-export type UrlPath = '/classrooms' | '/find-classroom' | '/aboutus' | '/settings' | '/login';
+export type UrlPath = '/classrooms' | '/aboutus' | '/settings' | '/login' | '/admin';
 
 interface PaginationOptions {
 	classrooms: CLASSROOM[];
@@ -105,8 +105,6 @@ interface MessageType {
 	readonly message: string;
 }
 
-type AuthStatusType = { readonly authStatus: 'invalid token'; readonly user: {} } | { readonly authStatus: 'Still Valid'; readonly user: USER };
-
 export type responseTypes = USER | CLASSROOM | CLASSROOM[] | paginatedClassrooms | searchResult | StatusType | ErrorType | MessageType;
 
 // Type Guards
@@ -122,6 +120,12 @@ export const isUser = (_arg: responseTypes): _arg is USER => {
 	return _arg && (_arg as USER).username !== undefined && (_arg as USER).password !== undefined;
 };
 
+type USER_WITHOUT_PASSWORD = Omit<USER, 'password'> & { _id: Types.ObjectId };
+
+export const isUserNoPassword = (_arg: any): _arg is USER_WITHOUT_PASSWORD => {
+	return _arg && (_arg as USER_WITHOUT_PASSWORD).username !== undefined && (_arg as USER_WITHOUT_PASSWORD)._id !== undefined;
+};
+
 export const isPagClassrooms = (_arg: responseTypes): _arg is paginatedClassrooms => {
 	return _arg && (_arg as paginatedClassrooms).page !== undefined && (_arg as paginatedClassrooms).perPage !== undefined;
 };
@@ -131,8 +135,6 @@ export const isMessage = (_arg: responseTypes): _arg is MessageType => (_arg as 
 export const isSearchResult = (_arg: responseTypes): _arg is searchResult => (_arg as searchResult).classrooms !== undefined && (_arg as searchResult).q !== undefined;
 
 // Validation Types
-export const MAX_AGE = 30 * 60;
-export const COOKIE_NAME = 'key';
 export type userValidation = Omit<USER_DB, 'createdAt'>;
 export type userValidationReturnType = ValidationResult<Omit<USER_DB, 'createdAt'>>;
 export type classroomValidation = Omit<CLASSROOM, '_id'>;
@@ -155,6 +157,7 @@ export type sessionType = {
 	user: {
 		userId: USER['_id'];
 		username: USER_DB['username'];
+		role: USER_DB['role'];
 	};
 	expires: Date;
 	iat: any;
@@ -165,9 +168,11 @@ export type sessionType = {
 export type loginDetails = {
 	userId: USER['_id'];
 	username: USER_DB['username'];
+	role: USER_DB['role'];
 };
 
 export type onEditProfileDetails = {
+	path: string;
 	username: USER_DB['username'];
 	newUsername?: USER_DB['username'];
 	newPassword?: USER_DB['password'];
@@ -181,9 +186,17 @@ export type onEditClassroomDetails = {
 };
 
 export type deleteClassroom = {
-	tag: CLASSROOM['tag'];
+	_id: CLASSROOM['_id'];
 };
 
 export type deleteAccount = {
 	userId: USER['_id'];
+};
+
+export type bookClassroom = {
+	_id: CLASSROOM['_id'];
+	userId: string;
+	date: CLASSROOMBOOKING['date'];
+	startTime: CLASSROOMBOOKING['startTime'];
+	endTime: CLASSROOMBOOKING['endTime'];
 };

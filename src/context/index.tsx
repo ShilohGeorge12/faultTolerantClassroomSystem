@@ -9,6 +9,7 @@ const initState: State = {
 		_id: '11',
 		username: 'Guest User',
 		password: '',
+		role: 'hoc',
 		createdAt: new Date(),
 	},
 	classrooms: [],

@@ -10,20 +10,16 @@ export function CLASSROOM_DB_SCHEMA(): Schema<CLASSROOM_DB> {
 		bookings: {
 			type: [
 				{
-					startDate: {
-						type: String,
+					date: {
+						type: Date,
 						required: [true, 'The start date is required'],
 					},
-					endDate: {
-						type: String,
-						required: [true, 'The end date is required'],
-					},
 					startTime: {
-						type: String,
+						type: Date,
 						required: [true, 'The start time is required'],
 					},
 					endTime: {
-						type: String,
+						type: Date,
 						required: [true, 'The end time is required'],
 					},
 					createdAt: {
