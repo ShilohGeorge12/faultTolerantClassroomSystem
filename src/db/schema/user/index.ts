@@ -14,6 +14,11 @@ export function USER_DB_SCHEMA(): Schema<USER_DB> {
 			minlength: 6,
 			required: [true, 'Password Can not be empty'],
 		},
+		role: {
+			type: String,
+			default: 'hoc',
+			enum: ['hoc', 'admin'],
+		},
 		createdAt: {
 			type: Date,
 			default: () => new Date(),

@@ -20,6 +20,10 @@ export function TimeInput({ setTimeChange, value }: TimeInputProps) {
 
 	useEffect(() => {
 		setTimeChange(`${time.hour}:${time.minute}_${time.merdian}`);
+	}, []);
+
+	useEffect(() => {
+		setTimeChange(`${time.hour}:${time.minute}_${time.merdian}`);
 	}, [time]);
 
 	return (

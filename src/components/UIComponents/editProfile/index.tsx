@@ -64,6 +64,7 @@ export function EditProfile({ username }: EditProfileProps) {
 		const newPassword = details.password === '' ? undefined : details.password;
 
 		const error = await onEditProfileAction({
+			path: '/settings',
 			username,
 			newUsername,
 			newPassword,

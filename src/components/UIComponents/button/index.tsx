@@ -17,7 +17,8 @@ export function NavButton({ value, name, more, href, onClick }: NavButtonProps) 
 	return (
 		<Link
 			title={name}
-			href={href}>
+			href={href}
+			aria-disabled={true}>
 			<span
 				className={`flex transition duration-500 ease-in-out hover:scale-105 md:w-[148px] h-[36px] px-2 rounded-lg gap-x-2 items-center text-sm ${more}`}
 				onClick={onClick}>
@@ -34,9 +35,10 @@ export function AuthButton(props: AuthButtonProps) {
 			{islogin && (
 				<Link
 					title={name}
-					href={props.href}>
+					href={props.href}
+					className=''>
 					<span
-						className={`flex transition duration-500 ease-in-out hover:scale-105 md:w-[148px] h-[36px] px-2 rounded-lg gap-x-2 items-center text-sm hover:bg-blue-500		bg-black text-white`}
+						className={`flex transition duration-500 ease-in-out hover:scale-105 md:w-[148px] h-[36px] px-2 rounded-lg gap-x-2 items-center text-sm hover:bg-blue-500	bg-black text-white`}
 						onClick={onClick}>
 						{value}
 					</span>
@@ -47,7 +49,8 @@ export function AuthButton(props: AuthButtonProps) {
 				<button
 					type='button'
 					name={name}
-					className={`flex transition duration-500 ease-in-out hover:scale-105 p-2 rounded-lg gap-x-2 justify-center items-center text-sm bg-black hover:bg-red-500 text-white`}
+					className={`flex transition duration-500 ease-in-out hover:scale-105 md:w-[148px] h-[36px] px-2 rounded-lg gap-x-2
+					items-center text-sm bg-black hover:bg-red-500 text-white`}
 					onClick={onClick}>
 					{value}
 				</button>
@@ -75,5 +78,17 @@ export function FilterButton({ value, more, page }: { value: string; page: numbe
 			className={`transition duration-500 ease-in-out hover:scale-105 py-1 px-3 rounded-2xl text-xs ${more} text-white`}>
 			{value}
 		</Link>
+	);
+}
+
+export function ClassroomDetailsBtn({ name, value, more, onClick }: Omit<buttonProps, 'size'>) {
+	return (
+		<button
+			type='button'
+			name={name}
+			className={`p-2 rounded-xl transition-all duration-300 ease-in-out ${more}`}
+			onClick={onClick}>
+			{value}
+		</button>
 	);
 }

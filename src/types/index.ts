@@ -1,4 +1,4 @@
-import { Schema, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { ValidationResult } from 'joi';
 
 export type USER = {
@@ -14,6 +14,7 @@ export type classroomStatusType = 'IN USE' | 'FREE';
 export type USER_DB = {
 	username: string;
 	password: string;
+	role: 'admin' | 'hoc';
 	createdAt: Date;
 };
 
@@ -26,10 +27,9 @@ export type CLASSROOM_DB = {
 };
 
 export interface CLASSROOMBOOKING {
-	startDate: Date;
-	endDate: Date;
-	startTime: string;
-	endTime: string;
+	date: Date;
+	startTime: Date;
+	endTime: Date;
 	userId: Types.ObjectId;
 	createdAt: Date;
 }
@@ -67,7 +67,7 @@ export interface Icontext {
 
 export type ReducerType = (state: State, action: stateAction) => State;
 
-export type UrlPath = '/classrooms' | '/find-classroom' | '/aboutus' | '/settings' | '/login';
+export type UrlPath = '/classrooms' | '/aboutus' | '/settings' | '/login' | '/admin';
 
 interface PaginationOptions {
 	classrooms: CLASSROOM[];
@@ -105,8 +105,6 @@ interface MessageType {
 	readonly message: string;
 }
 
-type AuthStatusType = { readonly authStatus: 'invalid token'; readonly user: {} } | { readonly authStatus: 'Still Valid'; readonly user: USER };
-
 export type responseTypes = USER | CLASSROOM | CLASSROOM[] | paginatedClassrooms | searchResult | StatusType | ErrorType | MessageType;
 
 // Type Guards
@@ -137,8 +135,6 @@ export const isMessage = (_arg: responseTypes): _arg is MessageType => (_arg as 
 export const isSearchResult = (_arg: responseTypes): _arg is searchResult => (_arg as searchResult).classrooms !== undefined && (_arg as searchResult).q !== undefined;
 
 // Validation Types
-export const MAX_AGE = 30 * 60;
-export const COOKIE_NAME = 'key';
 export type userValidation = Omit<USER_DB, 'createdAt'>;
 export type userValidationReturnType = ValidationResult<Omit<USER_DB, 'createdAt'>>;
 export type classroomValidation = Omit<CLASSROOM, '_id'>;
@@ -161,6 +157,7 @@ export type sessionType = {
 	user: {
 		userId: USER['_id'];
 		username: USER_DB['username'];
+		role: USER_DB['role'];
 	};
 	expires: Date;
 	iat: any;
@@ -171,9 +168,11 @@ export type sessionType = {
 export type loginDetails = {
 	userId: USER['_id'];
 	username: USER_DB['username'];
+	role: USER_DB['role'];
 };
 
 export type onEditProfileDetails = {
+	path: string;
 	username: USER_DB['username'];
 	newUsername?: USER_DB['username'];
 	newPassword?: USER_DB['password'];
@@ -197,8 +196,7 @@ export type deleteAccount = {
 export type bookClassroom = {
 	_id: CLASSROOM['_id'];
 	userId: string;
-	startDate: CLASSROOMBOOKING['startDate'];
-	endDate: CLASSROOMBOOKING['endDate'];
+	date: CLASSROOMBOOKING['date'];
 	startTime: CLASSROOMBOOKING['startTime'];
 	endTime: CLASSROOMBOOKING['endTime'];
 };

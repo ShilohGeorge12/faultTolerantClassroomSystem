@@ -2,12 +2,12 @@
 
 import { bookClassroomAction } from '@/actions';
 import { AsideDrawer } from '@/components/UIComponents/Drawer';
-import { DatePickerWithRange } from '@/components/UIComponents/dateRangePicker';
+import { DatePicker } from '@/components/UIComponents/datePicker';
 import { TimeInput } from '@/components/UIComponents/timePicker';
+import { convertTimeStringToDateObject } from '@/components/functionalComponents/time';
 import { sessionType } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
-import { DateRange } from 'react-day-picker';
 
 interface BookingClientProps {
 	name: string;
@@ -20,10 +20,7 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 	const { push } = useRouter();
 	const initialDate = new Date();
 	const closeBtnRef = useRef<HTMLButtonElement | null>(null);
-	const [date, setDate] = useState<DateRange | undefined>({
-		from: initialDate,
-		to: initialDate,
-	});
+	const [date, setDate] = useState<Date | undefined>(new Date());
 	const [time, setTime] = useState<{ from: string; to: string }>({
 		from: `${parseInt(initialDate.toTimeString().split(':')[0]) % 12}:${initialDate.toTimeString().split(':')[1].trim()}_${
 			parseInt(initialDate.toTimeString().split(':')[0]) > 12 ? 'PM' : 'AM'
@@ -49,29 +46,25 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 			return;
 		}
 
-		if (!date.from || !date.to) {
-			setErrorMessage((prev) => [...prev, 'fill in the booking date details']);
-			return;
-		}
-
 		if (time.from === time.to) {
 			setErrorMessage((prev) => [...prev, 'fill in the booking time details']);
 			return;
 		}
 
+		const startTime = convertTimeStringToDateObject(time.from.replace('_', ' '));
+		const endTime = convertTimeStringToDateObject(time.to.replace('_', ' '));
 		const booking = {
-			startDate: date.from,
-			endDate: date.to,
-			startTime: time.from.replaceAll('_', ' '),
-			endTime: time.to.replaceAll('_', ' '),
+			date,
+			startTime,
+			endTime,
 			userId: session ? session.user.userId : '', //'660e876c379f697ca786a06b',
 			_id,
 		};
 
 		const error = await bookClassroomAction(booking);
+		// const error = await validateUniqueBooking(booking);
 		if (error) return setErrorMessage([error]);
 		closeBtnRef.current?.click();
-		console.log({ date, time });
 	};
 
 	const triggerButton = (
@@ -80,7 +73,7 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 				type='button'
 				ref={closeBtnRef}
 				name={`Book This Classroom`}
-				className={`w-1/2 h-9 rounded-xl hover:bg-gray-400 hover:text-white transition ease-linear duration-500 border-gray-400 text-gray-600 bg-gray-300`}>
+				className={`w-1/2 h-9 rounded-xl hover:bg-gray-500 hover:text-white transition ease-linear duration-500 border-gray-500 text-gray-600 bg-gray-300`}>
 				Book This Classroom
 			</button>
 		</div>
@@ -100,7 +93,7 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 								Pick your dates
 							</label>
 							<div className='md:w-4/5 w-full h-14 md:h-24 flex items-center justify-center text-sm'>
-								<DatePickerWithRange
+								<DatePicker
 									className={`w-full h-full text-2xl`}
 									date={date}
 									id='dates'
@@ -155,7 +148,7 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 							className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
 							{errorMessage.map((error) => (
 								<li
-									className='font-semibold tracking-wider capitalize'
+									className='font-semibold tracking-wider capitalize cursor-text'
 									key={error}>
 									{error}
 								</li>

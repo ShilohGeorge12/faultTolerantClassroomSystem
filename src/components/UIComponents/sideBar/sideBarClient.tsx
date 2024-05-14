@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { AuthButton, NavButton } from '../button';
 
 import { FaLaptop } from 'react-icons/fa6';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaUser } from 'react-icons/fa';
 import { CiSettings } from 'react-icons/ci';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { AiOutlineLogin } from 'react-icons/ai';
@@ -40,6 +40,11 @@ export function SideBarClient({ session }: sideBarClientProps) {
 	const onFindClassroom = async () => {
 		dispatch({ type: 'menu_close' });
 	};
+
+	const onAdmin = async () => {
+		dispatch({ type: 'menu_close' });
+	};
+
 	const onSettings = async () => {
 		dispatch({ type: 'menu_close' });
 	};
@@ -49,51 +54,47 @@ export function SideBarClient({ session }: sideBarClientProps) {
 		await onLogoutAction();
 	};
 
-	const dynamicHeight = () => {
-		if (dynamicClassroomRegex.test(pathname)) return 'h-[55%]';
-		if (dynamicHomeRegex.test(pathname) || pathname === '/find-classroom') return 'h-[71%]';
-
-		return 'h-[70%]';
-	};
-
-	return (
+	const NavLayout = () => (
 		<>
-			<aside className={`w-[15%] hidden md:block h-screen bg-gray-200 fixed`}>
-				<section
-					id='top'
-					className='h-[17%]'
+			<section
+				id='top'
+				className='md:h-[11%] h-[11%]'
+			/>
+			<nav
+				id='navbuttons'
+				className='w-full px-3 md:px-6 pt-2 h-5/6 flex items-center md:items-start flex-col gap-2 font-bold'>
+				<NavButton
+					name={`Classrooms`}
+					more={`${isPath('/classrooms')}`}
+					href='/'
+					onClick={onClassroom}
+					value={
+						<>
+							<FaLaptop className='text-lg' />
+							<span className='hidden md:flex'>Classrooms</span>
+						</>
+					}
 				/>
-				<nav
-					id='navbuttons'
-					className='w-full px-3 md:px-6 pt-2 h-5/6 flex items-center md:items-start flex-col gap-2 font-bold'>
-					<NavButton
-						name={`Classrooms`}
-						more={`${isPath('/classrooms')}`}
-						href='/'
-						value={
-							<>
-								<FaLaptop className='text-lg' />
-								<span className='hidden md:flex'>Classrooms</span>
-							</>
-						}
-					/>
 
-					<NavButton
-						name={`Find Classroom`}
-						more={`${isPath('/find-classroom')}`}
-						href='/find-classroom'
-						value={
-							<>
-								<FaSearch className='text-base' />
-								<span className='hidden md:flex'>Find Classroom</span>
-							</>
-						}
-					/>
+				{/* <NavButton
+					name={`Find Classroom`}
+					more={`${isPath('/find-classroom')}`}
+					href='/find-classroom'
+					onClick={onFindClassroom}
+					value={
+						<>
+							<FaSearch className='text-base' />
+							<span className='hidden md:flex'>Find Classroom</span>
+						</>
+					}
+				/> */}
 
+				{session && session.user.role === 'hoc' && (
 					<NavButton
 						name={`Settings`}
-						more={`${isPath('/settings')} ${session ? 'visible' : 'invisible'}`}
+						more={`${isPath('/settings')}`}
 						href='/settings'
+						onClick={onSettings}
 						value={
 							<>
 								<CiSettings className='text-xl' />
@@ -101,38 +102,60 @@ export function SideBarClient({ session }: sideBarClientProps) {
 							</>
 						}
 					/>
+				)}
 
-					<section className={`w-[80%] ${dynamicHeight()} flex items-end justify-start `}>
-						{session && (
-							<AuthButton
-								href={pathname}
-								name={`Log Out Button`}
-								onClick={onLogOut}
-								value={
-									<>
-										<MdOutlinePowerSettingsNew className='text-lg' />
-										<span className='hidden md:flex'>Log Out</span>
-									</>
-								}
-							/>
-						)}
+				{session && session.user.role === 'admin' && (
+					<NavButton
+						name={`Admin`}
+						more={`${isPath('/admin')}`}
+						href='/admin'
+						onClick={onAdmin}
+						value={
+							<>
+								<FaUser className='text-xl' />
+								<span className='hidden md:flex'>Admin</span>
+							</>
+						}
+					/>
+				)}
 
-						{!session && (
-							<AuthButton
-								href={'/login'}
-								name={'Log In Button'}
-								islogin
-								onClick={() => null}
-								value={
-									<>
-										<AiOutlineLogin className='text-lg' />
-										<span className='hidden md:flex'>Login</span>
-									</>
-								}
-							/>
-						)}
-					</section>
-				</nav>
+				<section className={`w-full h-[100%] flex items-end justify-start `}>
+					{session && (
+						<AuthButton
+							href={pathname}
+							name={`Log Out Button`}
+							onClick={onLogOut}
+							value={
+								<>
+									<MdOutlinePowerSettingsNew className='text-lg' />
+									<span className='hidden md:flex'>Log Out</span>
+								</>
+							}
+						/>
+					)}
+
+					{!session && (
+						<AuthButton
+							href={'/login'}
+							name={'Log In Button'}
+							islogin
+							onClick={() => dispatch({ type: 'menu_close' })}
+							value={
+								<>
+									<AiOutlineLogin className='text-lg' />
+									<span className='hidden md:flex'>Login</span>
+								</>
+							}
+						/>
+					)}
+				</section>
+			</nav>
+		</>
+	);
+	return (
+		<>
+			<aside className={`w-[15%] hidden md:block h-screen bg-gray-200 fixed`}>
+				<NavLayout />
 			</aside>
 
 			<motion.aside
@@ -151,83 +174,7 @@ export function SideBarClient({ session }: sideBarClientProps) {
 					transition={{ duration: 0.5, ease: 'easeInOut' }}
 					onClick={(e) => e.stopPropagation()}
 					className='w-[20%] h-full rounded-r-xl bg-white/85 backdrop-blur flex items-center justify-center'>
-					<section
-						id='top'
-						className='md:h-[11%] h-[11%]'
-					/>
-					<nav
-						id='navbuttons'
-						className='w-full px-3 md:px-6 pt-2 h-5/6 flex items-center md:items-start flex-col gap-2 font-bold'>
-						<NavButton
-							name={`Classrooms`}
-							more={`${isPath('/classrooms')}`}
-							href='/'
-							onClick={onClassroom}
-							value={
-								<>
-									<FaLaptop className='text-lg' />
-									<span className='hidden md:flex'>Classrooms</span>
-								</>
-							}
-						/>
-
-						<NavButton
-							name={`Find Classroom`}
-							more={`${isPath('/find-classroom')}`}
-							href='/find-classroom'
-							onClick={onFindClassroom}
-							value={
-								<>
-									<FaSearch className='text-base' />
-									<span className='hidden md:flex'>Find Classroom</span>
-								</>
-							}
-						/>
-
-						<NavButton
-							name={`Settings`}
-							more={`${isPath('/settings')} ${session ? 'visible' : 'invisible'}`}
-							href='/settings'
-							onClick={onSettings}
-							value={
-								<>
-									<CiSettings className='text-xl' />
-									<span className='hidden md:flex'>Settings</span>
-								</>
-							}
-						/>
-
-						<section className={`w-[80%] ${dynamicHeight()} flex items-end justify-start `}>
-							{session && (
-								<AuthButton
-									href={pathname}
-									name={`Log Out Button`}
-									onClick={onLogOut}
-									value={
-										<>
-											<MdOutlinePowerSettingsNew className='text-lg' />
-											<span className='hidden md:flex'>Log Out</span>
-										</>
-									}
-								/>
-							)}
-
-							{!session && (
-								<AuthButton
-									href={'/login'}
-									name={'Log In Button'}
-									islogin
-									onClick={() => null}
-									value={
-										<>
-											<AiOutlineLogin className='text-lg' />
-											<span className='hidden md:flex'>Login</span>
-										</>
-									}
-								/>
-							)}
-						</section>
-					</nav>
+					<NavLayout />
 				</motion.section>
 			</motion.aside>
 		</>
