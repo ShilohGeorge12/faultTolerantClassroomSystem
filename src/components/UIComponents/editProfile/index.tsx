@@ -1,10 +1,10 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { ChangeEvent, useRef, useState, MouseEvent } from 'react';
 import { onEditProfileAction } from '@/actions';
 import { PASSWORD_FORMAT_MESSAGE, PASSWORD_REGEX, USERNAME_REGEX } from '@/types';
 import { FaEdit, FaEye, FaEyeSlash, FaSpinner } from 'react-icons/fa';
-import { usePathname } from 'next/navigation';
 import { AsideDrawer } from '../Drawer';
 
 interface EditProfileProps {
@@ -66,7 +66,6 @@ export function EditProfile({ username }: EditProfileProps) {
 			newUsername,
 			newPassword,
 		});
-
 		if (error) {
 			setStatus('idle');
 			setErrorMessage([error]);

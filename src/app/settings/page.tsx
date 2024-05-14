@@ -1,10 +1,10 @@
+import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/sessions';
 
 import { AppLayout } from '@/components/UIComponents/appLayout';
 import { MenuClient } from '@/components/UIComponents/menuClient';
 import { DeleteAccount } from '@/components/UIComponents/DeleteAccount';
 import { EditProfile } from '@/components/UIComponents/editProfile';
-import { redirect } from 'next/navigation';
 
 export default async function Settings() {
 	const session = await getSession();
@@ -31,7 +31,6 @@ export default async function Settings() {
 							</ul>
 							<EditProfile username={session.user.username} />
 						</div>
-
 						<div className='relative w-full flex flex-col items-center justify-center gap-6 bg-gray-200 py-10 px-4 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-500 ease-linear'>
 							<h3 className='text-xl font-semibold text-center tracking-wide'>Delete Account</h3>
 							<DeleteAccount session={session && session} />
