@@ -2,7 +2,7 @@
 
 import { MongoDB } from '@/db';
 import { login, logout } from '@/lib/sessions';
-import { CLASSROOMBOOKING, CLASSROOM_DB, bookClassroom, deleteAccount, deleteClassroom, loginDetails, onEditClassroomDetails, onEditProfileDetails } from '@/types';
+import { bookClassroom, deleteAccount, deleteClassroom, loginDetails, onEditClassroomDetails, onEditProfileDetails } from '@/types';
 import { revalidatePath } from 'next/cache';
 
 export const onLoginAction = async ({ username }: Pick<loginDetails, 'username'>) => {

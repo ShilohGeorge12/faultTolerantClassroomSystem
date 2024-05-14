@@ -1,7 +1,7 @@
 'use client';
 
 import { SetStateAction } from 'react';
-import { subDays, isBefore, isAfter, addDays, format } from 'date-fns';
+import { subDays, isBefore, addDays, format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 

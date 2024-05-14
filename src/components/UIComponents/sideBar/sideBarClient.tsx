@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { AuthButton, NavButton } from '../button';
 
 import { FaLaptop } from 'react-icons/fa6';
-import { FaSearch, FaUser } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import { CiSettings } from 'react-icons/ci';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { AiOutlineLogin } from 'react-icons/ai';
