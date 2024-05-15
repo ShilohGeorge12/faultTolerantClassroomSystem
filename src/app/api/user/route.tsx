@@ -2,12 +2,6 @@ import { MongoDB } from '@/db';
 import { validateUser } from '@/db/validators';
 import { NextResponse, NextRequest } from 'next/server';
 
-export async function GET(_: NextRequest) {
-	const users = await MongoDB.getUser().find().sort('username').select('-__v -password'); //.populate('animes', '-__v -password');
-
-	return NextResponse.json(users, { status: 200 });
-}
-
 export async function POST(req: NextRequest) {
 	try {
 		const body = await req.formData();

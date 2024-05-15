@@ -206,3 +206,9 @@ export type addClassroomDetails = {
 	tag: CLASSROOM_DB['tag'];
 	location: CLASSROOM_DB['location'];
 };
+
+export type createUserDetails = {
+	username: USER['username'];
+	password: USER['password'];
+	role: USER['role'];
+};

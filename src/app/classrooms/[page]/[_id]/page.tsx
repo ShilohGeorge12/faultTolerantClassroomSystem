@@ -126,7 +126,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 									/>
 								))}
 
-							{upcomingBookingsToday.length === 0 && (
+							{ongoingBooking.length === 0 && (
 								<li className='gap-4 md:w-[90%] flex items-center justify-center text-base transition-all duration-500 ease-in-out border-b pb-2 border-gray-300'>
 									There are no upcoming bookings today
 								</li>

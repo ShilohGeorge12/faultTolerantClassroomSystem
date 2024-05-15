@@ -2,7 +2,16 @@
 
 import { MongoDB } from '@/db';
 import { login, logout } from '@/lib/sessions';
-import { addClassroomDetails, bookClassroom, deleteAccount, deleteClassroom, loginDetails, onEditClassroomDetails, onEditProfileDetails } from '@/types';
+import {
+	addClassroomDetails,
+	bookClassroom,
+	createUserDetails,
+	deleteAccount,
+	deleteClassroom,
+	loginDetails,
+	onEditClassroomDetails,
+	onEditProfileDetails,
+} from '@/types';
 import { revalidatePath } from 'next/cache';
 
 export const onLoginAction = async ({ username }: Pick<loginDetails, 'username'>) => {
@@ -200,6 +209,19 @@ export const AddClassroomAction = async ({ name, location, tag }: addClassroomDe
 		});
 
 		revalidatePath(`/classrooms/1`);
+		return null;
+	} catch (e) {
+		return e instanceof Error ? e.message : 'something went wrong';
+	}
+};
+
+export const CreateUserAction = async ({ username, password, role }: createUserDetails) => {
+	try {
+		await MongoDB.getUser().create({
+			username,
+			password,
+			role,
+		});
 		return null;
 	} catch (e) {
 		return e instanceof Error ? e.message : 'something went wrong';
