@@ -130,10 +130,8 @@ export function EditClassroom({ session, classroom }: EditClassroomProps) {
 					<button
 						type='button'
 						name={`finalize classroom details`}
-						className={`w-[90%] md:w-[64%] mx-auto h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-sm md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
-						onClick={onSubmit}
-						// onClick={() => closeBtnRef.current?.click()}
-					>
+						className={`w-[90%] md:w-[64%] mx-auto h-12 md:h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-sm md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
+						onClick={onSubmit}>
 						Finalize Classroom Details
 					</button>
 

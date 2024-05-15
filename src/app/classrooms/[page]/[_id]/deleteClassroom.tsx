@@ -59,7 +59,7 @@ export function DeleteClassroom({ _id, name, session }: DeleteClassroomProps) {
 					<button
 						type='button'
 						name={`Confirm Deletion of ${name}`}
-						className={`w-[60%] md:w-[45%] h-11 px-4 bg-red-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
+						className={`w-[60%] md:w-[45%] h-12 md:h-11 px-4 bg-red-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
 						onClick={onSubmit}>
 						Confirm Delete
 					</button>

@@ -210,7 +210,7 @@ export function AddUser({ session }: AddUserProps) {
 
 					<button
 						name={`finalize profile`}
-						className={`w-[90%] md:w-[50%] h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
+						className={`w-[90%] md:w-[50%] h-12 md:h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
 						disabled={status === 'fetching' ? true : false}>
 						{status === 'idle' && 'Create User'}
 						{status === 'fetching' && (

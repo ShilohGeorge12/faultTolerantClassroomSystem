@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	return [
 		{
-			url: `${process.env.PUBLIC_BASE_URL}/classrooms`,
+			url: `${process.env.PUBLIC_BASE_URL}/`,
 		},
 		{
 			url: `${process.env.PUBLIC_BASE_URL}/classrooms/1`,
@@ -12,16 +12,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			url: `${process.env.PUBLIC_BASE_URL}/classrooms/2`,
 		},
 		{
-			url: `${process.env.PUBLIC_BASE_URL}/find-classrooms`,
-		},
-		{
 			url: `${process.env.PUBLIC_BASE_URL}/settings`,
 		},
 		{
-			url: `${process.env.PUBLIC_BASE_URL}/login`,
+			url: `${process.env.PUBLIC_BASE_URL}/admin`,
 		},
 		{
-			url: `${process.env.PUBLIC_BASE_URL}/signup`,
+			url: `${process.env.PUBLIC_BASE_URL}/login`,
 		},
 		// ...animeEntries,
 	];

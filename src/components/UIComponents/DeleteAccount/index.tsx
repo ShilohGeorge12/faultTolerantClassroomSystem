@@ -48,7 +48,7 @@ export function DeleteAccount({ session }: deleteAccountProps) {
 					<button
 						type='button'
 						name={`Delete`}
-						className={`w-[90%] md:w-[55%] h-11 px-4 bg-red-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
+						className={`w-[90%] md:w-[55%] h-14 md:h-11 px-4 bg-red-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
 						onClick={onSubmit}
 						disabled={status === 'fetching' ? true : false}>
 						{status === 'idle' && 'Confirm Delete'}

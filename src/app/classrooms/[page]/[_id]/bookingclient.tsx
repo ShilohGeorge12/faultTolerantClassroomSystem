@@ -57,7 +57,7 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 			date,
 			startTime,
 			endTime,
-			userId: session ? session.user.userId : '', //'660e876c379f697ca786a06b',
+			userId: session ? session.user.userId : '',
 			_id,
 		};
 
@@ -68,12 +68,15 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 	};
 
 	const triggerButton = (
-		<div className='flex items-center'>
+		<div className='w-[93%] mx-auto flex items-center'>
 			<button
 				type='button'
 				ref={closeBtnRef}
 				name={`Book This Classroom`}
-				className={`w-1/2 h-9 rounded-xl hover:bg-gray-500 hover:text-white transition ease-linear duration-500 border-gray-500 text-gray-600 bg-gray-300`}>
+				onClick={() => {
+					setErrorMessage([]);
+				}}
+				className={`w-1/2 h-9 rounded-lg hover:bg-gray-500 hover:text-white transition ease-linear duration-500 border-gray-500 text-gray-600 bg-gray-300`}>
 				Book This Classroom
 			</button>
 		</div>
@@ -136,7 +139,7 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 						<button
 							type='button'
 							name={`submit`}
-							className={`button w-[80%] md:w-1/3 h-10 rounded-xl bg-blue-500 text-white duration-300 ease-linear transition text-xl tracking-wider hover:scale-105`}
+							className={`button w-[80%] md:w-1/3 h-12 md:h-11 rounded-xl bg-blue-500 text-white duration-300 ease-linear transition text-xl tracking-wider hover:scale-105`}
 							onClick={onSubmit}>
 							Submit
 						</button>

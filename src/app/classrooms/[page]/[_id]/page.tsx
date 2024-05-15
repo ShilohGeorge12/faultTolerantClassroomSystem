@@ -80,7 +80,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								height={10000}
 							/>
 						</div>
-						<div className='w-[98%] md:w-[82%] h-[300px] md:h-full flex flex-col gap-4 bg-gray-200 py-3 px-2 md:p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-300 ease-linear relative'>
+						<div className='w-[98%] md:w-[82%] h-[300px] md:h-full flex flex-col gap-4 bg-gray-200 p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-300 ease-linear relative'>
 							<h3 className='text-xl font-semibold text-center tracking-wider'>Classroom Details</h3>
 							<ul className='text-sm grid grid-cols-7 gap-3 pl-4'>
 								<li className='font-semibold col-span-3'>Classroom Venue</li>

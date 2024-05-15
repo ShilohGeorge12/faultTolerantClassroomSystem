@@ -32,9 +32,9 @@ export const onLogoutAction = async () => {
 	await logout();
 };
 
-export const onEditProfileAction = async ({ path, username, newUsername, newPassword }: onEditProfileDetails) => {
+export const onEditProfileAction = async ({ path, userId, newUsername, newPassword }: onEditProfileDetails) => {
 	try {
-		const user = await MongoDB.getUser().findOne({ username });
+		const user = await MongoDB.getUser().findOne({ _id: userId });
 		if (!user) {
 			return 'user profile was not found';
 		}

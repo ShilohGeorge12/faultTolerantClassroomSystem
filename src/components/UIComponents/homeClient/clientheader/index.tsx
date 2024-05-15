@@ -21,8 +21,6 @@ export function HomeClientHeader({ username }: HomeClientHeaderProps) {
 		state: { menu },
 		dispatch,
 	} = useGlobals();
-	// const { push } = useRouter();
-	// const pathname = usePathname();
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [query] = useDebounce(searchQuery, 600);
 	const [results, setResults] = useState<CLASSROOM[]>([]);
@@ -36,12 +34,10 @@ export function HomeClientHeader({ username }: HomeClientHeaderProps) {
 		if (query === '') {
 			setSearchQuery('');
 			setResults([]);
-			// push(pathname, { scroll: false });
 			return;
 		}
 
 		if (query !== '') {
-			// push(`${pathname}?q=${query.replace(/\s/g, '_').toUpperCase()}`, { scroll: false });
 			const fetchAnime = async () => {
 				setFetchStatus('fetching');
 				const req = await fetch(`/api/classrooms/search?q=${query}`);
@@ -105,7 +101,7 @@ export function HomeClientHeader({ username }: HomeClientHeaderProps) {
 				</AsideDrawer>
 				<div className='flex items-center gap-2 md:gap-1 hover:scale-105 transition duration-500 ease-in-out'>
 					<div className='w-full flex items-center justify-center '>
-						<div className='size-7 border-[3px] bg-gray-200 border-gray-400 rounded-full flex items-center justify-center text-base font-bold text-gray-500'>
+						<div className='size-[30px] border-[3px] bg-gray-200 border-gray-400 rounded-full flex items-center justify-center text-base font-bold text-gray-500'>
 							{username[0]}
 						</div>
 					</div>
