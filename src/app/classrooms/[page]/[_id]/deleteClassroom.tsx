@@ -40,9 +40,9 @@ export function DeleteClassroom({ _id, name, session }: DeleteClassroomProps) {
 			<AsideDrawer
 				title={`Delete ${name}`}
 				description='This action is in-reversable'
-				h='h-[50vh]'
+				h='h-fit [50vh]'
 				triggerButton={session && triggerButton}>
-				<section className='w-full flex flex-col justify-center items-center gap-4 h-full '>
+				<section className='w-full flex flex-col justify-center items-center gap-4 h-full py-5 md:py-10'>
 					{errorMessage.length > 0 && (
 						<ul
 							aria-errormessage='Login Validation Error Message'

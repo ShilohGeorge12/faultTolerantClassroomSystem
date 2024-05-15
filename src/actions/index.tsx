@@ -2,7 +2,16 @@
 
 import { MongoDB } from '@/db';
 import { login, logout } from '@/lib/sessions';
-import { addClassroomDetails, bookClassroom, deleteAccount, deleteClassroom, loginDetails, onEditClassroomDetails, onEditProfileDetails } from '@/types';
+import {
+	addClassroomDetails,
+	bookClassroom,
+	createUserDetails,
+	deleteAccount,
+	deleteClassroom,
+	loginDetails,
+	onEditClassroomDetails,
+	onEditProfileDetails,
+} from '@/types';
 import { revalidatePath } from 'next/cache';
 
 export const onLoginAction = async ({ username }: Pick<loginDetails, 'username'>) => {
@@ -14,6 +23,7 @@ export const onLoginAction = async ({ username }: Pick<loginDetails, 'username'>
 	await login({
 		userId: checkUser._id.toString(),
 		username,
+		department: checkUser.department,
 		role: checkUser.role,
 	});
 };
@@ -41,6 +51,7 @@ export const onEditProfileAction = async ({ path, username, newUsername, newPass
 		await login({
 			userId: user._id.toString(),
 			username: user.username,
+			department: user.department,
 			role: user.role,
 		});
 		revalidatePath(path);
@@ -200,6 +211,20 @@ export const AddClassroomAction = async ({ name, location, tag }: addClassroomDe
 		});
 
 		revalidatePath(`/classrooms/1`);
+		return null;
+	} catch (e) {
+		return e instanceof Error ? e.message : 'something went wrong';
+	}
+};
+
+export const CreateUserAction = async ({ username, password, role, department }: createUserDetails) => {
+	try {
+		await MongoDB.getUser().create({
+			username,
+			password,
+			role,
+			department,
+		});
 		return null;
 	} catch (e) {
 		return e instanceof Error ? e.message : 'something went wrong';

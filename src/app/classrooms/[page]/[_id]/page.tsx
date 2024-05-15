@@ -80,16 +80,16 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								height={10000}
 							/>
 						</div>
-						<div className='w-[98%] md:w-[82%] flex flex-col gap-4 bg-gray-200 py-3 px-2 md:p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-300 ease-linear relative'>
+						<div className='w-[98%] md:w-[82%] h-[300px] md:h-full flex flex-col gap-4 bg-gray-200 py-3 px-2 md:p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-300 ease-linear relative'>
 							<h3 className='text-xl font-semibold text-center tracking-wider'>Classroom Details</h3>
 							<ul className='text-sm grid grid-cols-7 gap-3 pl-4'>
-								<li className='font-medium col-span-3'>Classroom Venue</li>
+								<li className='font-semibold col-span-3'>Classroom Venue</li>
 								<li className='font-light tracking-wide col-span-4'>{classroom.location}</li>
-								<li className='font-medium col-span-3'>Classroom Location</li>
+								<li className='font-semibold col-span-3'>Classroom Location</li>
 								<li className='font-light tracking-wide col-span-4'>{classroom.name}</li>
-								<li className='font-medium col-span-3'>Classroom Status</li>
-								<li className='font-light tracking-wide col-span-4'>{isOccupied ? 'Occupied' : 'Available'}</li>
-								<li className='font-medium col-span-3'>Digital Tag</li>
+								<li className='font-semibold col-span-3'>Classroom Status</li>
+								<li className='font-medium tracking-wide col-span-4'>{isOccupied ? 'Occupied' : 'Available'}</li>
+								<li className='font-semibold col-span-3'>Digital Tag</li>
 								<li className='font-light tracking-wide col-span-4'>{classroom.tag}</li>
 							</ul>
 
@@ -126,9 +126,9 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 									/>
 								))}
 
-							{upcomingBookingsToday.length === 0 && (
+							{ongoingBooking.length === 0 && (
 								<li className='gap-4 md:w-[90%] flex items-center justify-center text-base transition-all duration-500 ease-in-out border-b pb-2 border-gray-300'>
-									There are no upcoming bookings today
+									There are no ongoing bookings today
 								</li>
 							)}
 						</ul>

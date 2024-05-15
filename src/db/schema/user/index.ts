@@ -19,6 +19,11 @@ export function USER_DB_SCHEMA(): Schema<USER_DB> {
 			default: 'hoc',
 			enum: ['hoc', 'admin'],
 		},
+		department: {
+			type: String,
+			default: 'computer science',
+			enum: ['computer science', 'mass communication', 'cyber security'],
+		},
 		createdAt: {
 			type: Date,
 			default: () => new Date(),

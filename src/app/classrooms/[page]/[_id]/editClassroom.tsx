@@ -91,9 +91,9 @@ export function EditClassroom({ session, classroom }: EditClassroomProps) {
 		<>
 			<AsideDrawer
 				title={`Edit ${classroom.name}`}
-				h='h-[71vh]'
+				h='h-fit [71vh]'
 				triggerButton={session && triggerButton}>
-				<section className='w-full flex flex-col justify-center items-center gap-8 h-full mt-4'>
+				<section className='w-full flex flex-col justify-center items-center gap-8 h-full mt-4 py-5 md:py-10'>
 					<section className='w-full flex flex-col items-center justify-center gap-8'>
 						<div className='w-[90%] h-11 flex items-center justify-center'>
 							<input

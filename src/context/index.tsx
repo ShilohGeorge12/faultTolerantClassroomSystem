@@ -10,6 +10,7 @@ const initState: State = {
 		username: 'Guest User',
 		password: '',
 		role: 'hoc',
+		department: 'computer science',
 		createdAt: new Date(),
 	},
 	classrooms: [],

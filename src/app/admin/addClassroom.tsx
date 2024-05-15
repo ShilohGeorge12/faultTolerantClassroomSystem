@@ -3,7 +3,7 @@
 import { LOCATION_REGEX, NAME_REGEX, TAG_REGEX } from '@/types';
 import { AsideDrawer } from '@/components/UIComponents/Drawer';
 import { sessionType } from '@/types';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { FaPlus, FaSpinner } from 'react-icons/fa';
 import { AddClassroomAction } from '@/actions';
 
@@ -27,7 +27,8 @@ export function AddClassroom({ session }: AddUserProps) {
 		setDetails((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const onSubmit = async () => {
+	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		setErrorMessage([]);
 		const { name, location, tag } = details;
 		if (name === '' || location === '' || tag === '') {
@@ -85,9 +86,11 @@ export function AddClassroom({ session }: AddUserProps) {
 		<>
 			<AsideDrawer
 				title={`Add a new Classroom`}
-				h='h-[77vh]'
+				h='h-fit'
 				triggerButton={session && triggerButton}>
-				<section className='size-full flex flex-col gap-8 items-center justify-center'>
+				<form
+					onSubmit={onSubmit}
+					className='size-full flex flex-col gap-8 items-center justify-center py-5 md:py-10'>
 					<section className='w-full md:w-[80%] flex flex-col gap-6 items-center'>
 						<div className='w-[90%] md:w-[60%] h-10 flex items-center justify-center'>
 							<input
@@ -95,6 +98,7 @@ export function AddClassroom({ session }: AddUserProps) {
 								name='name'
 								id='name'
 								placeholder='Name..'
+								required
 								className='size-full rounded-lg bg-gray-200 text-gray-500 tracking-wider text-base placeholder-gray-500 outline-0 py-2 px-4 hover:scale-105 focus:ring-2 ring-gray-200 transition-all duration-500'
 								value={details.name}
 								onChange={onChange}
@@ -107,6 +111,7 @@ export function AddClassroom({ session }: AddUserProps) {
 								name='location'
 								id='location'
 								placeholder='Location..'
+								required
 								className='size-full rounded-lg bg-gray-200 text-gray-500 tracking-wider text-base placeholder-gray-500 outline-0 py-2 px-4 hover:scale-105 focus:ring-2 ring-gray-200 transition-all duration-500'
 								value={details.location}
 								onChange={onChange}
@@ -119,6 +124,7 @@ export function AddClassroom({ session }: AddUserProps) {
 								name='tag'
 								id='tag'
 								placeholder='Special tag..'
+								required
 								className='size-full rounded-lg bg-gray-200 text-gray-500 tracking-wider text-base placeholder-gray-500 outline-0 py-2 px-4 hover:scale-105 focus:ring-2 ring-gray-200 transition-all duration-500'
 								value={details.tag}
 								onChange={onChange}
@@ -129,10 +135,10 @@ export function AddClassroom({ session }: AddUserProps) {
 
 					<div className='w-full flex items-center justify-center'>
 						<button
-							type='button'
+							// type='button'
 							name={`Add Classroom`}
 							className={`button flex items-center justify-center w-1/2 md:w-1/3 h-10 rounded-xl bg-blue-500 text-white duration-500 ease-linear transition text-xl tracking-wider hover:scale-105`}
-							onClick={onSubmit}
+							// onClick={onSubmit}
 							disabled={status === 'fetching' ? true : false}>
 							{status === 'idle' && 'Submit'}
 							{status === 'fetching' && (
@@ -156,7 +162,7 @@ export function AddClassroom({ session }: AddUserProps) {
 							))}
 						</ul>
 					)}
-				</section>
+				</form>
 			</AsideDrawer>
 		</>
 	);

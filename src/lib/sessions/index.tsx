@@ -22,12 +22,13 @@ export async function decrypt(input: string): Promise<any> {
 	return payload;
 }
 
-export async function login({ username, userId, role }: loginDetails) {
+export async function login({ username, userId, role, department }: loginDetails) {
 	// Create the session
 	const user = {
 		username,
 		userId,
 		role,
+		department,
 	};
 
 	const session = await encrypt({ user, expires: expiryTime });
