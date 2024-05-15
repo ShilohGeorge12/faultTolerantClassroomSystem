@@ -85,7 +85,7 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 		<>
 			<AsideDrawer
 				title={`Book ${name}`}
-				h='h-fit [65vh]'
+				h='md:h-fit [65vh]'
 				triggerButton={isOccupied === 'Available' && session && triggerButton}>
 				<section className='w-full h-full flex-col flex items-center justify-end md:gap-6 gap-10 px-3 py-5 md:py-10'>
 					<section className='w-[80%] flex md:flex-row flex-col items-centers justify-evenly gap-1 mt-5'>

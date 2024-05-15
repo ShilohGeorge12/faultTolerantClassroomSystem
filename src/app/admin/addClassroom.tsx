@@ -89,7 +89,7 @@ export function AddClassroom({ session }: AddUserProps) {
 		<>
 			<AsideDrawer
 				title={`Add a new Classroom`}
-				h='h-fit'
+				h='md:h-fit'
 				triggerButton={session && triggerButton}>
 				<form
 					onSubmit={onSubmit}

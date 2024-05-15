@@ -111,7 +111,7 @@ export function EditProfile({ username, userId }: EditProfileProps) {
 		<>
 			<AsideDrawer
 				title={`Edit your Profile`}
-				h='h-fit [70vh]'
+				h='md:h-fit [70vh]'
 				triggerButton={triggerButton}>
 				<form className='size-full flex flex-col gap-10 items-center justify-center py-5 md:py-10'>
 					<section className='w-full flex flex-col items-center justify-center gap-8'>
