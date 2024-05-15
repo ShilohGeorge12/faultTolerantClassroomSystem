@@ -23,6 +23,7 @@ export const onLoginAction = async ({ username }: Pick<loginDetails, 'username'>
 	await login({
 		userId: checkUser._id.toString(),
 		username,
+		department: checkUser.department,
 		role: checkUser.role,
 	});
 };
@@ -50,6 +51,7 @@ export const onEditProfileAction = async ({ path, username, newUsername, newPass
 		await login({
 			userId: user._id.toString(),
 			username: user.username,
+			department: user.department,
 			role: user.role,
 		});
 		revalidatePath(path);
@@ -215,12 +217,13 @@ export const AddClassroomAction = async ({ name, location, tag }: addClassroomDe
 	}
 };
 
-export const CreateUserAction = async ({ username, password, role }: createUserDetails) => {
+export const CreateUserAction = async ({ username, password, role, department }: createUserDetails) => {
 	try {
 		await MongoDB.getUser().create({
 			username,
 			password,
 			role,
+			department,
 		});
 		return null;
 	} catch (e) {

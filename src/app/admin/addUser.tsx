@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, MouseEvent, useRef, useState } from 'react';
-import { PASSWORD_FORMAT_MESSAGE, PASSWORD_REGEX, USERNAME_REGEX, USER_DB, sessionType } from '@/types';
+import { PASSWORD_FORMAT_MESSAGE, PASSWORD_REGEX, USERNAME_REGEX, USER_DB, department, sessionType } from '@/types';
 
 import { AsideDrawer } from '@/components/UIComponents/Drawer';
 import { FaEye, FaEyeSlash, FaSpinner, FaUserPlus } from 'react-icons/fa';
@@ -14,7 +14,7 @@ interface AddUserProps {
 	session: sessionType | null;
 }
 
-type InitState = Pick<USER_DB, 'username' | 'password' | 'role'> & { confirmPassword: string };
+type InitState = Pick<USER_DB, 'username' | 'password' | 'role' | 'department'> & { confirmPassword: string };
 
 export function AddUser({ session }: AddUserProps) {
 	const initState: InitState = {
@@ -22,6 +22,7 @@ export function AddUser({ session }: AddUserProps) {
 		password: '',
 		confirmPassword: '',
 		role: 'hoc',
+		department: 'computer science',
 	};
 	const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 	const [details, setDetails] = useState<typeof initState>(initState);
@@ -29,16 +30,19 @@ export function AddUser({ session }: AddUserProps) {
 	const [viewPasword, setViewPasword] = useState<boolean>(false);
 	const [viewConfirmPassword, setViewConfirmPassword] = useState<boolean>(false);
 	const [status, setStatus] = useState<'fetching' | 'idle'>('idle');
-	const Role: (USER_DB['role'] | string)[] = ['admin', 'hoc'];
+	const Role: { label: InitState['role']; value: InitState['role'] }[] = [
+		{ label: 'admin', value: 'admin' },
+		{ label: 'hoc', value: 'hoc' },
+	];
+	const Department: { label: InitState['department']; value: InitState['department'] }[] = [
+		{ label: 'computer science', value: 'computer science' },
+		{ label: 'cyber security', value: 'cyber security' },
+		{ label: 'mass communication', value: 'mass communication' },
+	];
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		setDetails((prev) => ({ ...prev, [name]: value }));
-	};
-	const onSelectChange = (e: string) => {
-		const role = e === 'hoc' ? e : 'admin';
-		console.log(role);
-		setDetails((prev) => ({ ...prev, role }));
 	};
 
 	const onViewPasword = (e: MouseEvent<HTMLButtonElement>) => {
@@ -62,7 +66,7 @@ export function AddUser({ session }: AddUserProps) {
 		e.preventDefault();
 		setErrorMessage([]);
 
-		const { username, confirmPassword, password, role } = details;
+		const { username, confirmPassword, password, role, department } = details;
 
 		if (!username || !password || !confirmPassword) {
 			setErrorMessage(['all input fields should be filled correctly']);
@@ -93,6 +97,7 @@ export function AddUser({ session }: AddUserProps) {
 			username,
 			password,
 			role,
+			department,
 		});
 
 		if (error) {
@@ -126,76 +131,86 @@ export function AddUser({ session }: AddUserProps) {
 		<>
 			<AsideDrawer
 				title={`Add a new User`}
-				h='h-[91vh]'
+				h='md:h-fit [80vh]'
 				triggerButton={session && triggerButton}>
 				<form
 					onSubmit={onSubmit}
-					className='w-full flex flex-col justify-center items-center gap-6 h-full'>
-					<div className='w-[90%] h-11 flex items-center justify-center'>
-						<input
-							type='text'
-							name='username'
-							placeholder='username...'
-							className='md:w-[70%] w-full h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg'
-							required
-							value={details.username}
-							onChange={onChange}
-						/>
-					</div>
-
-					<div className='w-[90%] h-11 flex items-center justify-center'>
-						<div className='md:w-[70%] w-full h-full relative'>
+					className='w-full flex flex-col justify-center items-center md:gap-10 gap-6 py-5 md:py-10 h-full'>
+					<section className='w-full grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center '>
+						<div className='w-full h-11 flex items-center justify-center md:order-1'>
 							<input
-								type={viewPasword ? 'text' : 'password'}
-								name='password'
-								placeholder='password...'
-								className='w-full h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg peer'
+								type='text'
+								name='username'
+								placeholder='username...'
+								className='md:w-[70%] w-[90%] h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg'
 								required
-								value={details.password}
+								value={details.username}
 								onChange={onChange}
 							/>
-
-							<button
-								type='button'
-								className={`absolute peer-hover:right-0 transition-all duration-500 ease-in-out text-gray-500 text-base right-3 bottom-3`}
-								onClick={onViewPasword}>
-								{viewPasword ? <FaEyeSlash /> : <FaEye />}
-							</button>
 						</div>
-					</div>
 
-					<div className='w-[90%] h-11 flex items-center justify-center'>
-						<div className='md:w-[70%] w-full h-full relative'>
-							<input
-								type={viewConfirmPassword ? 'text' : 'password'}
-								name='confirmPassword'
-								placeholder='Confirm Password...'
-								className='w-full h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg peer'
-								required
-								value={details.confirmPassword}
-								onChange={onChange}
+						<div className='w-full h-11 flex items-center justify-center md:order-3'>
+							<div className='md:w-[70%] w-[90%] h-full relative'>
+								<input
+									type={viewPasword ? 'text' : 'password'}
+									name='password'
+									placeholder='password...'
+									className='w-full h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg peer'
+									required
+									value={details.password}
+									onChange={onChange}
+								/>
+
+								<button
+									type='button'
+									className={`absolute peer-hover:right-0 transition-all duration-500 ease-in-out text-gray-500 text-base right-3 bottom-3`}
+									onClick={onViewPasword}>
+									{viewPasword ? <FaEyeSlash /> : <FaEye />}
+								</button>
+							</div>
+						</div>
+
+						<div className='w-full h-11 flex items-center justify-center md:order-5'>
+							<div className='md:w-[70%] w-[90%] h-full relative'>
+								<input
+									type={viewConfirmPassword ? 'text' : 'password'}
+									name='confirmPassword'
+									placeholder='Confirm Password...'
+									className='w-full h-full px-4 bg-gray-200 text-gray-400 font-semibold tracking-wider rounded-2xl outline-0 focus:ring-4 ring-0 focus:ring-gray-200 hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg peer'
+									required
+									value={details.confirmPassword}
+									onChange={onChange}
+								/>
+
+								<button
+									type='button'
+									className={`absolute peer-hover:right-0 transition-all duration-500 ease-in-out text-gray-500 text-base right-3 bottom-3`}
+									onClick={onViewConfirmPassword}>
+									{viewConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+								</button>
+							</div>
+						</div>
+
+						<div className='w-[90%] md:w-[63%] h-11 flex items-center justify-center md:order-2'>
+							<Select
+								options={Role}
+								value={details.role}
+								onChange={(e) => setDetails((prev) => ({ ...prev, role: e }))}
 							/>
-
-							<button
-								type='button'
-								className={`absolute peer-hover:right-0 transition-all duration-500 ease-in-out text-gray-500 text-base right-3 bottom-3`}
-								onClick={onViewConfirmPassword}>
-								{viewConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-							</button>
 						</div>
-					</div>
 
-					<div className='w-[90%] md:w-[63%] h-11 flex items-center justify-center'>
-						<Select
-							options={Role}
-							value={details.role}
-							onChange={onSelectChange}
-						/>
-					</div>
+						<div className='w-[90%] md:w-[63%] h-11 flex items-center justify-center md:order-4'>
+							<Select
+								options={Department}
+								value={details.department}
+								onChange={(e) => setDetails((prev) => ({ ...prev, department: e }))}
+							/>
+						</div>
+					</section>
 
 					<button
 						name={`finalize profile`}
-						className={`w-[90%] md:w-[65%] h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
+						className={`w-[90%] md:w-[50%] h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
 						disabled={status === 'fetching' ? true : false}>
 						{status === 'idle' && 'Create User'}
 						{status === 'fetching' && (

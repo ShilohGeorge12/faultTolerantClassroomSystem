@@ -10,11 +10,13 @@ export type CLASSROOM = {
 } & CLASSROOM_DB;
 
 export type classroomStatusType = 'IN USE' | 'FREE';
+export type department = 'computer science' | 'mass communication' | 'cyber security';
 
 export type USER_DB = {
 	username: string;
 	password: string;
 	role: 'admin' | 'hoc';
+	department: department;
 	createdAt: Date;
 };
 
@@ -157,6 +159,7 @@ export type sessionType = {
 	user: {
 		userId: USER['_id'];
 		username: USER_DB['username'];
+		department: USER_DB['department'];
 		role: USER_DB['role'];
 	};
 	expires: Date;
@@ -168,6 +171,7 @@ export type sessionType = {
 export type loginDetails = {
 	userId: USER['_id'];
 	username: USER_DB['username'];
+	department: USER_DB['department'];
 	role: USER_DB['role'];
 };
 
@@ -211,4 +215,5 @@ export type createUserDetails = {
 	username: USER['username'];
 	password: USER['password'];
 	role: USER['role'];
+	department: USER['department'];
 };

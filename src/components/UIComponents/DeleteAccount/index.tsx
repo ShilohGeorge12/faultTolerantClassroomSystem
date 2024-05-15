@@ -42,9 +42,9 @@ export function DeleteAccount({ session }: deleteAccountProps) {
 			<AsideDrawer
 				title={`Delete Account`}
 				description='This action is inreversable'
-				h='h-[40vh]'
+				h='h-fit [40vh]'
 				triggerButton={triggerButton}>
-				<form className='size-full flex flex-col gap-10 items-center justify-center'>
+				<form className='size-full flex flex-col gap-10 items-center justify-center py-5 md:py-10'>
 					<button
 						type='button'
 						name={`Delete`}
