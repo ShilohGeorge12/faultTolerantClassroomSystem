@@ -9,9 +9,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			url: `${process.env.PUBLIC_BASE_URL}/classrooms/1`,
 		},
 		{
-			url: `${process.env.PUBLIC_BASE_URL}/classrooms/2`,
-		},
-		{
 			url: `${process.env.PUBLIC_BASE_URL}/settings`,
 		},
 		{

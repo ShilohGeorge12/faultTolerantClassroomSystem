@@ -8,7 +8,7 @@ import { Classrooms } from '@/components/UIComponents/classrooms';
 import { formatCurrentTime } from '@/components/functionalComponents/formatCurrentTime';
 
 export const generateStaticParams = async () => {
-	return [{ page: '1' }, { page: '2' }];
+	return [{ page: '1' }];
 };
 
 export default async function Home({ params: { page } }: { params: { page: string } }) {
