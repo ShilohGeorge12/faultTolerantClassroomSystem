@@ -44,9 +44,7 @@ export function DeleteClassroom({ _id, name, session }: DeleteClassroomProps) {
 				triggerButton={session && triggerButton}>
 				<section className='w-full flex flex-col justify-center items-center gap-4 h-full py-5 md:py-10'>
 					{errorMessage.length > 0 && (
-						<ul
-							aria-errormessage='Login Validation Error Message'
-							className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
+						<ul className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
 							{errorMessage.map((error) => (
 								<li
 									className='font-semibold tracking-wider capitalize'

@@ -151,9 +151,7 @@ export function AddClassroom({ session }: AddUserProps) {
 					</div>
 
 					{errorMessage.length > 0 && (
-						<ul
-							aria-errormessage='Login Validation Error Message'
-							className={`w-[90%] flex flex-col gap-2 ${errorMessage.length <= 2 ? 'min-h-10' : 'min-h-20'} rounded-lg text-red-500 p-3 items-center `}>
+						<ul className={`w-[90%] flex flex-col gap-2 ${errorMessage.length <= 2 ? 'min-h-10' : 'min-h-20'} rounded-lg text-red-500 p-3 items-center `}>
 							{errorMessage.map((error) => (
 								<li
 									className='font-semibold tracking-wider capitalize'
