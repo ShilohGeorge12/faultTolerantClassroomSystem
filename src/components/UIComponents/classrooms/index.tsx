@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import type { CLASSROOM } from '@/types';
 import { useParams, useSearchParams } from 'next/navigation';
 
@@ -24,8 +25,17 @@ export function Classrooms({ classrooms }: classroomProps) {
 						key={classroom._id}
 						href={`/classrooms/${page ?? 1}/${classroom._id}`}
 						prefetch={false}
-						className='bg-gray-200 flex flex-col rounded-2xl md:rounded-3xl p-3 transition duration-500 ease-linear hover:scale-105 hover:shadow-lg hover:shadow-gray-200 h-40 md:h-52 w-full'>
-						{classroom.tag}
+						className='bg-gray-200 flex flex-col rounded-2xl md:rounded-3xl p-3s transition duration-500 ease-linear hover:scale-105 hover:shadow-lg hover:shadow-gray-200 h-40 md:h-52 w-full overflow-clip'>
+						<div className='w-full h-[75%]'>
+							<Image
+								src={classroom.image}
+								alt={classroom.name + ' image'}
+								width={1000}
+								height={1000}
+								className='size-full'
+							/>
+						</div>
+						<p className='w-full flex items-center justify-center p-3 font-semibold tracking-wider text-balance'>{classroom.tag}</p>
 					</Link>
 				))}
 

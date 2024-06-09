@@ -6,7 +6,6 @@ import { DatePicker } from '@/components/UIComponents/datePicker';
 import { TimeInput } from '@/components/UIComponents/timePicker';
 import { convertTimeStringToDateObject } from '@/components/functionalComponents/time';
 import { sessionType } from '@/types';
-import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 
 interface BookingClientProps {
@@ -17,7 +16,6 @@ interface BookingClientProps {
 }
 
 export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientProps) => {
-	const { push } = useRouter();
 	const initialDate = new Date();
 	const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 	const [date, setDate] = useState<Date | undefined>(new Date());

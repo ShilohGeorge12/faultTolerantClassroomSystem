@@ -26,6 +26,7 @@ export type CLASSROOM_DB = {
 	location: string;
 	status: classroomStatusType;
 	bookings: CLASSROOMBOOKING[];
+	image: string;
 };
 
 export interface CLASSROOMBOOKING {
