@@ -35,5 +35,9 @@ export function CLASSROOM_DB_SCHEMA(): Schema<CLASSROOM_DB> {
 			],
 			default: [],
 		},
+		image: {
+			type: String,
+			required: [true, 'The Classroom image is required'],
+		},
 	});
 }

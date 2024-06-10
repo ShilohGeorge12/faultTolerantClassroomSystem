@@ -210,7 +210,7 @@ export function AddUser({ session }: AddUserProps) {
 
 					<button
 						name={`finalize profile`}
-						className={`w-[90%] md:w-[50%] h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
+						className={`w-[90%] md:w-[50%] h-12 md:h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
 						disabled={status === 'fetching' ? true : false}>
 						{status === 'idle' && 'Create User'}
 						{status === 'fetching' && (
@@ -221,9 +221,7 @@ export function AddUser({ session }: AddUserProps) {
 					</button>
 
 					{errorMessage.length > 0 && (
-						<ul
-							aria-errormessage='Login Validation Error Message'
-							className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
+						<ul className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
 							{errorMessage.map((error) => (
 								<li
 									className='font-semibold tracking-wider capitalize'

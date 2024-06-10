@@ -31,7 +31,7 @@ export function Footer() {
 				<h3 className={h3Classess}>About Us</h3>
 				<nav className='flex flex-col items-center gap-4'>
 					<Link
-						href={'/aboutus'}
+						href={'/'}
 						className='hover:font-medium transition duration-500 hover:underline ease-in-out'>
 						About CAS - Classroom Allocation System
 					</Link>

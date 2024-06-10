@@ -26,6 +26,7 @@ export type CLASSROOM_DB = {
 	location: string;
 	status: classroomStatusType;
 	bookings: CLASSROOMBOOKING[];
+	image: string;
 };
 
 export interface CLASSROOMBOOKING {
@@ -152,7 +153,7 @@ export const NAME_REGEX = /^[a-zA-Z\s\d]{2,}$/;
 export const PASSWORD_REGEX = /^[a-zA-Z0-9@_-\s]{6,24}$/;
 export const LOCATION_REGEX = /^[a-zA-Z0-9\s]{6,15}$/;
 export const TAG_REGEX = /^[a-zA-Z0-9-]{8,10}$/;
-export const PASSWORD_FORMAT_MESSAGE = `Password must be 6-24 characters long and can only contain letters, numbers, @, _, or -.`;
+export const PASSWORD_FORMAT_MESSAGE = `Password must be 6-24 characters long and can only contain letters, numbers, @, _, or -`;
 
 // session Types
 export type sessionType = {
@@ -177,7 +178,8 @@ export type loginDetails = {
 
 export type onEditProfileDetails = {
 	path: string;
-	username: USER_DB['username'];
+	userId: string;
+	// username: USER_DB['username'];
 	newUsername?: USER_DB['username'];
 	newPassword?: USER_DB['password'];
 };

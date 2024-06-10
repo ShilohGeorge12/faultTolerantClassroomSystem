@@ -6,7 +6,6 @@ import { FiMenu } from 'react-icons/fi';
 import { FaArrowLeft } from 'react-icons/fa';
 import { SlRefresh } from 'react-icons/sl';
 import Link from 'next/link';
-// import { useEffect } from 'react';
 
 export function ClassroomDetailsHeaderClient() {
 	const params = useParams();
@@ -19,12 +18,6 @@ export function ClassroomDetailsHeaderClient() {
 	const onMenu = () => {
 		menu === 'close' ? dispatch({ type: 'menu_open' }) : dispatch({ type: 'menu_close' });
 	};
-
-	// useEffect(() => {
-	// 	const fetchDataInterval = setInterval(() => refresh(), 1800000); // 1800000 milliseconds = 30 minutes
-
-	// 	return () => clearInterval(fetchDataInterval);
-	// }, []);
 
 	return (
 		<section className='flex justify-between items-center w-full px-4 pt-2'>

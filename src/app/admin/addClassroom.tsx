@@ -76,7 +76,10 @@ export function AddClassroom({ session }: AddUserProps) {
 			type='button'
 			ref={closeBtnRef}
 			name={`add classroom`}
-			onClick={() => setDetails(initState)}
+			onClick={() => {
+				setErrorMessage([]);
+				setDetails(initState);
+			}}
 			className={`w-[60%] h-10 bg-gray-500 hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500 text-white flex items-center justify-center transition-all duration-500 ease-in-out text-base md:text-2xl rounded-lg`}>
 			<FaPlus />
 		</button>
@@ -86,7 +89,7 @@ export function AddClassroom({ session }: AddUserProps) {
 		<>
 			<AsideDrawer
 				title={`Add a new Classroom`}
-				h='h-fit'
+				h='md:h-fit'
 				triggerButton={session && triggerButton}>
 				<form
 					onSubmit={onSubmit}
@@ -135,10 +138,8 @@ export function AddClassroom({ session }: AddUserProps) {
 
 					<div className='w-full flex items-center justify-center'>
 						<button
-							// type='button'
 							name={`Add Classroom`}
-							className={`button flex items-center justify-center w-1/2 md:w-1/3 h-10 rounded-xl bg-blue-500 text-white duration-500 ease-linear transition text-xl tracking-wider hover:scale-105`}
-							// onClick={onSubmit}
+							className={`button flex items-center justify-center w-3/4 md:w-1/3 h-12 md:h-11 rounded-xl bg-blue-500 text-white duration-500 ease-linear transition text-xl tracking-wider hover:scale-105`}
 							disabled={status === 'fetching' ? true : false}>
 							{status === 'idle' && 'Submit'}
 							{status === 'fetching' && (
@@ -150,9 +151,7 @@ export function AddClassroom({ session }: AddUserProps) {
 					</div>
 
 					{errorMessage.length > 0 && (
-						<ul
-							aria-errormessage='Login Validation Error Message'
-							className={`w-[90%] flex flex-col gap-2 ${errorMessage.length <= 2 ? 'min-h-10' : 'min-h-20'} rounded-lg text-red-500 p-3 items-center `}>
+						<ul className={`w-[90%] flex flex-col gap-2 ${errorMessage.length <= 2 ? 'min-h-10' : 'min-h-20'} rounded-lg text-red-500 p-3 items-center `}>
 							{errorMessage.map((error) => (
 								<li
 									className='font-semibold tracking-wider capitalize'

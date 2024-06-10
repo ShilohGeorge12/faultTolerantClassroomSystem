@@ -42,13 +42,13 @@ export function DeleteAccount({ session }: deleteAccountProps) {
 			<AsideDrawer
 				title={`Delete Account`}
 				description='This action is inreversable'
-				h='h-fit [40vh]'
+				h='md:h-fit [40vh]'
 				triggerButton={triggerButton}>
 				<form className='size-full flex flex-col gap-10 items-center justify-center py-5 md:py-10'>
 					<button
 						type='button'
 						name={`Delete`}
-						className={`w-[90%] md:w-[55%] h-11 px-4 bg-red-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
+						className={`w-[90%] md:w-[55%] h-14 md:h-11 px-4 bg-red-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-base md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
 						onClick={onSubmit}
 						disabled={status === 'fetching' ? true : false}>
 						{status === 'idle' && 'Confirm Delete'}
@@ -60,9 +60,7 @@ export function DeleteAccount({ session }: deleteAccountProps) {
 					</button>
 
 					{errorMessage.length > 0 && (
-						<ul
-							aria-errormessage='Login Validation Error Message'
-							className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
+						<ul className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
 							{errorMessage.map((error) => (
 								<li
 									className='font-semibold tracking-wider capitalize'

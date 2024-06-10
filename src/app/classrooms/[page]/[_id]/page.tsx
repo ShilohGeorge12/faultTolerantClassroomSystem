@@ -1,15 +1,38 @@
-import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { Metadata, ResolvingMetadata } from 'next/types';
+
 import { MongoDB } from '@/db';
 import { getSession } from '@/lib/sessions';
 import { CLASSROOM } from '@/types';
+
 import { AppLayout } from '@/components/UIComponents/appLayout';
 import { onGoingBooking, validateBookings } from '@/components/functionalComponents/validateBookings';
+
 import { BookingClient } from './bookingclient';
 import { ClassroomDetailsHeaderClient } from './headerclient';
 import { EditClassroom } from './editClassroom';
 import { DeleteClassroom } from './deleteClassroom';
 import { List } from './list';
+
+type generateMetadataProps = {
+	params: { _id: string };
+	searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params: { _id } }: generateMetadataProps, parent: ResolvingMetadata): Promise<Metadata> {
+	const classroom = await MongoDB.getClassroom().findOne({ _id }).populate('bookings.userId').select('-password');
+	if (!classroom) notFound();
+
+	const previousImages = (await parent).openGraph?.images || [];
+	return {
+		title: `Classroom ${classroom.tag}`,
+		description: `${classroom.name} with tag ${classroom.tag} at location ${classroom.location}`,
+		openGraph: {
+			images: [classroom.image, ...previousImages],
+		},
+	};
+}
 
 export default async function Home({ params: { _id } }: { params: { _id: string } }) {
 	const classroom = await MongoDB.getClassroom().findOne({ _id }).populate('bookings.userId').select('-password');
@@ -73,14 +96,15 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 					<section className='grid grid-cols-1 md:grid-cols-2 md:gap-0 gap-10 w-full md:h-[300px] justify-items-center'>
 						<div className='flex items-centers justify-center'>
 							<Image
-								src={'/classrooms/1.jpg'}
+								src={classroom.image}
 								alt={`classroom image`}
+								title={`classroom image`}
 								className={`image w-[95%] md:w-[82%] rounded-2xl hover:shadow-lg hover:shadow-gray-400 hover:scale-105 transition duration-300 ease-linear`}
 								width={10000}
 								height={10000}
 							/>
 						</div>
-						<div className='w-[98%] md:w-[82%] h-[300px] md:h-full flex flex-col gap-4 bg-gray-200 py-3 px-2 md:p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-300 ease-linear relative'>
+						<div className='w-[98%] md:w-[82%] h-[300px] md:h-full flex flex-col gap-4 bg-gray-200 p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-300 ease-linear relative'>
 							<h3 className='text-xl font-semibold text-center tracking-wider'>Classroom Details</h3>
 							<ul className='text-sm grid grid-cols-7 gap-3 pl-4'>
 								<li className='font-semibold col-span-3'>Classroom Venue</li>

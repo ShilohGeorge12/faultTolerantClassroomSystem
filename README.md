@@ -17,13 +17,13 @@ accessing the web-based application will seamlessly navigate the system to ascer
 
 ## Live Demo 🌐
 
-Visit CAS live: [CAS: Classroom Allocation System](https://cas.vercel.app)
+Visit FTCAS live: [FTCAS: Fault Tolerant Classroom Allocation System](https://ftcas.vercel.app)
 
 ## Getting Started 🏁
 
 To get the app running locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/ShilohGeorge12/onlineClassroomSystem.git`
+1. Clone the repository: `git clone https://github.com/ShilohGeorge12/faultTolerantClassroomSystem.git`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm run dev`
 

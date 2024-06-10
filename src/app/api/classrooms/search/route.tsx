@@ -17,9 +17,7 @@ export const GET = async (req: NextRequest) => {
 
 		return NextResponse.json({ error: 'search query was undefined' }, { status: 400 });
 	} catch (error) {
-		if (error instanceof Error) {
-			console.log(error);
-			return NextResponse.json(error.message, { status: 500 });
-		}
+		error instanceof Error && console.warn({ message: error.message });
+		return NextResponse.json(error instanceof Error ? error.message : error, { status: 500 });
 	}
 };

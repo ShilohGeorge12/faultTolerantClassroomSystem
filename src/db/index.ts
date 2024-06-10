@@ -22,6 +22,8 @@ class Database {
 		this.connection = mongoose.createConnection(env.DATABASE_URL, {
 			writeConcern: { w: 'majority' },
 			retryWrites: true,
+			// serverSelectionTimeoutMS: 30000, // Increase timeout duration (in milliseconds)
+			// socketTimeoutMS: 45000, // Increase socket timeout duration (in milliseconds)
 		});
 
 		this.connection.on('error', (error) => {

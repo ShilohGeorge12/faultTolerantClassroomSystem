@@ -1,6 +1,10 @@
-export const Spinner = () => {
+interface SpinnerProps {
+	height?: true;
+}
+
+export const Spinner = ({ height }: SpinnerProps) => {
 	return (
-		<section className='w-full h-full min-h-screen flex items-center justify-center'>
+		<section className={`w-full h-full ${height ? height : 'min-h-screen'} flex items-center justify-center `}>
 			<div role='status'>
 				<svg
 					aria-hidden='true'

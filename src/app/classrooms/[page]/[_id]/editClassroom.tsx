@@ -91,7 +91,7 @@ export function EditClassroom({ session, classroom }: EditClassroomProps) {
 		<>
 			<AsideDrawer
 				title={`Edit ${classroom.name}`}
-				h='h-fit [71vh]'
+				h='md:h-fit [71vh]'
 				triggerButton={session && triggerButton}>
 				<section className='w-full flex flex-col justify-center items-center gap-8 h-full mt-4 py-5 md:py-10'>
 					<section className='w-full flex flex-col items-center justify-center gap-8'>
@@ -130,17 +130,13 @@ export function EditClassroom({ session, classroom }: EditClassroomProps) {
 					<button
 						type='button'
 						name={`finalize classroom details`}
-						className={`w-[90%] md:w-[64%] mx-auto h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-sm md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
-						onClick={onSubmit}
-						// onClick={() => closeBtnRef.current?.click()}
-					>
+						className={`w-[90%] md:w-[64%] mx-auto h-12 md:h-11 px-4 bg-blue-500 text-white hover:scale-105 transition-all duration-500 ease-in-out text-sm md:text-lg flex items-center justify-center rounded-xl tracking-wider font-semibold`}
+						onClick={onSubmit}>
 						Finalize Classroom Details
 					</button>
 
 					{errorMessage.length > 0 && (
-						<ul
-							aria-errormessage='Login Validation Error Message'
-							className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
+						<ul className='w-[90%] mx-auto flex flex-col gap-2 min-h-20 rounded-lg text-red-500 p-3 items-center'>
 							{errorMessage.map((error) => (
 								<li
 									className='font-semibold tracking-wider capitalize'
