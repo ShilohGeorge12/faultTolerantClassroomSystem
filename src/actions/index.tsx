@@ -239,7 +239,7 @@ export const UpdateImages = async ({ imageId }: { imageId: string }) => {
 		return e instanceof Error ? e.message : 'something went wrong';
 	}
 };
-
+  
 export const onEditClassroomImage = async ({ classroomId }: { classroomId: string }) => {
 	try {
 		const search = await MongoDB.getClassroom().findOne({ _id: classroomId });
