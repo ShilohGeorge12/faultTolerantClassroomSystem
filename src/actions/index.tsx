@@ -203,15 +203,7 @@ export const AddClassroomAction = async ({ name, location, tag }: addClassroomDe
 			$or: [{ name }, { tag }],
 		});
 		if (search) return `classroom ${name} already exist.`;
-		const images = [
-			'/images/classrooms/1.webp',
-			'/images/classrooms/2.webp',
-			'/images/classrooms/3.webp',
-			'/images/classrooms/4.webp',
-			'/images/classrooms/5.webp',
-			'/images/classrooms/6.webp',
-			'/images/classrooms/7.webp',
-		];
+		const images = ['/images/classrooms/1.jpg', '/images/classrooms/2.jpg', '/images/classrooms/3.jpg', '/images/classrooms/4.jpg', '/images/classrooms/5.jpg'];
 		// Select a random image
 		const randomImage = images[Math.floor(Math.random() * images.length)];
 
@@ -229,6 +221,25 @@ export const AddClassroomAction = async ({ name, location, tag }: addClassroomDe
 	}
 };
 
+export const UpdateImages = async ({ imageId }: { imageId: string }) => {
+	try {
+		const classroom = await MongoDB.getClassroom().findOne({ _id: imageId });
+
+		if (!classroom) return `classroom was not found`;
+		const images = ['/images/classrooms/1.jpg', '/images/classrooms/2.jpg', '/images/classrooms/3.jpg', '/images/classrooms/4.jpg', '/images/classrooms/5.jpg'];
+		// Select a random image
+		const randomImage = images[Math.floor(Math.random() * images.length)];
+
+		classroom.image = randomImage;
+		await classroom.save();
+
+		revalidatePath(`/classrooms/1`);
+		return null;
+	} catch (e) {
+		return e instanceof Error ? e.message : 'something went wrong';
+	}
+};
+  
 export const onEditClassroomImage = async ({ classroomId }: { classroomId: string }) => {
 	try {
 		const search = await MongoDB.getClassroom().findOne({ _id: classroomId });
