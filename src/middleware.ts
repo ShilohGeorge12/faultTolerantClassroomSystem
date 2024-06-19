@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
 	// const dynamicClassroomRegex = /^\/classrooms\/\d+\/[^/]+$/;
 	// const authPaths = ['/settings', '/find-classroom'];
 	try {
-		if (req.nextUrl.pathname.endsWith('/') && !req.nextUrl.pathname.includes('/_next')) {
+		if (req.nextUrl.pathname === '/classrooms' && !req.nextUrl.pathname.includes('/_next')) {
 			return NextResponse.redirect(new URL('/classrooms/1', req.url));
 		}
 

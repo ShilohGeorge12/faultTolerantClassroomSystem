@@ -116,34 +116,38 @@ export const deleteAccountAction = async ({ userId }: deleteAccount) => {
 
 export const bookClassroomAction = async ({ _id, userId, endTime, date, startTime }: bookClassroom) => {
 	try {
-		const classroomPromise = MongoDB.getClassroom().findOne({ _id }); //'bookings.date': date });
+		const classroomPromise = MongoDB.getClassroom().findOne({ _id });
 		const userPromise = MongoDB.getUser().findOne({ _id: userId });
 		const [classroom, user] = await Promise.all([classroomPromise, userPromise]);
+
 		if (!classroom) return 'Classroom specified was not found';
 		if (!user) return 'User making this booking was not found';
 
 		const existingBookings = classroom.bookings.filter((booking) => booking.date === date);
-		// Perform validation for each classroom with bookings for the same date
+
 		for (const existingBooking of existingBookings) {
-			const existingStartTime = new Date(existingBooking.startTime);
-			const existingEndTime = new Date(existingBooking.endTime);
+			try {
+				const existingStartTime = new Date(existingBooking.startTime);
+				const existingEndTime = new Date(existingBooking.endTime);
 
-			// Extract time components
-			const existingStartTimeMinutes = existingStartTime.getHours() * 60 + existingStartTime.getMinutes();
-			const existingEndTimeMinutes = existingEndTime.getHours() * 60 + existingEndTime.getMinutes();
-			const newStartTimeMinutes = startTime.getHours() * 60 + startTime.getMinutes();
-			const newEndTimeMinutes = endTime.getHours() * 60 + endTime.getMinutes();
+				const newStartTime = new Date(startTime);
+				const newEndTime = new Date(endTime);
 
-			// Check for overlapping timeframes
-			if (
-				(newStartTimeMinutes >= existingStartTimeMinutes && newStartTimeMinutes < existingEndTimeMinutes) || // New booking start time falls within existing booking timeframe
-				(newEndTimeMinutes > existingStartTimeMinutes && newEndTimeMinutes <= existingEndTimeMinutes) || // New booking end time falls within existing booking timeframe
-				(newStartTimeMinutes <= existingStartTimeMinutes && newEndTimeMinutes >= existingEndTimeMinutes) // New booking completely overlaps with existing booking timeframe
-			) {
-				return 'This classroom is already booked for the selected time frame';
+				// Check for overlapping timeframes
+				if (
+					(newStartTime >= existingStartTime && newStartTime < existingEndTime) || // New booking start time falls within existing booking timeframe
+					(newEndTime > existingStartTime && newEndTime <= existingEndTime) || // New booking end time falls within existing booking timeframe
+					(newStartTime <= existingStartTime && newEndTime >= existingEndTime) // New booking completely overlaps with existing booking timeframe
+				) {
+					return 'This classroom is already booked for the selected time frame';
+				}
+			} catch (e) {
+				console.log(e instanceof Error && e.message);
+				return 'An error occurred while checking existing bookings';
 			}
 		}
 
+		// Add the new booking
 		classroom.bookings.push({
 			userId: user._id,
 			date,
@@ -153,47 +157,71 @@ export const bookClassroomAction = async ({ _id, userId, endTime, date, startTim
 		});
 
 		await classroom.save();
+
 		revalidatePath(`/classrooms/1/${_id}`);
 		return null;
 	} catch (e) {
-		return e instanceof Error ? e.message : 'something went wrong';
+		return e instanceof Error ? e.message : 'Something went wrong';
 	}
 };
 
-// export const validateUniqueBooking = async (booking: Omit<CLASSROOMBOOKING, 'createdAt' | 'userId'> & { _id: string }) => {
+// export const bookClassroomAction = async ({ _id, userId, endTime, date, startTime }: bookClassroom) => {
 // 	try {
-// 		const { date, startTime, endTime, _id } = booking;
+// 		const classroomPromise = MongoDB.getClassroom().findOne({ _id }); //'bookings.date': date });
+// 		const userPromise = MongoDB.getUser().findOne({ _id: userId });
+// 		const [classroom, user] = await Promise.all([classroomPromise, userPromise]);
+// 		if (!classroom) return 'Classroom specified was not found';
+// 		if (!user) return 'User making this booking was not found';
 
-// 		const classroomsWithBookings = await MongoDB.getClassroom().findOne({ _id, 'bookings.date': date });
-
-// 		if (!classroomsWithBookings) return 'classroom not found';
-
+// 		const existingBookings = classroom.bookings.filter((booking) => new Date(booking.date) === new Date(date));
 // 		// Perform validation for each classroom with bookings for the same date
-// 		// for (const classroom of classroomsWithBookings) {
-// 		for (const existingBooking of classroomsWithBookings.bookings) {
-// 			const existingStartTime = new Date(existingBooking.startTime);
-// 			const existingEndTime = new Date(existingBooking.endTime);
 
-// 			// Extract time components
-// 			const existingStartTimeMinutes = existingStartTime.getHours() * 60 + existingStartTime.getMinutes();
-// 			const existingEndTimeMinutes = existingEndTime.getHours() * 60 + existingEndTime.getMinutes();
-// 			const newStartTimeMinutes = startTime.getHours() * 60 + startTime.getMinutes();
-// 			const newEndTimeMinutes = endTime.getHours() * 60 + endTime.getMinutes();
+// 		let hasError: string = '';
+// 		console.log(existingBookings);
+// 		for (const existingBooking of existingBookings) {
+// 			try {
+// 				const existingStartTime = new Date(existingBooking.startTime);
+// 				const existingEndTime = new Date(existingBooking.endTime);
 
-// 			// Check for overlapping timeframes
-// 			if (
-// 				(newStartTimeMinutes >= existingStartTimeMinutes && newStartTimeMinutes < existingEndTimeMinutes) || // New booking start time falls within existing booking timeframe
-// 				(newEndTimeMinutes > existingStartTimeMinutes && newEndTimeMinutes <= existingEndTimeMinutes) || // New booking end time falls within existing booking timeframe
-// 				(newStartTimeMinutes <= existingStartTimeMinutes && newEndTimeMinutes >= existingEndTimeMinutes) // New booking completely overlaps with existing booking timeframe
-// 			) {
-// 				return 'This classroom is already booked for the selected dates';
+// 				// Extract time components
+// 				const existingStartTimeMinutes = existingStartTime.getHours() * 60 + existingStartTime.getMinutes();
+// 				const existingEndTimeMinutes = existingEndTime.getHours() * 60 + existingEndTime.getMinutes();
+// 				const newStartTimeMinutes = startTime.getHours() * 60 + startTime.getMinutes();
+// 				const newEndTimeMinutes = endTime.getHours() * 60 + endTime.getMinutes();
+
+// 				// Check for overlapping timeframes
+// 				if (
+// 					(newStartTimeMinutes >= existingStartTimeMinutes && newStartTimeMinutes <= existingEndTimeMinutes) || // New booking start time falls within existing booking timeframe
+// 					(newEndTimeMinutes > existingStartTimeMinutes && newEndTimeMinutes <= existingEndTimeMinutes) || // New booking end time falls within existing booking timeframe
+// 					(newStartTimeMinutes <= existingStartTimeMinutes && newEndTimeMinutes >= existingEndTimeMinutes) // New booking completely overlaps with existing booking timeframe
+// 				) {
+// 					hasError = 'This classroom is already booked for the selected time frame';
+// 					return;
+// 				}
+// 			} catch (e) {
+// 				console.log(e instanceof Error && e.message);
+// 				return 'error occured';
 // 			}
-// 			// }
 // 		}
 
-// 		return 'good';
-// 	} catch (error) {
-// 		return error instanceof Error ? `${error.message}` : '';
+// 		if (hasError && hasError !== '') {
+// 			console.log(hasError);
+// 			return hasError;
+// 		}
+// 		// classroom.bookings.push({
+// 		// 	userId: user._id,
+// 		// 	date,
+// 		// 	startTime,
+// 		// 	endTime,
+// 		// 	createdAt: new Date(),
+// 		// });
+
+// 		// await classroom.save();
+// 		console.log('l');
+// 		revalidatePath(`/classrooms/1/${_id}`);
+// 		return null;
+// 	} catch (e) {
+// 		return e instanceof Error ? e.message : 'something went wrong';
 // 	}
 // };
 
@@ -239,7 +267,7 @@ export const UpdateImages = async ({ imageId }: { imageId: string }) => {
 		return e instanceof Error ? e.message : 'something went wrong';
 	}
 };
-  
+
 export const onEditClassroomImage = async ({ classroomId }: { classroomId: string }) => {
 	try {
 		const search = await MongoDB.getClassroom().findOne({ _id: classroomId });

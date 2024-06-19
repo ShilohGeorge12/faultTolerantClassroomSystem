@@ -6,7 +6,8 @@ import { DatePicker } from '@/components/UIComponents/datePicker';
 import { TimeInput } from '@/components/UIComponents/timePicker';
 import { convertTimeStringToDateObject } from '@/components/functionalComponents/time';
 import { sessionType } from '@/types';
-import { useRef, useState } from 'react';
+import { useRef, useState, useTransition } from 'react';
+import { FaSpinner } from 'react-icons/fa';
 
 interface BookingClientProps {
 	name: string;
@@ -28,6 +29,7 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 		}`,
 	});
 	const [errorMessage, setErrorMessage] = useState<string[]>([]);
+	const [transition, startTransition] = useTransition();
 
 	const onChangeFrom = (time: string) => {
 		setTime((prev) => ({ ...prev, from: time }));
@@ -59,10 +61,16 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 			_id,
 		};
 
-		const error = await bookClassroomAction(booking);
-		// const error = await validateUniqueBooking(booking);
-		if (error) return setErrorMessage([error]);
-		closeBtnRef.current?.click();
+		console.log(_id);
+		startTransition(async () => {
+			const error = await bookClassroomAction(booking);
+			// const error = await validateUniqueBooking(booking);
+			if (error) {
+				setErrorMessage([error]);
+				return;
+			}
+			closeBtnRef.current?.click();
+		});
 	};
 
 	const triggerButton = (
@@ -137,8 +145,14 @@ export const BookingClient = ({ name, _id, isOccupied, session }: BookingClientP
 						<button
 							type='button'
 							name={`submit`}
-							className={`button w-[80%] md:w-1/3 h-12 md:h-11 rounded-xl bg-blue-500 text-white duration-300 ease-linear transition text-xl tracking-wider hover:scale-105`}
+							className={`button w-[80%] flex items-center justify-center gap-2 disabled:bg-blue-300 md:w-1/3 h-12 md:h-11 rounded-xl bg-blue-500 text-white duration-300 ease-linear transition text-xl tracking-wider hover:scale-105`}
+							disabled={transition}
 							onClick={onSubmit}>
+							{transition && (
+								<span className='text-base'>
+									<FaSpinner />
+								</span>
+							)}
 							Submit
 						</button>
 					</div>

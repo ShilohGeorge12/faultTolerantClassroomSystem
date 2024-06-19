@@ -87,7 +87,6 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 		})
 		.filter((bookingObj) => bookingObj.timeDifference >= 0 && bookingObj.timeDifference !== Infinity)
 		.sort((a, b) => a.timeDifference - b.timeDifference);
-
 	return (
 		<AppLayout>
 			<section className='w-full h-full'>
@@ -102,6 +101,7 @@ export default async function Home({ params: { _id } }: { params: { _id: string 
 								className={`image w-[95%] md:w-[82%] rounded-2xl hover:shadow-lg hover:shadow-gray-400 hover:scale-105 transition duration-300 ease-linear`}
 								width={10000}
 								height={10000}
+								priority
 							/>
 						</div>
 						<div className='w-[98%] md:w-[82%] h-[300px] md:h-full flex flex-col gap-4 bg-gray-200 p-3 rounded-2xl hover:shadow-lg hover:shadow-gray-200 hover:scale-105 transition duration-300 ease-linear relative'>
